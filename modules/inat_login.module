@@ -1,0 +1,60 @@
+<?php
+  /**
+   * iNaturalist login module
+   * Copyright 2014 Projecte Ictineo SCCL (www.projecteictineo.com)
+   * aGPLv3
+   */
+
+/**
+ * Implements hook_block_info()
+ */
+function inat_login_block_info() {
+  $blocks['inat_login'] = array (
+    'info' => t('iNaturalist login block'),
+    'cache' => DRUPAL_CACHE_PER_ROLE,
+  );
+  $blocks['inat_usrinfo'] = array (
+    'info' => t('iNaturalist logged user information'),
+    'cache' => DRUPAL_CACHE_PER_ROLE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ * https://api.drupal.org/api/drupal/modules%21block%21block.api.php/function/hook_block_view/7
+ */
+function inat_login_block_view($delta = '') {
+  switch($delta) {
+    case 'inat_login':
+      $block['subject'] = t('iNaturalist login');
+      $block['content'] = inat_login_login_content($delta);
+    break;
+    case 'inat_usrinfo':
+      $block['subject'] = t('iNaturalist user information');
+      $block['content'] = inat_login_usrinfo_content($delta);
+    break;
+  }
+  return $block;
+}
+
+
+/**
+ * Helper functions [no hooks]
+ */
+
+/**
+ * this function returns string o renderable array
+ * with the block content for inat_login block
+ */
+function inat_login_login_content($delta) {
+  return 'contingut dummy pel bloc de login';
+}
+
+/**
+ * this function returns string o renderable array
+ * with the block content for inat_usrinfo block
+ */
+function inat_login_usrinfo_content($delta) {
+  return 'contingut dumi pel bloc de informacio de lusuari';
+}
