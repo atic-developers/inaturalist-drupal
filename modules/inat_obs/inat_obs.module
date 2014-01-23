@@ -39,5 +39,6 @@ function inat_obs_menu() {
  */
 
 function inat_page_observations() {
+
   return 'dummy text';
 }
