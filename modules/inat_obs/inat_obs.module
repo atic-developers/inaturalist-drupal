@@ -24,7 +24,8 @@ function inat_obs_menu() {
     'title' => t('Observations'),
     'description' => t('iNaturalist Observations'),
     'page callback' => 'inat_page_observations',
-    'access arguments' => 'access inaturalist content',
+    //'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
