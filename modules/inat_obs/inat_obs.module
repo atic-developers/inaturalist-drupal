@@ -37,8 +37,17 @@ function inat_obs_menu() {
 /**
  * helper functions
  */
+// http://www.slideshare.net/jkopel/pnwds-api
 
 function inat_page_observations() {
-
-  return 'dummy text';
+  $verb = 'observations.json';
+  $query = array('per_page' => '2', 'order_by' => 'observed_on');
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  $result = drupal_http_request($url, $options);
+  $json = drupal_json_decode($result->data);
+  
+  return var_export($json);
+  //return 'adsf';
 }
