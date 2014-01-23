@@ -54,7 +54,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
 
 function inat_page_observations() {
   $verb = 'observations.json';
-  $query = array('per_page' => '2', 'order_by' => 'observed_on');
+  $query = array('per_page' => '2', 'order_by' => 'observed_on', 'has[]' => 'photos');
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
