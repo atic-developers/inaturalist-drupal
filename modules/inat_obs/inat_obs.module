@@ -32,6 +32,19 @@ function inat_obs_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_theme
+ */
+function inat_obs_theme($existing, $type, $theme, $path) {
+  return array(
+    'inat_observations' => array(
+      'variables' => array('content' => NULL),
+      'template' => 'observations',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    )
+  );
+}
+
 
 
 /**
@@ -48,6 +61,6 @@ function inat_page_observations() {
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
   
-  return var_export($json);
-  //return 'adsf';
+  //return var_export($json);
+  return theme('inat_observations', array('content' => $json));
 }
