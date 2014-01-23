@@ -1,0 +1,21 @@
+<?php
+  /**
+   * iNaturalist login module
+   * Copyright 2014 Projecte Ictineo SCCL (www.projecteictineo.com)
+   * aGPLv3
+   */
+
+/**
+ * Implements hook_install()
+ */
+function inat_base_enable() {
+  if ( !menu_load('menu-inaturalist')) {
+    $menu = array(
+      'menu_name' => 'menu-inaturalist',
+      'title' => t('iNaturalist menu'),
+      'description' => t('The iNaturalist menu contains access iNaturalist modules pages, like in site www.inaturalist.org'),
+    );
+    
+    menu_save($menu);
+  }
+}

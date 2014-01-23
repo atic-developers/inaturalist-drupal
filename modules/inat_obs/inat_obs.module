@@ -5,5 +5,39 @@
    * aGPLv3
    */
 
+/**
+ * Implements hook_menu()
+ */
+function inat_obs_menu() {
+  $items = array();
+
+  //$items['inat/observations'] = array(
+    //'title' => t(''),
+    //'description' => t(''),
+    //'page callback' => '',
+    //'access arguments' => '',
+    //'menu_name' => 'inaturalist'
+    //'type' => MENU_NORMAL_ITEM,
+  //);
+
+  $items['inat/observations'] = array(
+    'title' => t('Observations'),
+    'description' => t('iNaturalist Observations'),
+    'page callback' => 'inat_page_observations',
+    'access arguments' => 'access inaturalist content',
+    'menu_name' => 'menu-inaturalist',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
 
 
+
+/**
+ * helper functions
+ */
+
+function inat_page_observations() {
+  return 'dummy text';
+}
