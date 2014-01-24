@@ -12,7 +12,7 @@ dsm($observation);
 global $base_url;
 ?>
 
-<div class="inat_observation row" id="obs_<?php print($observation['id']); ?>">
+<div class="inat_observation" id="obs_<?php print($observation['id']); ?>">
   <div class="photo">
     <?php if ($observation['photos_count'] == 0): ?>
       <span class="no_photo"><?php print(t('No photo')); ?></span>
