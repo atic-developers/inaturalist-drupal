@@ -9,6 +9,7 @@
  * inaturalist api
  */
 dsm($observation);
+global $base_url;
 ?>
 
 <div class="inat_observation row" id="obs_<?php print($observation['id']); ?>">
@@ -20,7 +21,7 @@ dsm($observation);
       <img src="<?php print($observation['photos'][0]['small_url']); ?>" alt="<?php print($observation['description']); ?>" />
     <?php endif; ?>
   </div> <!-- /photo -->
-  <h2><?php print($observation['species_guess']); ?></h2>
+  <h2><a href="<?php print($base_url . '/inat/observations/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
   <div class="observer"><?php print(t('Observer: ') . $observation['user']['login']); ?></div>
   <div class="date"><?php 
