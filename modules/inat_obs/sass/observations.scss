@@ -1,0 +1,16 @@
+.inat_observation {
+  clear: both;
+  .photo {
+    float: left;
+    width: 150px;
+    max-height: 150px;
+    overflow: hidden;
+    margin: 0 8px 2px 0;
+    img {
+      width: 100%;
+    }
+  }
+  .description {
+    text-decoration: italics;
+  }
+}
