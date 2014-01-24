@@ -43,9 +43,9 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'template' => 'observations',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
-    'inat_observation' => array(
+    'inat_observation_list' => array(
       'variables' => array('observation' => NULL),
-      'template' => 'observation',
+      'template' => 'observation_list',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     )
   );
@@ -56,7 +56,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
  */
 function inat_obs_preprocess_inat_observations(&$var) {
   foreach($var['observations'] as $id => $obs) {
-    $var['observations'][$id] = theme('inat_observation', array('observation' => $obs));
+    $var['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
   }
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
 }
