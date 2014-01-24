@@ -58,7 +58,13 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'variables' => array('observation' => NULL),
       'template' => 'observation_list',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+    'inat_observation' => array(
+      'variables' => array('observation' => NULL),
+      'template' => 'observation',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     )
+ 
   );
 }
 
