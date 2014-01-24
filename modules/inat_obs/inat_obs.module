@@ -39,13 +39,27 @@ function inat_obs_menu() {
 function inat_obs_theme($existing, $type, $theme, $path) {
   return array(
     'inat_observations' => array(
-      'variables' => array('content' => NULL),
+      'variables' => array('observations' => NULL),
       'template' => 'observations',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+    'inat_observation' => array(
+      'variables' => array('observation' => NULL),
+      'template' => 'observation',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     )
   );
 }
 
+/**
+ * Implements hook_preprocess()
+ */
+function inat_obs_preprocess_inat_observations(&$var) {
+  foreach($var['observations'] as $id => $obs) {
+    $var['observations'][$id] = theme('inat_observation', array('observation' => $obs));
+  }
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
+}
 
 
 /**
@@ -55,7 +69,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
 
 function inat_page_observations() {
   $verb = 'observations.json';
-  $query = array('per_page' => '2', 'order_by' => 'observed_on', 'has[]' => 'photos');
+  $query = array('per_page' => '40', 'order_by' => 'observed_on');
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
@@ -63,5 +77,5 @@ function inat_page_observations() {
   $json = drupal_json_decode($result->data);
   
   //return var_export($json);
-  return theme('inat_observations', array('content' => $json));
+  return theme('inat_observations', array('observations' => $json));
 }
