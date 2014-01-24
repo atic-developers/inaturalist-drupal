@@ -18,15 +18,15 @@ global $base_url;
       <span class="no_photo"><?php print(t('No photo')); ?></span>
     <?php else: ?>
       <?php //TODO considere multiple photos ?>
-      <img src="<?php print($observation['photos'][0]['small_url']); ?>" alt="<?php print($observation['description']); ?>" />
+      <img src="<?php print($observation['observation_photos'][0]['photo']['small_url']); ?>" alt="<?php print($observation['description']); ?>" />
     <?php endif; ?>
   </div> <!-- /photo -->
   <h2><a href="<?php print($base_url . '/inat/observations/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
-  <div class="observer"><?php print(t('Observer: ') . $observation['user']['login']); ?></div>
+  <div class="observer"><?php print(t('Observer: ') . $observation['user_login']); ?></div>
   <div class="date"><?php 
-    //$d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
-    //print(t('Date observed: ').$d);
+    $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
+    print(t('Date observed: ').$d);
     ?></div>
   <div class="place"><?php print(t('Place: ').$observation['place_guess']); ?></div>
   </div>
