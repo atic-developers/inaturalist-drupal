@@ -88,11 +88,12 @@ function inat_obs_preprocess_inat_observations(&$var) {
  */
 function obs_id_load($id) {
   // TODO limit the allowed values
-  if(is_integer($id)) {
-    return $id;
-  } else {
-    return '';
-  }
+  //if(is_int($id)) {
+    //return $id;
+  //} else {
+    //return '';
+  //}
+  return $id;
 }
 
 
@@ -118,9 +119,10 @@ function inat_page_observations() {
 function inat_page_observation($id) {
   dsm($id);
   $verb = 'observations/'.$id.'.json';
-  $query = array('id' => $id);
+  $query = array();
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  dsm($url);
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);

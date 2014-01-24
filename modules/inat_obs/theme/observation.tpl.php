@@ -25,8 +25,8 @@ global $base_url;
   <div class="description"><?php print($observation['description']); ?></div>
   <div class="observer"><?php print(t('Observer: ') . $observation['user']['login']); ?></div>
   <div class="date"><?php 
-    $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
-    print(t('Date observed: ').$d);
+    //$d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
+    //print(t('Date observed: ').$d);
     ?></div>
   <div class="place"><?php print(t('Place: ').$observation['place_guess']); ?></div>
   </div>
