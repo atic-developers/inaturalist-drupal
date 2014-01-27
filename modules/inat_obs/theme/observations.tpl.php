@@ -8,9 +8,10 @@
  * the structure is like is retoruned by
  * inaturalist api
  */
-foreach( $observations as $id => $obs) {
-  print($obs);
 
+foreach( $observations as $id => $obs) {
+  dsm($obs);
+  print($obs);
 }
 
 
