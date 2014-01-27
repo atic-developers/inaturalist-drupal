@@ -48,7 +48,45 @@ function inat_login_block_view($delta = '') {
  * with the block content for inat_login block
  */
 function inat_login_login_content($delta) {
-  return 'contingut dummy pel bloc de login';
+  // Settings to pass into javascript file with the login url
+  //drupal_add_js(array('sso_moodle' =>array('login_url' =>variable_get('moodle_login_url',''))), 'setting');
+
+  $form['#method'] = 'post';
+  $form['#attributes'] = array( 'id' => 'sso-moodle-login-form' );
+  // Hem recuperat codi passat, aquesta part no ens interesa.
+  //$form['#attached'] = array (
+    //'js' => array (
+      //'type' => 'file',
+      //'data' => drupal_get_path('module','sso_moodle') . '/js/ajax.js',
+    //),
+    //'css' => array (
+      //'type' => 'file',
+      //'data' => drupal_get_path('module','sso_moodle') . '/css/block.css',
+    //),
+  //);
+  $form['description'] = array(
+    '#type' => 'item',
+    '#title' => t('Enter your moodle user/passwd'),
+    '#description' => t('Enter your user'),
+  );
+  $form['username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Username'),
+    '#required' => TRUE,
+  );
+  $form['password'] = array(
+    '#type' => 'password',
+    '#title' => t('Password'),
+    '#required' => TRUE,
+  );
+  $form['log'] = array(
+    '#type' => 'button',
+    '#value' => t('Login'),
+  );
+  return $form;
+  
+  
+  //return 'contingut dummy pel bloc de login';
 }
 
 /**
