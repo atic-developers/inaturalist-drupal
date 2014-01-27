@@ -63,6 +63,11 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'variables' => array('observation' => NULL),
       'template' => 'observation',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+     'inat_map' => array(
+      'variables' => array('observations' => NULL),
+      'template' => 'map',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     )
  
   );
@@ -113,7 +118,7 @@ function inat_page_observations() {
   $json = drupal_json_decode($result->data);
   
   //return var_export($json);
-  return theme('inat_observations', array('observations' => $json));
+  return theme('inat_map', array('observations' => $json)) . theme('inat_observations', array('observations' => $json));
 }
 
 function inat_page_observation($id) {

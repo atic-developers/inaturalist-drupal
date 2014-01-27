@@ -9,8 +9,11 @@
  * inaturalist api
  */
 
+/**
+ * Add mapping bases
+ */
+
 foreach( $observations as $id => $obs) {
-  dsm($obs);
   print($obs);
 }
 
