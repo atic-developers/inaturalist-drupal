@@ -42,7 +42,6 @@ foreach( $observations as $id => $obs) {
     print("bounds.push(new Array([".$obs['latitude'].",".$obs['longitude']."]));");
   }
 }
-  dsm($obs);
 
 
 ?>

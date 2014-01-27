@@ -80,22 +80,27 @@ function inat_login_login_form_submit($form, &$form_state){
   
  //First of all, we extract from de form the values, and we construct an a formated array to make de petition
  //$verb = it's de place where we are asking, in this example de session action is who proces login Inat form
-    drupal_set_message(t('The form has been submitted.'));
+  //TODO S'ha de configurar els permisos ja que sino estas logejat no et deixa accedir a inat_base_url
+
    $verb = 'session';
    $user_email = $form_state['values']['user_email'];
    $user_password = $form_state['values']['user_password'];
    $query = array('user_email' => $user_email, 'user_password' => $user_password);
+   
    $options = array('query' => $query, 'https' => FALSE);
  //Once we have de data ready, we should construct our url and call the function drupal_http_request 
-   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);  
    $options = array('method' => 'POST');
    $result = drupal_http_request($url, $options);
    
-   dsm($json); 
-// we get de data in json format.
+   // drupal_set_message(t('The form has been submitted. OLAKASEEEEEEEE'));
+   // we get de data in json format.
+   dsm($result);
    $json = drupal_json_decode($result->data);
-  //return var_export($json);
-  return theme('inat_observations', array('observations' => $json)); 
+ 
+   dsm($json); 
+   //return var_export($json);
+   return theme('inat_observations', array('observations' => $json)); 
    
 
 }
