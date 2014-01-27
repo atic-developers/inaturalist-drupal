@@ -95,12 +95,12 @@ function inat_login_login_form_submit($form, &$form_state){
    
    // drupal_set_message(t('The form has been submitted. OLAKASEEEEEEEE'));
    // we get de data in json format.
-   dsm($result);
+  // dsm($result);
    $json = drupal_json_decode($result->data);
  
-   dsm($json); 
+   //   dsm($json); 
    //return var_export($json);
-   return theme('inat_observations', array('observations' => $json)); 
+  // return theme('inat_observations', array('observations' => $json)); 
    
 
 }
@@ -111,5 +111,30 @@ function inat_login_login_form_submit($form, &$form_state){
  * with the block content for inat_usrinfo block
  */
 function inat_login_usrinfo_content($delta) {
-  return 'contingut dumi pel bloc de informacio de lusuari';
+
+  $verb = 'users/edit.json';
+  $query = array();
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+ dsm($url);
+  $options = array('method' => 'POST');
+  $result = drupal_http_request($url, $options);
+  $json = drupal_json_decode($result->data);
+  dsm($json);
+  dsm($result);
+  return theme('inat_login', array('login' => $json));
+
+}
+/**
+* Implements hook_theme
+*/
+function inat_login_theme($existing, $type, $theme, $path) {
+  return array(
+    'inat_user_login' => array(
+      'variables' => array('login' => NULL),
+      'template' => 'user_login',
+      'path' => drupal_get_path('module', 'inat_login') . '/theme',
+    )
+ 
+  );
 }
