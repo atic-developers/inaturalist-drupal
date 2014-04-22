@@ -5,7 +5,7 @@
  * aGPLv3
  *
  * All data is recived in $content variable
- * the structure is like is retoruned by
+ * the structure is like the retoruned by
  * inaturalist api
  */
 //dsm($observation);
@@ -14,7 +14,7 @@ global $base_url;
 
 <div class="inat_observation row" id="obs_<?php print($observation['id']); ?>">
   <div class="photo">
-    <?php if ($observation['photos_count'] == 0): ?>
+    <?php if (array_key_exists('photos_count',$observation) && $observation['photos_count'] == 0): ?>
       <span class="no_photo"><?php print(t('No photo')); ?></span>
     <?php else: ?>
       <?php //TODO considere multiple photos ?>
@@ -29,6 +29,5 @@ global $base_url;
     print(t('Date observed: ').$d);
     ?></div>
   <div class="place"><?php print(t('Place: ').$observation['place_guess']); ?></div>
-  </div>
 
 </div>
