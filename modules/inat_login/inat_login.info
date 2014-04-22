@@ -8,7 +8,7 @@ version = 0.1
 core = 7.x
 files[] = 
 dependencies[] = inat_base
-dependencies[] = oauth
+dependencies[] = oauth_common
 
 
 ; Information added by drupal.org packaging script on 2011-12-05

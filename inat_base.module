@@ -39,7 +39,7 @@ function inat_base_menu() {
     'description' => t('Basic configurations for iNaturalist modules'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('inat_base_page_config'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
     'access arguments' => array('access administration pages'),
   );
   return $menu;

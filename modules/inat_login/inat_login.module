@@ -6,6 +6,21 @@
    */
 
 /**
+ * Implements hook_menu();
+ */
+function inat_login_menu() {
+  $items['admin/config/inaturalist/config/login'] = array(
+    'title' => t('iNaturalist login connector'),
+    'description' => t('iNaturalist login connector settings'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('inat_login_page_config'),
+    'type' => MENU_LOCAL_TASK,
+    'access arguments' => array('access administration pages'),
+  );
+  return $items;
+}
+
+/**
  * Implements hook_block_info()
  */
 function inat_login_block_info() {
@@ -42,7 +57,19 @@ function inat_login_block_view($delta = '') {
 /**
  * Helper functions [no hooks]
  */
-
+/**
+ * Form for configuration
+ */
+function inat_login_page_config() {
+  $form['inat_login_conf1'] = array(
+    '#type' => 'textfield',
+    '#title' => t('asdf'),
+    '#description' => t('asdf'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('inat_base_url', 'http://www.inaturalist.org'),
+  );
+  return system_settings_form($form);
+}
 /**
  * this function returns string o renderable array
  * with the block content for inat_login block
