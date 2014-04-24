@@ -19,6 +19,7 @@ function inat_obs_menu() {
     //'menu_name' => 'inaturalist'
     //'type' => MENU_NORMAL_ITEM,
   //);
+
   $items['inat/projects'] = array(
     'title' => t('Projects'),
     'description' => t('iNaturalist Observations'),
@@ -29,6 +30,16 @@ function inat_obs_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
+  $items['inat/projects/%id'] = array(
+    'title' => t('Project'),
+    'description' => t('iNaturalist Observations'),
+    'page callback' => 'inat_projects',
+    'page_arguments' => array(2),
+    //'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
+    //'menu_name' => 'menu-inaturalist',
+    //'type' => MENU_NORMAL_ITEM,
+  );
   $items['inat/observations'] = array(
     'title' => t('Observations'),
     'description' => t('iNaturalist Observations'),
@@ -57,10 +68,27 @@ function inat_obs_menu() {
  * Implements hook_theme
  */
 function inat_obs_theme($existing, $type, $theme, $path) {
-  return array(
-    'inat_observations' => array(
+  return array( 
+    
+   
+      'inat_projects_general' => array(
+      'variables' => array('projects' => NULL),
+      'template' => 'projects_general',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+      'inat_project' => array(
+      'variables' => array('projects' => NULL),
+      'template' => 'project',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+       'inat_projects_list' => array(
+      'variables' => array('projects' => NULL),
+      'template' => 'projects_list',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+      'inat_observations_general' => array(
       'variables' => array('observations' => NULL),
-      'template' => 'observations',
+      'template' => 'observations_general',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
     'inat_observation_list' => array(
@@ -85,13 +113,20 @@ function inat_obs_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_preprocess()
  */
-function inat_obs_preprocess_inat_observations(&$var) {
+function inat_obs_preprocess_inat_observations_general(&$var) {
+
   foreach($var['observations'] as $id => $obs) {
     $var['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
   }
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
 }
+function inat_obs_preprocess_inat_projects_general(&$var){
+  foreach($var['projects'] as $id => $obs) {
+    $var['projects'][$id] = theme('inat_projects_list', array('projects' => $obs));
+  }
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/projects.css');
 
+}
 
 /**
  * helper functions
@@ -117,17 +152,32 @@ function obs_id_load($id) {
  * http://www.inaturalist.org/pages/api+reference
  */
 
+
 function inat_page_projects() {
   $verb = 'projects.json';
-  $query = array('page' => '10', 'featured' => 'true');
+  $query = array('featured' => 'true');
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  
   //return var_export($json);
-  return theme('inat_map', array('projects' => $json)) . theme('inat_projects', array('projects' => $json));
+  return  theme('inat_projects_general', array('projects' => $json));
+ 
+}
+
+function inat_projects($id) {
+  $verb = 'projects/'.$id.'.json';
+  $query = array();
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  $result = drupal_http_request($url, $options);
+  $json = drupal_json_decode($result->data);
+  //return var_export($json);
+  print_r($json);
+  return  theme('inat_project', array('projects' => $json));
+ 
 }
 
 function inat_page_observations() {
@@ -140,7 +190,7 @@ function inat_page_observations() {
   $json = drupal_json_decode($result->data);
   
   //return var_export($json);
-  return theme('inat_map', array('observations' => $json)) . theme('inat_observations', array('observations' => $json));
+  return theme('inat_map', array('observations' => $json)) . theme('inat_observations_general', array('observations' => $json));
 }
 function inat_page_observation($id) {
   dsm($id);
