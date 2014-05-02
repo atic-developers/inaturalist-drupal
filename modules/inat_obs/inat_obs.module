@@ -33,7 +33,7 @@ function inat_obs_menu() {
   $items['inat/projects'] = $items['inat/projects/%/%'];
   $items['inat/projects/%'] = $items['inat/projects/%/%'];
 
-  $items['inat/project/%id'] = array(
+  $items['inat/project/%'] = array(
     'title' => t('Projects'),
    // 'description' => t('iNaturalist Observations'),
     'page callback' => 'inat_projects',
@@ -184,9 +184,8 @@ function inat_page_projects($featured = TRUE, $page = NULL) {
 
 function inat_projects($id) {
   print('Estem a inat_projects amb id2=' . $id);
-  print_r($id);
   print('<hr />');
-  $verb = 'projects/'.$id2.'.json';
+  $verb = 'projects/'.$id.'.json';
   
   $query = array();
   $options = array('query' => $query, 'https' => FALSE);
@@ -195,7 +194,6 @@ function inat_projects($id) {
 
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  print_r($result);
   return  theme('inat_project', array('projects' => $json));
  
 }

@@ -15,7 +15,7 @@ global $base_url;
   <div class="photo">
       <img src="<?php print($projects['icon_url']); ?>"/>
   </div> <!-- /photo -->
-  <h2><a href="<?php print($base_url . '/inat/projects/' . $projects['id']); ?>"><?php print($projects['title']); ?></a></h2>
+  <h2><a href="<?php print($base_url . '/inat/project/' . $projects['id']); ?>"><?php print($projects['title']); ?></a></h2>
   <div class="description"><?php print($projects['description']); ?></div>
 
 </div>
