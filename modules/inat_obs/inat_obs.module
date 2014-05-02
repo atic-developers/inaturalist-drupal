@@ -20,17 +20,18 @@ function inat_obs_menu() {
     //'type' => MENU_NORMAL_ITEM,
   //);
 
-  $items['inat/projects'] = array(
+  $items['inat/projects/%/%'] = array(
     'title' => t('Projects'),
     'description' => t('iNaturalist Observations'),
     'page callback' => 'inat_page_projects',
+    'page arguments' => array(2,3),
     //'access arguments' => array('access inaturalist content'),
     'access callback' => TRUE,
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
 
-  $items['inat/projects/%id'] = array(
+  $items['inat/project/%id'] = array(
     'title' => t('Projects'),
    // 'description' => t('iNaturalist Observations'),
     'page callback' => 'inat_projects',
@@ -159,13 +160,21 @@ function obs_id_load($id) {
  */
 
 
-function inat_page_projects() {
-  
+function inat_page_projects($featured = TRUE, $page = NULL) {
   $verb = 'projects.json';
-  $query = array('featured' => 'true');
+  $query = array();
+  if($featured == 'featured') {
+    $query = array('featured' => 'true');
+  }
+  if(is_numeric($page)) {
+    $query += array('page' => $page);
+  }elseif (is_numeric($page)) {
+    $query += array('page' => $featured);
+  }
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
+  dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
   //return var_export($json);

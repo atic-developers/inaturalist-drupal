@@ -12,10 +12,11 @@
 /**
  * Add mapping bases
  */
+print('<a href="#"> switch featured </a>');
 foreach( $projects as $id => $obs) {
   print($obs);
 }
-
+print('<a href="#"> prev </a><a href="#"> next </a>');
 
 ?>
 
