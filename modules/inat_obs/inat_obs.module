@@ -31,10 +31,10 @@ function inat_obs_menu() {
   );
 
   $items['inat/projects/%id'] = array(
-    'title' => t('Project'),
-    'description' => t('iNaturalist Observations'),
+    'title' => t('Projects'),
+   // 'description' => t('iNaturalist Observations'),
     'page callback' => 'inat_projects',
-    'page_arguments' => array(2),
+    'page arguments' => array(2),
     //'access arguments' => array('access inaturalist content'),
     'access callback' => TRUE,
     //'menu_name' => 'menu-inaturalist',
@@ -135,6 +135,12 @@ function inat_obs_preprocess_inat_projects_general(&$var){
 /**
  * Willcard processors
  */
+
+function project_id_load($id2) {
+
+  return $id2;
+}
+
 function obs_id_load($id) {
   // TODO limit the allowed values
   //if(is_int($id)) {
@@ -154,6 +160,7 @@ function obs_id_load($id) {
 
 
 function inat_page_projects() {
+  
   $verb = 'projects.json';
   $query = array('featured' => 'true');
   $options = array('query' => $query, 'https' => FALSE);
@@ -167,15 +174,19 @@ function inat_page_projects() {
 }
 
 function inat_projects($id) {
-  $verb = 'projects/'.$id.'.json';
+  print('Estem a inat_projects amb id2=' . $id);
+  print_r($id);
+  print('<hr />');
+  $verb = 'projects/'.$id2.'.json';
+  
   $query = array();
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
+
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  //return var_export($json);
-  print_r($json);
+  print_r($result);
   return  theme('inat_project', array('projects' => $json));
  
 }

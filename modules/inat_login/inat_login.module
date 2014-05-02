@@ -124,7 +124,7 @@ function inat_login_login_form_submit($form, &$form_state){
     'client_id' => '47b33111033b673dd66ece3eefb217f3bc3bce2d18720452ed143b6bb1d7c696',
     'client_secret' => '051ecceb16455addde2cb909e5560e91c7bb3f104de078dbf0fe6bc238ecf5d5',
     'code' => '91748659fa010f6f42dd756098faab1a7b12261ada294abc82a72065e8f65da3',
-    'redirect_uri' => 'http://179.32.218.104:8080/urraca1',
+    'redirect_uri' => 'http://179.32.218.104:8080/urraca1/',
     'grant_type' => 'authorization_code',
   );
   $url = url('https://www.inaturalist.org/oauth/token', array('query' => $params, 'https' => 'TRUE'));  
@@ -192,7 +192,7 @@ function inat_login_usrinfo_content($delta) {
   $json = drupal_json_decode($result->data);
   dsm($json);
   dsm($result);
-  return theme('inat_login', array('login' => $json));
+  //return theme('inat_login', array('login' => $json));
 
 }
 /**
