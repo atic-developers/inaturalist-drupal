@@ -30,6 +30,8 @@ function inat_obs_menu() {
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
+  $items['inat/projects'] = $items['inat/projects/%/%'];
+  $items['inat/projects/%'] = $items['inat/projects/%/%'];
 
   $items['inat/project/%id'] = array(
     'title' => t('Projects'),
