@@ -1,0 +1,13 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\000031}}
+.inat_project .photo {
+  display: block;
+  float: left;
+  padding: 0 6px 3px 0px;
+  margin-top: 12px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\000037}}
+.inat_project {
+  clear: both;
+  margin-bottom: 18px;
+}
