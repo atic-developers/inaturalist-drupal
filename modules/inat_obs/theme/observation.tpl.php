@@ -11,16 +11,34 @@
 dsm($observation);
 global $base_url;
 ?>
+   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+   <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 
 <div class="inat_observation" id="obs_<?php print($observation['id']); ?>">
-  <div class="photo">
+  <figure class="photo">
     <?php if (array_key_exists('photos_count', $observation) && $observation['photos_count'] == 0): ?>
       <span class="no_photo"><?php print(t('No photo')); ?></span>
     <?php else: ?>
       <?php //TODO considere multiple photos ?>
       <img src="<?php print($observation['observation_photos'][0]['photo']['small_url']); ?>" alt="<?php print($observation['description']); ?>" />
+      <figurecaption><?php print($observation['observation_photos'][0]['photo']['attribution']); ?></figurecaption>
     <?php endif; ?>
-  </div> <!-- /photo -->
+  </figure> <!-- /photo -->
+
+   <div id="map" style="height: 200px;width: 200px;"></div>
+
+   <script type="text/javascript">
+    var map = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      zoom: 10
+      }).addTo(map);
+    var bounds = new Array();
+    <?php print("var popup = L.marker().setLatLng([".$observation['latitude'].",".$observation['longitude']."]).addTo(map); ");
+    print("bounds.push(new Array([".$observation['latitude'].",".$observation['longitude']."]));"); ?>
+    map.panTo(new L.LatLng(<?php print $observation['latitude'] . ", " . $observation['longitude']; ?>));
+  </script>
+
   <h2><a href="<?php print($base_url . '/inat/observations/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
   <div class="observer"><?php print(t('Observer: ') . $observation['user_login']); ?></div>
@@ -28,6 +46,10 @@ global $base_url;
     $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
     print(t('Date observed: ').$d);
     ?></div>
-  <div class="place"><?php print(t('Place: ').$observation['place_guess']); ?></div>
-
+      <div class="place">
+        <?php print(t('Place: ').$observation['place_guess']); ?> 
+        (<span class="latitude"><?php print(t('Lat: ').$observation['latitude']); ?></span> 
+         <span class="longitude"><?php print(t('Lon: ').$observation['longitude']); ?></span>)
+      </div>
+  <div class="accuracy"><?php print(t('Accuracy: ') . $observation['positional_accuracy']); ?>m</div>
 </div>

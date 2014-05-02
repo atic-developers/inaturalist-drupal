@@ -1,0 +1,10 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\000031}}
+figure.photo {
+  float: left;
+  display: table;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\000034}}
+figure.photo figurecaption {
+  display: table-caption;
+  caption-side: bottom;
+}

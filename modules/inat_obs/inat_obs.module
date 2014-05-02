@@ -128,6 +128,9 @@ function inat_obs_preprocess_inat_projects_general(&$var){
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/projects.css');
 
 }
+function inat_obs_preprocess_inat_observation(&$var){
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observation.css');
+}
 
 /**
  * helper functions
@@ -183,19 +186,25 @@ function inat_page_projects($featured = TRUE, $page = NULL) {
 }
 
 function inat_projects($id) {
-  print('Estem a inat_projects amb id2=' . $id);
-  print('<hr />');
+  /** Get the project information **/
   $verb = 'projects/'.$id.'.json';
-  
   $query = array();
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-
   $result = drupal_http_request($url, $options);
-  $json = drupal_json_decode($result->data);
-  return  theme('inat_project', array('projects' => $json));
- 
+  $json_proj = drupal_json_decode($result->data);
+
+  /** Get observations for the project **/
+  $verb = 'observations/project/'.$id.'.json';
+  $query = array('per_page' => '40', 'order_by' => 'observed_on');
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  $result = drupal_http_request($url, $options);
+  $json_obs = drupal_json_decode($result->data);
+  
+  return  theme('inat_project', array('projects' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
 }
 
 function inat_page_observations() {
