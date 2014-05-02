@@ -72,8 +72,6 @@ function inat_obs_menu() {
  */
 function inat_obs_theme($existing, $type, $theme, $path) {
   return array( 
-    
-   
       'inat_projects_general' => array(
       'variables' => array('projects' => NULL),
       'template' => 'projects_general',
@@ -84,7 +82,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'template' => 'project',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
-       'inat_projects_list' => array(
+      'inat_projects_list' => array(
       'variables' => array('projects' => NULL),
       'template' => 'projects_list',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
