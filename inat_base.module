@@ -56,5 +56,13 @@ function inat_base_page_config() {
     '#required' => TRUE,
     '#default_value' => variable_get('inat_base_url', 'http://www.inaturalist.org'),
   );
+  $form['inat_base_project'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Reduce plugin behavior to this project'),
+    '#description' => t('The project id to reduce the plugin behavior'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('inat_base_project', ''),
+  );
+
   return system_settings_form($form);
 }
