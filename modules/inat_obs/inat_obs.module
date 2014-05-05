@@ -77,15 +77,17 @@ function inat_obs_menu() {
   //);
 
 
-  $items['inat/observations'] = array(
+  $items['inat/observations/%'] = array(
     'title' => t('Observations'),
     'description' => t('iNaturalist Observations'),
     'page callback' => 'inat_page_observations',
+    'page arguments' => array(2),
     //'access arguments' => array('access inaturalist content'),
     'access callback' => TRUE,
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
+  $items['inat/observations'] = $items['inat/observations/%'];
   $items['inat/observation/%obs_id'] = array(
     'title' => t('Observation'),
     //'description' => t('iNaturalist Observations'),
@@ -132,7 +134,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
     'inat_observations_general' => array(
-      'variables' => array('observations' => NULL),
+      'variables' => array('observations' => NULL, 'current_page' => 1),
       'template' => 'observations_general',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
@@ -256,9 +258,12 @@ function inat_projects($id) {
   return  theme('inat_project', array('projects' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
 }
 
-function inat_page_observations() {
+function inat_page_observations($page) {
+  if($page == NULL) {
+    $page = 1;
+  }
   $verb = 'observations.json';
-  $query = array('per_page' => '40', 'order_by' => 'observed_on');
+  $query = array('per_page' => '40', 'order_by' => 'observed_on', 'page' => $page);
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
@@ -268,7 +273,7 @@ function inat_page_observations() {
   $json = drupal_json_decode($result->data);
   
   //return var_export($json);
-  return theme('inat_map', array('observations' => $json)) . theme('inat_observations_general', array('observations' => $json));
+  return theme('inat_map', array('observations' => $json)) . theme('inat_observations_general', array('observations' => $json, 'current_page' => $page));
 }
 function inat_page_observation($id) {
   dsm($id);
@@ -313,12 +318,9 @@ function inat_taxa($id) {
   return  theme('inat_taxa', array('taxa' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
 }
 
-function inat_taxons($page) {
-  if($page == NULL) {
-    $page=1;
-  }
+function inat_taxons() {
   $verb = 'taxa.json';
-  $query = array('page' => $page);
+  $query = array();
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');

@@ -8,7 +8,8 @@
  * the structure is like is retoruned by
  * inaturalist api
  */
-
+global $base_url;
+dsm($current_page);
 /**
  * Add mapping bases
  */
@@ -16,8 +17,21 @@
 foreach( $observations as $id => $obs) {
   print($obs);
 }
-
+$prev_url = $base_url . '/inat/observations/';
+$next_url = $prev_url;
+if($current_page > 1) {
+  $prev_url .= $current_page - 1;
+} else {
+  $prev_url .= '1';
+}
+$next_url .= $current_page + 1;
 
 ?>
+<div class="pager-wrapper">
+  <span id="prev-link" class="pager link"><a href="<?php print $prev_url; ?>"><?php print t('Prev'); ?></a></span>
+  <span id="next-link" class="pager link"><a href="<?php print $next_url; ?>"><?php print t('Next'); ?></a></span>
+</div>
+
+
 
 
