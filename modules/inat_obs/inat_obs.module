@@ -33,6 +33,17 @@ function inat_obs_menu() {
   $items['inat/projects'] = $items['inat/projects/%/%'];
   $items['inat/projects/%'] = $items['inat/projects/%/%'];
 
+  $items['inat/taxa/%'] = array(
+    'title' => t('Species'),
+    'description' => t('iNaturalist Species'),
+    'page callback' => 'inat_taxa',
+    'page arguments' => array(2),
+    'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
+    'menu_name' => 'menu-inaturalist',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   $items['inat/project/%'] = array(
     'title' => t('Projects'),
    // 'description' => t('iNaturalist Observations'),
@@ -72,12 +83,17 @@ function inat_obs_menu() {
  */
 function inat_obs_theme($existing, $type, $theme, $path) {
   return array( 
-      'inat_projects_general' => array(
+    'inat_projects_general' => array(
       'variables' => array('projects' => NULL),
       'template' => 'projects_general',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
-      'inat_project' => array(
+    'inat_taxa' => array(
+      'variables' => array('taxa' => NULL),
+      'template' => 'taxa',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+    'inat_project' => array(
       'variables' => array('projects' => NULL),
       'template' => 'project',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
@@ -87,7 +103,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'template' => 'projects_list',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
-      'inat_observations_general' => array(
+    'inat_observations_general' => array(
       'variables' => array('observations' => NULL),
       'template' => 'observations_general',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
@@ -102,7 +118,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'template' => 'observation',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
-     'inat_map' => array(
+    'inat_map' => array(
       'variables' => array('observations' => NULL),
       'template' => 'map',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
@@ -242,3 +258,31 @@ function inat_page_observation($id) {
 
   return theme('inat_observation', array('observation' => $json));
 }
+
+function inat_taxa($id) {
+  /** Get the project information **/
+  $verb = 'taxa/'.$id.'.json';
+  $query = array();
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
+  $result = drupal_http_request($url, $options);
+  $json_proj = drupal_json_decode($result->data);
+
+  /** Get observations for the project **/
+  $verb = 'observations.json';
+  $query = array('per_page' => '40', 'order_by' => 'observed_on', 'taxon_id' => $id);
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
+  $result = drupal_http_request($url, $options);
+  $json_obs = drupal_json_decode($result->data);
+  
+  return  theme('inat_taxa', array('taxa' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
+}
+
+
