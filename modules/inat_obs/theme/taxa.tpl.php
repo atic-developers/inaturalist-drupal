@@ -18,6 +18,6 @@ dsm($taxa);
   </div> <!-- /photo -->
   <h2><a href="<?php print($base_url . '/inat/taxa/' . $taxa['id']); ?>"><?php print($taxa['name']); ?></a></h2>
   <div class="description"><?php print($taxa['wikipedia_summary']); ?></div>
-  <a href="<?php print($base_url . '/inat/taxa/' . $taxa['parent_id']); ?>"><?php print(t('Parent')); ?></a>
+  <?php if($taxa['id'] != 48460): ?><a href="<?php print($base_url . '/inat/taxa/' . $taxa['parent_id']); ?>"><?php print(t('Parent')); ?></a><?php endif;?>
 
 </div>
