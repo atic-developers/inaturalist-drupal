@@ -152,7 +152,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
     'inat_place_list' => array(
-      'variables' => array('places' => NULL),
+      'variables' => array('places' => NULL, 'current_page' => 1),
       'template' => 'place_list',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
@@ -396,7 +396,11 @@ function inat_place($id) {
   return  theme('inat_place', array('place' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
 }
 
-function inat_places($page = 1) {
+function inat_places($page) {
+  print_r($page);
+  if($page == '') {
+    $page = 1;
+  }
   $verb = 'places.json';
   $query = array('page' => $page);
   $options = array('query' => $query, 'https' => FALSE);
@@ -408,6 +412,6 @@ function inat_places($page = 1) {
   $json = drupal_json_decode($result->data);
   dsm($json);
   
-  return theme('inat_place_list', array('places' => $json));
+  return theme('inat_place_list', array('places' => $json, 'current_page' => $page));
 }
  

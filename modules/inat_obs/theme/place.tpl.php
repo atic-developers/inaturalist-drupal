@@ -16,6 +16,6 @@ global $base_url;
       <img src="<?php print($place['photo_url']); ?>"/>
   </div> <!-- /photo -->
   <h2><a href="<?php print($base_url . '/inat/place/' . $place['id']); ?>"><?php print($place['display_name']); ?></a></h2>
-  <?php //if($place['id'] != 48460): ?><a href="<?php print($base_url . '/inat/place/' . $place['parent_id']); ?>"><?php print(t('Parent')); ?></a><?php //endif;?>
+  <?php if($place['parent_id'] != ''): ?><a href="<?php print($base_url . '/inat/place/' . $place['parent_id']); ?>"><?php print(t('Parent')); ?></a><?php endif;?>
 
 </div>
