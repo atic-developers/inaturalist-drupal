@@ -39,7 +39,7 @@ global $base_url;
     map.panTo(new L.LatLng(<?php print $observation['latitude'] . ", " . $observation['longitude']; ?>));
   </script>
 
-  <h2><a href="<?php print($base_url . '/inat/observations/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
+  <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
   <div class="observer"><?php print(t('Observer: ') . $observation['user_login']); ?></div>
   <div class="date"><?php 

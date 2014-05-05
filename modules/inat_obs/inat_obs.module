@@ -54,26 +54,27 @@ function inat_obs_menu() {
     //'menu_name' => 'menu-inaturalist',
     //'type' => MENU_NORMAL_ITEM,
   );
-  $items['inat/taxons'] = array(
+  $items['inat/taxons/%'] = array(
     'title' => t('Species'),
     'description' => t('iNaturalist Species'),
     'page callback' => 'inat_taxons',
-    //'page arguments' => array(2),
+    'page arguments' => array(2),
     'access arguments' => array('access inaturalist content'),
     'access callback' => TRUE,
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
-  $items['inat/taxa'] = array(
-    'title' => t('Species'),
-    'description' => t('iNaturalist Species'),
-    'page callback' => 'inat_taxons',
+  $items['inat/taxons'] = $items['inat/taxons/%'];
+  //$items['inat/taxa'] = array(
+    //'title' => t('Species'),
+    //'description' => t('iNaturalist Species'),
+    //'page callback' => 'inat_taxons',
     //'page arguments' => array(2),
-    'access arguments' => array('access inaturalist content'),
-    'access callback' => TRUE,
+    //'access arguments' => array('access inaturalist content'),
+    //'access callback' => TRUE,
     //'menu_name' => 'menu-inaturalist',
     //'type' => MENU_NORMAL_ITEM,
-  );
+  //);
 
 
   $items['inat/observations'] = array(
@@ -312,18 +313,21 @@ function inat_taxa($id) {
   return  theme('inat_taxa', array('taxa' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
 }
 
-function inat_taxons() {
-    $verb = 'taxa.json';
-    //$query = array('per_page' => '40');
-    $query = array();
-    $options = array('query' => $query, 'https' => FALSE);
-    $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
-    $options = array('method' => 'GET');
-    dsm('debug info:');
-    dsm($url);
-    $result = drupal_http_request($url, $options);
-    $json = drupal_json_decode($result->data);
-    
-    return theme('inat_taxa_list', array('taxons' => $json));
+function inat_taxons($page) {
+  if($page == NULL) {
+    $page=1;
+  }
+  $verb = 'taxa.json';
+  $query = array('page' => $page);
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
+  $result = drupal_http_request($url, $options);
+  $json = drupal_json_decode($result->data);
+  dsm($json);
+  
+  return theme('inat_taxa_list', array('taxons' => $json));
 }
  

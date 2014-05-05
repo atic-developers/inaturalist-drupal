@@ -12,7 +12,7 @@
 /**
  * Add mapping bases
  */
-dsm($observations);
+//dsm($observations);
 foreach( $observations as $id => $obs) {
   print($obs);
 }

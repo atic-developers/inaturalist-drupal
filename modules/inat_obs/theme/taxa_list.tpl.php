@@ -16,7 +16,9 @@ foreach($taxons as $id => $taxa):
   <div class="photo">
       <img src="<?php print($taxa['photo_url']); ?>"/>
   </div> <!-- /photo -->
-  <h2><a href="<?php print($base_url . '/inat/taxa/' . $taxa['id']); ?>"><?php print($taxa['name']); ?></a></h2>
+  <h2><a href="<?php print($base_url . '/inat/taxa/' . $taxa['id']); ?>"><?php print($taxa['common_name']['name'].' ('.$taxa['observations_count'].') '); ?></a></h2>
+  <?php /*<a href="<?php print($base_url . '/inat/taxa/' . $taxa['parent_id']); ?>"><?php print(t('Parent')); ?></a> */ ?>
+
   <div class="description"><?php print($taxa['wikipedia_summary']); ?></div>
 
 </div>
