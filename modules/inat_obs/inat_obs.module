@@ -19,30 +19,32 @@ function inat_obs_menu() {
     //'menu_name' => 'inaturalist'
     //'type' => MENU_NORMAL_ITEM,
   //);
+  $project = variable_get('inat_base_project', '');
+  if(!isset($project)) {
+    $items['inat/projects/%/%'] = array(
+      'title' => t('Projects'),
+      'description' => t('iNaturalist Observations'),
+      'page callback' => 'inat_page_projects',
+      'page arguments' => array(2,3),
+      //'access arguments' => array('access inaturalist content'),
+      'access callback' => TRUE,
+      'menu_name' => 'menu-inaturalist',
+      'type' => MENU_NORMAL_ITEM,
+    );
+    $items['inat/projects'] = $items['inat/projects/%/%'];
+    $items['inat/projects/%'] = $items['inat/projects/%/%'];
 
-  $items['inat/projects/%/%'] = array(
-    'title' => t('Projects'),
-    'description' => t('iNaturalist Observations'),
-    'page callback' => 'inat_page_projects',
-    'page arguments' => array(2,3),
-    //'access arguments' => array('access inaturalist content'),
-    'access callback' => TRUE,
-    'menu_name' => 'menu-inaturalist',
-    'type' => MENU_NORMAL_ITEM,
-  );
-  $items['inat/projects'] = $items['inat/projects/%/%'];
-  $items['inat/projects/%'] = $items['inat/projects/%/%'];
-
-  $items['inat/project/%'] = array(
-    'title' => t('Projects'),
-   // 'description' => t('iNaturalist Observations'),
-    'page callback' => 'inat_projects',
-    'page arguments' => array(2),
-    //'access arguments' => array('access inaturalist content'),
-    'access callback' => TRUE,
-    //'menu_name' => 'menu-inaturalist',
-    //'type' => MENU_NORMAL_ITEM,
-  );
+    $items['inat/project/%'] = array(
+      'title' => t('Projects'),
+     // 'description' => t('iNaturalist Observations'),
+      'page callback' => 'inat_projects',
+      'page arguments' => array(2),
+      //'access arguments' => array('access inaturalist content'),
+      'access callback' => TRUE,
+      //'menu_name' => 'menu-inaturalist',
+      //'type' => MENU_NORMAL_ITEM,
+    );
+  }
 
   $items['inat/taxa/%'] = array(
     'title' => t('Species'),
@@ -262,7 +264,11 @@ function inat_page_observations($page) {
   if($page == NULL) {
     $page = 1;
   }
-  $verb = 'observations.json';
+  $project = variable_get('inat_base_project', '');
+  if($project != '') {
+    $project_limitation = '/project/'.$project;
+  }
+  $verb = 'observations'.$project_limitation.'.json';
   $query = array('per_page' => '40', 'order_by' => 'observed_on', 'page' => $page);
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
