@@ -43,6 +43,7 @@ function inat_obs_menu() {
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
+  $items['inat/taxa'] = $items['inat/taxa/%'];
 
   $items['inat/project/%'] = array(
     'title' => t('Projects'),
@@ -91,6 +92,11 @@ function inat_obs_theme($existing, $type, $theme, $path) {
     'inat_taxa' => array(
       'variables' => array('taxa' => NULL),
       'template' => 'taxa',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+    'inat_taxa_list' => array(
+      'variables' => array('taxons' => NULL),
+      'template' => 'taxa_list',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
     'inat_project' => array(
@@ -260,6 +266,20 @@ function inat_page_observation($id) {
 }
 
 function inat_taxa($id) {
+  if ($id == NULL) {
+    $verb = 'taxa.json';
+    //$query = array('per_page' => '40');
+    $query = array();
+    $options = array('query' => $query, 'https' => FALSE);
+    $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+    $options = array('method' => 'GET');
+    dsm('debug info:');
+    dsm($url);
+    $result = drupal_http_request($url, $options);
+    $json = drupal_json_decode($result->data);
+    
+    return theme('inat_taxa_list', array('taxons' => $json));
+  }
   /** Get the project information **/
   $verb = 'taxa/'.$id.'.json';
   $query = array();
