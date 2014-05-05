@@ -177,6 +177,7 @@ function inat_page_projects($featured = TRUE, $page = NULL) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
+  dsm('debug info:');
   dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
@@ -192,6 +193,8 @@ function inat_projects($id) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_proj = drupal_json_decode($result->data);
 
@@ -201,6 +204,8 @@ function inat_projects($id) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_obs = drupal_json_decode($result->data);
   
@@ -213,6 +218,8 @@ function inat_page_observations() {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
   
@@ -227,6 +234,8 @@ function inat_page_observation($id) {
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   dsm($url);
   $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
   dsm($json);

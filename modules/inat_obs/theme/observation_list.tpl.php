@@ -11,12 +11,11 @@
 //dsm($observation);
 global $base_url;
 ?>
-<? dsm($observation); ?>
 <div class="inat_observation row" id="obs_<?php print($observation['id']); ?>">
   <div class="photo">
     <?php if (array_key_exists('photos_count',$observation) && $observation['photos_count'] == 0): ?>
       <span class="no_photo"><?php print(t('No photo')); ?></span>
-    <?php else: ?>
+    <?php elseif(isset($observation['photos'][0])): ?>
       <?php //TODO considere multiple photos ?>
       <img src="<?php print($observation['photos'][0]['small_url']); ?>" alt="<?php print($observation['description']); ?>" />
     <?php endif; ?>
