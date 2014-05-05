@@ -1,9 +1,21 @@
 figure.photo {
   float: left;
   display: table;
+  img {
+    height: 250px;
+  }
   figurecaption {
     display: table-caption;
     caption-side: bottom;
+    font-size: 70%;
   }
 }
-
+.inat_observation {
+  #map {
+    width: 250px;
+    height: 250px;
+  }
+  h2 {
+    clear: both;
+  }
+}

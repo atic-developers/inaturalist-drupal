@@ -25,7 +25,7 @@ global $base_url;
     <?php endif; ?>
   </figure> <!-- /photo -->
 
-   <div id="map" style="height: 200px;width: 200px;"></div>
+   <div id="map" style=""></div>
 
    <script type="text/javascript">
     var map = L.map('map').setView([51.505, -0.09], 13);
@@ -52,4 +52,6 @@ global $base_url;
          <span class="longitude"><?php print(t('Lon: ').$observation['longitude']); ?></span>)
       </div>
   <div class="accuracy"><?php print(t('Accuracy: ') . $observation['positional_accuracy']); ?>m</div>
+  <div class="project"><?php print(t('Project: ')); ?>  <a href="<?php print $base_url . '/inat/project/' . $observation['project_observations'][0]['project_id'] ;?>"><?php print($observation['project_observations'][0]['project']['title']); ?></a></div>
+  <div class="taxon"><?php print(t('Taxon: ')); ?>  <a href="<?php print $base_url . '/inat/taxa/' . $observation['taxon_id'] ;?>"><?php print($observation['species_guess']); ?></a></div>
 </div>
