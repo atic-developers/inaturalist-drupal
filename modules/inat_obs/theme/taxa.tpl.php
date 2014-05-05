@@ -10,6 +10,7 @@
  */
 //dsm($observation);
 global $base_url;
+dsm($taxa);
 ?>
 <div class="inat_project row" id="prj_<?php print($taxa['id']); ?>">
   <div class="photo">
@@ -17,5 +18,6 @@ global $base_url;
   </div> <!-- /photo -->
   <h2><a href="<?php print($base_url . '/inat/taxa/' . $taxa['id']); ?>"><?php print($taxa['name']); ?></a></h2>
   <div class="description"><?php print($taxa['wikipedia_summary']); ?></div>
+  <a href="<?php print($base_url . '/inat/taxa/' . $taxa['parent_id']); ?>"><?php print(t('Parent')); ?></a>
 
 </div>
