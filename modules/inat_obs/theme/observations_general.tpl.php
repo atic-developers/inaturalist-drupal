@@ -9,7 +9,6 @@
  * inaturalist api
  */
 global $base_url;
-dsm($current_page);
 /**
  * Add mapping bases
  */
