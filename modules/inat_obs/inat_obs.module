@@ -64,7 +64,16 @@ function inat_obs_menu() {
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
-  $items['inat/taxa'] = $items['inat/taxons'];
+  $items['inat/taxa'] = array(
+    'title' => t('Species'),
+    'description' => t('iNaturalist Species'),
+    'page callback' => 'inat_taxons',
+    //'page arguments' => array(2),
+    'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
+    //'menu_name' => 'menu-inaturalist',
+    //'type' => MENU_NORMAL_ITEM,
+  );
 
 
   $items['inat/observations'] = array(
