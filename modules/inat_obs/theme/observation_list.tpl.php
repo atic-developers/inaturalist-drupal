@@ -23,9 +23,10 @@ global $base_url;
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
   <div class="observer"><?php print(t('Observer: ') . $observation['user']['login']); ?></div>
-  <div class="date"><?php 
-    $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
-    print(t('Date observed: ').$d);
+  <div class="date"><?php if(isset($observation['observed_on'])){ 
+      $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
+      print(t('Date observed: ').$d);
+    }
     ?></div>
   <div class="place"><?php print(t('Place: ').$observation['place_guess']); ?></div>
 

@@ -10,6 +10,7 @@
  */
 
 global $base_url;
+dsm($projects);
 
 $query = explode('/',current_path());
 $isfeatured = FALSE;

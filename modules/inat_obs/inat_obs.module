@@ -177,7 +177,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'template' => 'project',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
-      'inat_projects_list' => array(
+    'inat_projects_list' => array(
       'variables' => array('projects' => NULL),
       'template' => 'projects_list',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
@@ -259,11 +259,13 @@ function obs_id_load($id) {
 
 
 function inat_page_projects($featured = TRUE, $page = NULL) {
-  $user = variable_get('inat_base_project', '');
-  if($user != '') {
-    $user_limitation = '/user/'.$user;
-  }
-  $verb = 'projects'.$user_limitation.'.json';
+  //Remove project list limitation because needs loggin
+  //$user = variable_get('inat_base_user', '');
+  //if($user != '') {
+    //$user_limitation = '/user/'.$user;
+  //}
+  //$verb = 'projects'.$user_limitation.'.json';
+  $verb = 'projects.json';
   $query = array();
   if($featured == 'featured') {
     $query = array('featured' => 'true');
@@ -315,15 +317,17 @@ function inat_page_observations($page) {
   if($page == NULL) {
     $page = 1;
   }
+  $project_limitation = '';
+  $user_limitation = '';
   $project = variable_get('inat_base_project', '');
   if($project != '') {
     $project_limitation = '/project/'.$project;
   }
-  $user = variable_get('inat_base_project', '');
+  $user = variable_get('inat_base_user', '');
   if($user != '') {
     $user_limitation = '/'.$user;
   }
-  $verb = 'observations'.$project_limitation.$user.'.json';
+  $verb = 'observations'.$project_limitation.$user_limitation.'.json';
   $query = array('per_page' => '40', 'order_by' => 'observed_on', 'page' => $page);
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
