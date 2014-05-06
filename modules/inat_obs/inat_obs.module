@@ -20,7 +20,7 @@ function inat_obs_menu() {
     //'type' => MENU_NORMAL_ITEM,
   //);
   $project = variable_get('inat_base_project', '');
-  if(!isset($project)) {
+  if($project == '') {
     $items['inat/projects/%/%'] = array(
       'title' => t('Projects'),
       'description' => t('iNaturalist Observations'),

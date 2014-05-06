@@ -60,7 +60,7 @@ function inat_base_page_config() {
     '#type' => 'textfield',
     '#title' => t('Reduce plugin behavior to this project'),
     '#description' => t('The project id to reduce the plugin behavior'),
-    '#required' => TRUE,
+    '#required' => FALSE,
     '#default_value' => variable_get('inat_base_project', ''),
   );
 
