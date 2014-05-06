@@ -99,7 +99,17 @@ function inat_obs_menu() {
   );
   $items['inat/places'] = $items['inat/places/%'];
  
-
+  $items['inat/user/%'] = array(
+    'title' => t('Users'),
+    //'description' => t('iNaturalist Species'),
+    'page callback' => 'inat_user',
+    'page arguments' => array(2),
+    'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
+    //'menu_name' => 'menu-inaturalist',
+    //'type' => MENU_NORMAL_ITEM,
+  );
+ 
   $items['inat/observations/%'] = array(
     'title' => t('Observations'),
     'description' => t('iNaturalist Observations'),
@@ -154,6 +164,11 @@ function inat_obs_theme($existing, $type, $theme, $path) {
     'inat_place_list' => array(
       'variables' => array('places' => NULL, 'current_page' => 1),
       'template' => 'place_list',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
+    'inat_user' => array(
+      'variables' => array('user' => NULL),
+      'template' => 'user',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
     'inat_project' => array(
@@ -414,4 +429,31 @@ function inat_places($page) {
   
   return theme('inat_place_list', array('places' => $json, 'current_page' => $page));
 }
- 
+  
+function inat_user($id) {
+  /** Get the project information **/
+  $verb = 'users/'.$id.'.json';
+  $query = array();
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
+  $result = drupal_http_request($url, $options);
+  $json_proj = drupal_json_decode($result->data);
+
+  $login = $json_proj['login'];
+  /** Get observations for the project **/
+  $verb = 'observations/'.$login.'.json';
+  $query = array('per_page' => '40', 'order_by' => 'observed_on');
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  dsm('debug info:');
+  dsm($url);
+  $result = drupal_http_request($url, $options);
+  $json_obs = drupal_json_decode($result->data);
+  
+  return  theme('inat_user', array('user' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
+}
+

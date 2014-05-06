@@ -41,7 +41,7 @@ global $base_url;
 
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
-  <div class="observer"><?php print(t('Observer: ') . $observation['user_login']); ?></div>
+  <div class="observer"><?php print t('Observer: '); ?><a href="<?php print $base_url . '/inat/user/' . $observation['user_id'];?>"><?php print($observation['user_login']); ?></a></div>
   <div class="date"><?php 
     $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
     print(t('Date observed: ').$d);
