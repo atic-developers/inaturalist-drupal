@@ -52,7 +52,7 @@ global $base_url;
          <span class="longitude"><?php print(t('Lon: ').$observation['longitude']); ?></span>)
       </div>
   <div class="accuracy"><?php print(t('Accuracy: ') . $observation['positional_accuracy']); ?>m</div>
-  <?php if(variable_get('inat_base_project','') == ''): ?>
+  <?php if(variable_get('inat_base_project','') == '' && isset($observation['project_observations'][0])): ?>
   <?php // remove project info because is obvius and not needed if project is set for the plugin ?>
     <div class="project"><?php print(t('Project: ')); ?>  <a href="<?php print $base_url . '/inat/project/' . $observation['project_observations'][0]['project_id'] ;?>"><?php print($observation['project_observations'][0]['project']['title']); ?></a></div>
   <?php endif; ?>
