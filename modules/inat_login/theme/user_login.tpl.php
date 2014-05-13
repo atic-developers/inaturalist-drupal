@@ -1,5 +1,5 @@
 <?php
-if($login->user_icon_url == NULL) { $login['user_icon_url'] = variable_get('inat_base_url', 'http://www.inaturalist.org') . '/attachment_defaults/users/icons/defaults/thumb.png'; }
+if($login['user_icon_url'] == NULL) { $login['user_icon_url'] = variable_get('inat_base_url', 'http://www.inaturalist.org') . '/attachment_defaults/users/icons/defaults/thumb.png'; }
 // Template del modúl de login
 ?>
 
