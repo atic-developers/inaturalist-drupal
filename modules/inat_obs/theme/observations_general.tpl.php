@@ -26,7 +26,7 @@ if($current_page > 1) {
 $next_url .= $current_page + 1;
 
 ?>
-<div class="clearfix"/>
+<div class="clearfix"> </div>
 <div class="pager-wrapper">
   <span id="prev-link" class="pager link"><a href="<?php print $prev_url; ?>"><?php print t('Prev'); ?></a></span>
   <span id="next-link" class="pager link"><a href="<?php print $next_url; ?>"><?php print t('Next'); ?></a></span>
