@@ -14,8 +14,8 @@ global $base_url;
    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 
-<div class="inat_observation" id="obs_<?php print($observation['id']); ?>">
-  <figure class="photo">
+<div class="inat_observation_single" id="obs_<?php print($observation['id']); ?>">
+  <figure class="photo_single">
     <?php if (array_key_exists('photos_count', $observation) && $observation['photos_count'] == 0): ?>
       <span class="no_photo"><?php print(t('No photo')); ?></span>
     <?php else: ?>

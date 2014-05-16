@@ -198,7 +198,7 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
     'inat_map' => array(
-      'variables' => array('observations' => NULL),
+      'variables' => array('observations' => NULL, 'context' => 'page'),
       'template' => 'map',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     )
@@ -290,7 +290,7 @@ function inat_obs_block_view($delta = '') {
       $json = drupal_json_decode($result->data);
       
       $block['subject'] = t('Last iNaturalist Map');
-      $block['content'] = theme('inat_map', array('observations' => $json));
+      $block['content'] = theme('inat_map', array('observations' => $json, 'context' => 'block'));
     break;
     case 'inat_obs_list':
       $project_limitation = '';
@@ -339,6 +339,11 @@ function inat_obs_preprocess_inat_projects_general(&$var){
 }
 function inat_obs_preprocess_inat_observation(&$var){
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observation.css');
+}
+function inat_obs_preprocess_inat_map(&$var){
+  dsm('preprocess inat_map');
+ drupal_add_css('http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css','external');
+ drupal_add_js("http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js",'external');
 }
 
 /**

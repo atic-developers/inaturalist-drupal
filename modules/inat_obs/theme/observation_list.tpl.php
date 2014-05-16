@@ -11,6 +11,7 @@
 //dsm($observation);
 global $base_url;
 ?>
+
 <div class="inat_observation row" id="obs_<?php print($observation['id']); ?>">
   <div class="photo">
     <?php if (array_key_exists('photos_count',$observation) && $observation['photos_count'] == 0): ?>
