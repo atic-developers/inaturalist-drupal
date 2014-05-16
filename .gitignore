@@ -9,7 +9,7 @@
 .swp
 .mbr
 .tmp
-.swp
+*.swp
 
 # Compiled source #
 ###################

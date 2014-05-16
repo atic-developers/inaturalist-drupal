@@ -10,7 +10,7 @@
  */
 //dsm($observation);
 global $base_url;
-dsm($taxa);
+//dsm($taxa);
 ?>
 <div class="inat_project row" id="prj_<?php print($taxa['id']); ?>">
   <div class="photo">
