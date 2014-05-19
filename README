@@ -20,3 +20,7 @@ you can setup the base inaturalist url, for the main inaturalist.org site it mus
 http://www.inaturalist.org
 
 you can also set another inaturalist instalation to get and retrieve the data.
+
+OPTIONAL
+========
+if jquery_update is loading jquery v1.10 the module have multiple images for observations carousel display
