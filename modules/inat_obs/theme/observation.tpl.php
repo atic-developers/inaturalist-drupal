@@ -40,23 +40,37 @@ global $base_url;
   </script>
 
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
+   
   <div class="description"><?php print($observation['description']); ?></div>
-  <div class="observer"><?php print t('Observer: '); ?><a href="<?php print $base_url . '/inat/user/' . $observation['user_id'];?>"><?php print($observation['user_login']); ?></a></div>
-  <div class="date"><?php 
+<?php if(isset($observation['user_id'])): ?>
+  <div class="observer"><span class="label"><?php print t('Observer: '); ?></span><a href="<?php print $base_url . '/inat/user/' . $observation['user_id'];?>"><?php print($observation['user_login']); ?></a></div>
+<?php endif; ?>
+<?php if(isset($observation['observed_on'])): ?> 
+ <div class="date"><?php 
     $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
-    print(t('Date observed: ').$d);
-    ?></div>
-      <div class="place">
-        <?php print(t('Place: ').$observation['place_guess']); ?> 
+    print('<span class="label">'.t('Date observed: ').$d.'</span>');
+?></div>
+<?php endif; ?>
+
+<?php if(isset($observation['place_guess'])): ?> 
+      <div class="place"> <span class="label">
+        <?php print(t('Place: ').'</span>'.$observation['place_guess']); ?> 
         (<span class="latitude"><?php print(t('Lat: ').$observation['latitude']); ?></span> 
          <span class="longitude"><?php print(t('Lon: ').$observation['longitude']); ?></span>)
       </div>
-  <div class="accuracy"><?php print(t('Accuracy: ') . $observation['positional_accuracy']); ?>m</div>
+<?php endif; ?>
+
+<?php if(isset($observation['positional_accuracy'])): ?> 
+  <div class="accuracy"><span class="label"><?php print(t('Accuracy: ').'</span>'. $observation['positional_accuracy']); ?>m</div> 
+<?php endif; ?>
   <?php if(variable_get('inat_base_project','') == '' && isset($observation['project_observations'][0])): ?>
   <?php // remove project info because is obvius and not needed if project is set for the plugin ?>
-    <div class="project"><?php print(t('Project: ')); ?>  <a href="<?php print $base_url . '/inat/project/' . $observation['project_observations'][0]['project_id'] ;?>"><?php print($observation['project_observations'][0]['project']['title']); ?></a></div>
+    <div class="project"><span class="label"><?php print(t('Project: ')); ?></span>  <a href="<?php print $base_url . '/inat/project/' . $observation['project_observations'][0]['project_id'] ;?>"><?php print($observation['project_observations'][0]['project']['title']); ?></a></div>
   <?php endif; ?>
-  <div class="taxon"><?php print(t('Taxon: ')); ?>  <a href="<?php print $base_url . '/inat/taxa/' . $observation['taxon_id'] ;?>"><?php print($observation['species_guess']); ?></a></div>
+  
+<?php if(isset($observation['taxon_id'])): ?> 
+  <div class="taxon"><span class=label> <?php print(t('Taxon: ')); ?></span>  <a href="<?php print $base_url . '/inat/taxa/' . $observation['taxon_id'] ;?>"><?php print($observation['species_guess']); ?></a></div>
+<?php endif; ?>
 </div>
 
 </div>

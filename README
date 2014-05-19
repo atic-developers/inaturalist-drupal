@@ -1,2 +1,17 @@
-iNaturalist Drupal 7 plugin
+iNaturalist integration for Drupal 7 
+Developed by Projecte Ictineo SCCL (http://projecteictineo.com)
+
+INSTALLATION
+============
+
+Install this plugin as a normal Drupal 7 plugin:
+1- Download it
+2- copy it to /sites/all/modules
+3- Enable it
+4- Enjoy!
+
+CONFIGURATION
+=============
+iNaturalist plugin has own configuration page, into:
+ "Configuration" > 
 

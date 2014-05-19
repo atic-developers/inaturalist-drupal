@@ -97,7 +97,7 @@ function inat_login_block_view($delta = '') {
           $_SESSION['inat_access_token'] = $req['access_token'];
         }
  
-      } elseif(!array_key_exists('inat_access_token', $_SESSION) || $_SESSION['inat_access_token'] == NULL) { 
+      } elseif(!isset($_SESSION) || !array_key_exists('inat_access_token', $_SESSION) || $_SESSION['inat_access_token'] == NULL) { 
         global $base_url;
         $block['content'] = '<a href="'.variable_get('inat_base_url', 'http://www.inaturalist.org').'/oauth/authorize?client_id='.variable_get('inat_login_client_id','').'&redirect_uri='.variable_get('inat_login_redirect_uri','').'&response_type=code">'. t('Autorize this app'). '</a> or <a href="'.$base_url.'/inat/add/user">'.t('create new user').'</a>';
       }
