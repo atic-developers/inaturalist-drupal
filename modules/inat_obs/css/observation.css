@@ -24,12 +24,40 @@ figure.photo figurecaption {
   clear: both;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\0000326}}
-.inat_observation_single #map {
-  width: 250px;
-  height: 250px;
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\0000325}}
+.inat_observation_single {
+  background-color: rgba(246, 246, 246, 0.8);
+  margin-top: 0px;
+  border: 1px solid #dddddd;
+  margin-bottom: 15px;
+  padding-left: 5px;
+  display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\0000332}}
 .inat_observation_single h2 {
   clear: both;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\0000335}}
+.inat_observation_single .photo_single {
+  display: inline-block;
+  margin: 15px;
+  vertical-align: top;
+  width: 300px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\0000340}}
+.inat_observation_single .photo_single figurecaption {
+  display: block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\0000344}}
+.inat_observation_single .localitzation {
+  border-right: 1px solid #dddddd;
+  display: inline-block;
+  width: 327px;
+  padding: 10px;
+  border-left: 1px solid;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observation\.scss}line{font-family:\0000351}}
+.inat_observation_single .localitzation #map {
+  width: 250px;
+  height: 281px;
 }

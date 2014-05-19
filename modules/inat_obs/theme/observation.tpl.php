@@ -24,7 +24,7 @@ global $base_url;
       <figurecaption><?php print($observation['observation_photos'][0]['photo']['attribution']); ?></figurecaption>
     <?php endif; ?>
   </figure> <!-- /photo -->
-
+ <div class="localitzation">
    <div id="map" style=""></div>
 
    <script type="text/javascript">
@@ -57,4 +57,6 @@ global $base_url;
     <div class="project"><?php print(t('Project: ')); ?>  <a href="<?php print $base_url . '/inat/project/' . $observation['project_observations'][0]['project_id'] ;?>"><?php print($observation['project_observations'][0]['project']['title']); ?></a></div>
   <?php endif; ?>
   <div class="taxon"><?php print(t('Taxon: ')); ?>  <a href="<?php print $base_url . '/inat/taxa/' . $observation['taxon_id'] ;?>"><?php print($observation['species_guess']); ?></a></div>
+</div>
+
 </div>

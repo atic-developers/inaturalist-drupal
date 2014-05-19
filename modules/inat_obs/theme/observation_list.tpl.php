@@ -23,12 +23,20 @@ global $base_url;
   </div> <!-- /photo -->
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
-  <div class="observer"><?php print(t('Observer: ') . $observation['user']['login']); ?></div>
-  <div class="date"><?php if(isset($observation['observed_on'])){ 
-      $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
-      print(t('Date observed: ').$d);
-    }
-    ?></div>
-  <div class="place"><?php print(t('Place: ').$observation['place_guess']); ?></div>
+  
+ 
+  <?php if(isset($observation['user']['login'])): ?>
+     <div class="observer"><span class="label"><?php print(t('Observer: ') ."</span>". $observation['user']['login']); ?></div> 
+  <?php endif; ?>
 
+    <div class="date"><span class="label"><?php if(isset($observation['observed_on'])){ 
+        $d = DateTime::createFromFormat('Y-m-d', $observation['observed_on'])->format('l j F Y');
+        print(t('Date observed: ')."</span>".$d);
+        } ?>
+    </div>
+
+
+  <?php if(isset($observation['place_guess']) && $observation['place_guess'] != ''): ?>
+    <div class="place"><span class="label"><?php print(t('Place: ')."</span>".$observation['place_guess']); ?></div>
+  <?php endif; ?>
 </div>
