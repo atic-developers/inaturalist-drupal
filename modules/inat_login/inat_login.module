@@ -271,7 +271,7 @@ function inat_login_user_logout() {
  * with the block content for inat_usrinfo block
  */
 function inat_login_usrinfo_content($delta) {
-  if(array_key_exists('inat_access_token', $_SESSION)) {
+  if(isset($_SESSION) && array_key_exists('inat_access_token', $_SESSION)) {
     $verb = 'users/edit.json';
     $query = array();
     $options = array('query' => $query, 'https' => FALSE);

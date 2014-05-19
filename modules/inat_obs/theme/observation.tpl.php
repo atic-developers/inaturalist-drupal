@@ -19,9 +19,19 @@ global $base_url;
     <?php if (array_key_exists('photos_count', $observation) && $observation['photos_count'] == 0): ?>
       <span class="no_photo"><?php print(t('No photo')); ?></span>
     <?php else: ?>
-      <?php //TODO considere multiple photos ?>
-      <img src="<?php print($observation['observation_photos'][0]['photo']['small_url']); ?>" alt="<?php print($observation['description']); ?>" />
-      <figurecaption><?php print($observation['observation_photos'][0]['photo']['attribution']); ?></figurecaption>
+      <?php foreach($observation['observation_photos'] as $id => $img): ?>
+        <div class="cycle-slideshow  img-wrapper img-wrapper-<?php print $id; ?>"
+        data-cycle-slides="> figure"
+        data-cycle-fx=tileSlide
+        data-cycle-tile-vertical=false
+        data-cycle-tile-count=15
+        >
+          <figure>
+            <img src="<?php print($img['photo']['small_url']); ?>" alt="<?php print($observation['description']); ?>" class="img-<?php print $id; ?>"/>
+            <figurecaption><?php print($img['photo']['attribution']); ?></figurecaption>
+          </figure>
+        </div>
+      <?php endforeach; ?>
     <?php endif; ?>
   </figure> <!-- /photo -->
  <div class="localitzation">

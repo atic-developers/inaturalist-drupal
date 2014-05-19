@@ -339,8 +339,8 @@ function inat_obs_preprocess_inat_projects_general(&$var){
 }
 function inat_obs_preprocess_inat_observation(&$var){
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observation.css');
-  drupal_add_js('http://malsup.github.com/jquery.cycle2.js','external');
-  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js','external');
+  drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
+  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
 }
 function inat_obs_preprocess_inat_map(&$var){
  drupal_add_css('http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css','external');
