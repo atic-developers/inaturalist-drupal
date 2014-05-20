@@ -329,7 +329,6 @@ function inat_obs_preprocess_inat_observations_general(&$var) {
     $var['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
   }
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
-  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/taxa_list.css');
 
 
 }
@@ -352,10 +351,11 @@ function inat_obs_preprocess_inat_map(&$var){
 }
 
 function inat_obs_preprocess_inat_place_list (&$var){
-
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/places_list.css');
 }
-
+function inat_obs_preprocess_inat_taxa_list (&$var){
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/taxa_list.css');
+}
 /**
  * helper functions
  */
@@ -572,7 +572,7 @@ function inat_places($page) {
   $json = drupal_json_decode($result->data);
   dsm($json);
   
-  return theme('inat_place_list', array('places' => $json, 'current_page' => $page)).theme('inat_places_list');
+  return theme('inat_place_list', array('places' => $json, 'current_page' => $page));
 }
   
 function inat_user($id) {

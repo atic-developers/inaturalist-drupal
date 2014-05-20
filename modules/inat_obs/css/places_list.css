@@ -12,3 +12,8 @@
 .inat_place.row .photo {
   padding-left: 25px;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/places_list\.scss}line{font-family:\0000314}}
+.pager-wrapper {
+  text-align: center;
+}
