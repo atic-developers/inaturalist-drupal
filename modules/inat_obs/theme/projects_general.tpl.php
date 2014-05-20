@@ -58,7 +58,7 @@ if($isfeatured) {
 foreach( $projects as $id => $obs) {
   print($obs);
 }
-print('<a href="'.$prev_url.'"> prev </a><a href="'.$next_url.'"> next </a>');
+print('<div class="pager"> <a href="'.$prev_url.'"> prev </a><a href="'.$next_url.'"> next </a> </div>');
 
 ?>
 

@@ -1,0 +1,14 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/places_list\.scss}line{font-family:\000031}}
+.inat_place.row {
+  background-color: rgba(246, 246, 246, 0.8);
+  border: 1px solid #dfdfdf;
+  display: inline-block;
+  height: 300px;
+  padding: 10px;
+  vertical-align: top;
+  width: 205px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/places_list\.scss}line{font-family:\000039}}
+.inat_place.row .photo {
+  padding-left: 25px;
+}

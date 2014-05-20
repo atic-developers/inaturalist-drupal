@@ -27,3 +27,8 @@
 .inat_project .description {
   margin-left: 15px;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\0000327}}
+.pager {
+  text-align: center;
+}

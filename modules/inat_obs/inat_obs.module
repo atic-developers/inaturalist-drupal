@@ -330,7 +330,10 @@ function inat_obs_preprocess_inat_observations_general(&$var) {
   }
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/taxa_list.css');
+
+
 }
+
 function inat_obs_preprocess_inat_projects_general(&$var){
   foreach($var['projects'] as $id => $obs) {
     $var['projects'][$id] = theme('inat_projects_list', array('projects' => $obs));
@@ -346,6 +349,11 @@ function inat_obs_preprocess_inat_observation(&$var){
 function inat_obs_preprocess_inat_map(&$var){
  drupal_add_css('http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css','external');
  drupal_add_js("http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js",'external');
+}
+
+function inat_obs_preprocess_inat_place_list (&$var){
+
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/places_list.css');
 }
 
 /**
@@ -564,7 +572,7 @@ function inat_places($page) {
   $json = drupal_json_decode($result->data);
   dsm($json);
   
-  return theme('inat_place_list', array('places' => $json, 'current_page' => $page));
+  return theme('inat_place_list', array('places' => $json, 'current_page' => $page)).theme('inat_places_list');
 }
   
 function inat_user($id) {

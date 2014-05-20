@@ -52,3 +52,8 @@
 .inat_observation > div .label {
   font-style: italic;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000355}}
+.pager-wrapper {
+  text-align: center;
+}
