@@ -1,13 +1,29 @@
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\000031}}
+.inat_project {
+  clear: both;
+  margin-bottom: 18px;
+  display: inline-block;
+  height: 100%;
+  min-height: 100px;
+  width: 100%;
+  border: 1px solid;
+  border-color: #dddddd;
+  background-color: rgba(246, 246, 246, 0.8);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\0000312}}
 .inat_project .photo {
   display: block;
   float: left;
   padding: 0 6px 3px 0px;
   margin-top: 12px;
+  margin-left: 15px;
 }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\000037}}
-.inat_project {
-  clear: both;
-  margin-bottom: 18px;
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\0000319}}
+.inat_project h2 {
+  margin-top: 5px;
+  margin-left: 15px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\0000323}}
+.inat_project .description {
+  margin-left: 15px;
 }
