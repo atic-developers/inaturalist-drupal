@@ -13,3 +13,18 @@
    }
 
 }
+.inat_project.row {
+   border: 1px solid rgb(226, 226, 226); 
+   padding-bottom:10px;
+   .photo {
+     float:right;
+     margin-top: 35px;
+   }
+   h2 {
+     padding-left: 10px
+   }
+   .description {
+     padding-left: 10px;
+     padding-bottom: 10px;
+   }
+  }

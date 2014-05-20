@@ -13,3 +13,23 @@
   display: inline;
   margin-left: 100px;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa_list\.scss}line{font-family:\0000316}}
+.inat_project.row {
+  border: 1px solid #e2e2e2;
+  padding-bottom: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa_list\.scss}line{font-family:\0000319}}
+.inat_project.row .photo {
+  float: right;
+  margin-top: 35px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa_list\.scss}line{font-family:\0000323}}
+.inat_project.row h2 {
+  padding-left: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa_list\.scss}line{font-family:\0000326}}
+.inat_project.row .description {
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
