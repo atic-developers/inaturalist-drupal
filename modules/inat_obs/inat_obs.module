@@ -329,6 +329,7 @@ function inat_obs_preprocess_inat_observations_general(&$var) {
     $var['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
   }
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/taxa_list.css');
 }
 function inat_obs_preprocess_inat_projects_general(&$var){
   foreach($var['projects'] as $id => $obs) {
