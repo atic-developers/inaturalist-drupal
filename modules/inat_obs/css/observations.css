@@ -1,17 +1,17 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\000033}}
+/* line 3, ../sass/observations.scss */
 .block-inat-obs .inat_observation {
   height: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\000036}}
+/* line 6, ../sass/observations.scss */
 .block-inat-obs .inat_observation > div {
   padding-left: 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000311}}
+/* line 11, ../sass/observations.scss */
 .block-inat-obs .inat_observation .photo {
   padding-left: 0px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000321}}
+/* line 21, ../sass/observations.scss */
 .inat_observation {
   background-color: rgba(246, 246, 246, 0.8);
   margin-top: 0px;
@@ -22,7 +22,7 @@
   min-height: 160px;
   clear: both;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000330}}
+/* line 30, ../sass/observations.scss */
 .inat_observation .photo {
   float: left;
   width: 150px;
@@ -32,34 +32,34 @@
   margin: 0 8px 2px 0;
   padding-left: 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000338}}
+/* line 38, ../sass/observations.scss */
 .inat_observation .photo .figure {
   margin-left: 3px;
   margin-right: 9px;
   width: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000345}}
+/* line 45, ../sass/observations.scss */
 .inat_observation .photo img {
   width: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000349}}
+/* line 49, ../sass/observations.scss */
 .inat_observation h2 {
   margin-top: 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000352}}
+/* line 52, ../sass/observations.scss */
 .inat_observation .description {
   text-decoration: italics;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000355}}
+/* line 55, ../sass/observations.scss */
 .inat_observation > div {
   padding-left: 158px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000357}}
+/* line 57, ../sass/observations.scss */
 .inat_observation > div .label {
   font-style: italic;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/observations\.scss}line{font-family:\0000362}}
+/* line 62, ../sass/observations.scss */
 .pager-wrapper {
   text-align: center;
 }

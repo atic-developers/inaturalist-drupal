@@ -1,4 +1,4 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\000031}}
+/* line 1, ../sass/projects.scss */
 .inat_project {
   clear: both;
   margin-bottom: 18px;
@@ -10,7 +10,7 @@
   border-color: #dddddd;
   background-color: rgba(246, 246, 246, 0.8);
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\0000312}}
+/* line 12, ../sass/projects.scss */
 .inat_project .photo {
   display: block;
   float: left;
@@ -18,17 +18,17 @@
   margin-top: 12px;
   margin-left: 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\0000319}}
+/* line 19, ../sass/projects.scss */
 .inat_project h2 {
   margin-top: 5px;
   margin-left: 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\0000323}}
+/* line 23, ../sass/projects.scss */
 .inat_project .description {
   margin-left: 15px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/projects\.scss}line{font-family:\0000327}}
+/* line 27, ../sass/projects.scss */
 .pager {
   text-align: center;
 }

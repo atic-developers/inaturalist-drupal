@@ -1,4 +1,4 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa\.scss}line{font-family:\000032}}
+/* line 2, ../sass/taxa.scss */
 .inat_taxa.row {
   background-color: #f6f6f2;
   border: 1px solid #e6e6e6;
@@ -8,33 +8,33 @@
   vertical-align: top;
   width: 320px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa\.scss}line{font-family:\0000310}}
+/* line 10, ../sass/taxa.scss */
 .inat_taxa.row .photo {
   display: inline;
   margin-left: 100px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa\.scss}line{font-family:\0000316}}
+/* line 16, ../sass/taxa.scss */
 .inat_project.row {
   border: 1px solid #e2e2e2;
   padding-bottom: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa\.scss}line{font-family:\0000319}}
+/* line 19, ../sass/taxa.scss */
 .inat_project.row .photo {
   float: right;
   margin-top: 35px;
   padding: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa\.scss}line{font-family:\0000324}}
+/* line 24, ../sass/taxa.scss */
 .inat_project.row h2 {
   padding-left: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa\.scss}line{font-family:\0000327}}
+/* line 27, ../sass/taxa.scss */
 .inat_project.row .description {
   padding-left: 10px;
   padding-bottom: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/urraca1\/sites\/all\/modules\/inat\/modules\/inat_obs\/sass\/taxa\.scss}line{font-family:\0000331}}
+/* line 31, ../sass/taxa.scss */
 .inat_project.row a {
   padding-left: 10px;
 }
