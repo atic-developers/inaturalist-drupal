@@ -14,7 +14,7 @@ global $base_url;
 
 <div class="inat_observation row" id="obs_<?php print($observation['id']); ?>">
   <div class="photo">
-    <?php if (array_key_exists('photos_count',$observation) && $observation['photos_count'] == 0): ?>
+    <?php if (array_key_exists('photos_count',$observation) && $observation['photos_count'] == 0): ?>  
       <span class="no_photo"><?php print(t('No photo')); ?></span>
     <?php elseif(isset($observation['photos'][0])): ?>
       <div class="cycle-slideshow  img-wrapper img-wrapper-<?php print $id; ?>"
@@ -28,7 +28,11 @@ global $base_url;
           </figure>
         <?php endforeach; ?>
       </div>
-    <?php endif; ?>
+     <?php else: ?>       
+<?php print('<span class="no_photo"> <img src="'.$base_url.'/sites/all/modules/inat/modules/inat_obs/img/default.png"></img></span>'); ?>
+ 
+   <?php endif; ?>
+    
   </div> <!-- /photo -->
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
