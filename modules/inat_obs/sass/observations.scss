@@ -33,8 +33,9 @@
       height: 100%;
       max-height: 150px;
       overflow: hidden;
-      margin: 0 8px 2px 0;
-      padding-left: 0px;     
+      margin: 0 8px 2px -20px;
+      padding-left: 0px;
+      font-size: 10px;     
       .figure {
         margin-left: 3px;
         margin-right: 9px;
@@ -65,3 +66,8 @@
 
 }
 
+.inat_observation .no_photo img {
+    margin-left: 20px;
+    margin-top: 15px;
+    width: 85%;
+}

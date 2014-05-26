@@ -10,12 +10,10 @@
  */
 
 global $base_url;
-dsm($projects);
 
 $query = explode('/',current_path());
 $isfeatured = FALSE;
 $has_prev = FALSE;
-dsm($query);
 if(!isset($query[2])) {
   $query[2] = 'featured';
 }elseif(is_numeric($query[2])) {

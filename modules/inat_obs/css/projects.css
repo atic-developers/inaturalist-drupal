@@ -18,17 +18,21 @@
   margin-top: 12px;
   margin-left: 15px;
 }
-/* line 19, ../sass/projects.scss */
+/* line 18, ../sass/projects.scss */
+.inat_project .photo .no_photo > img {
+  width: 80px;
+}
+/* line 22, ../sass/projects.scss */
 .inat_project h2 {
   margin-top: 5px;
   margin-left: 15px;
 }
-/* line 23, ../sass/projects.scss */
+/* line 26, ../sass/projects.scss */
 .inat_project .description {
   margin-left: 15px;
 }
 
-/* line 27, ../sass/projects.scss */
+/* line 30, ../sass/projects.scss */
 .pager {
   text-align: center;
 }
