@@ -284,8 +284,6 @@ function inat_obs_block_view($delta = '') {
       $options = array('query' => $query, 'https' => FALSE);
       $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
       $options = array('method' => 'GET');
-      dsm('debug info:');
-      dsm($url);
       $result = drupal_http_request($url, $options);
       $json = drupal_json_decode($result->data);
       
@@ -308,8 +306,6 @@ function inat_obs_block_view($delta = '') {
       $options = array('query' => $query, 'https' => FALSE);
       $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
       $options = array('method' => 'GET');
-      dsm('debug info:');
-      dsm($url);
       $result = drupal_http_request($url, $options);
       $json = drupal_json_decode($result->data);
       
@@ -339,6 +335,11 @@ function inat_obs_preprocess_inat_projects_general(&$var){
   }
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/projects.css');
 
+}
+function inat_obs_preprocess_inat_observation_list(&$var) {
+  drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
+  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observation.css');
 }
 function inat_obs_preprocess_inat_observation(&$var){
   drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
@@ -411,8 +412,6 @@ function inat_page_projects($featured = TRUE, $page = NULL) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
   //return var_export($json);
@@ -427,8 +426,6 @@ function inat_projects($id) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_proj = drupal_json_decode($result->data);
 
@@ -438,8 +435,6 @@ function inat_projects($id) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_obs = drupal_json_decode($result->data);
   
@@ -465,8 +460,6 @@ function inat_page_observations($page) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
   
@@ -474,18 +467,13 @@ function inat_page_observations($page) {
   return theme('inat_map', array('observations' => $json)) . theme('inat_observations_general', array('observations' => $json, 'current_page' => $page));
 }
 function inat_page_observation($id) {
-  dsm($id);
   $verb = 'observations/'.$id.'.json';
   $query = array();
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
-  dsm($url);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  dsm($json);
 
   return theme('inat_observation', array('observation' => $json));
 }
@@ -497,8 +485,6 @@ function inat_taxa($id, $page) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_proj = drupal_json_decode($result->data);
 
@@ -511,8 +497,6 @@ function inat_taxa($id, $page) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_obs = drupal_json_decode($result->data);
   
@@ -525,11 +509,8 @@ function inat_taxons() {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  dsm($json);
   
   return theme('inat_taxa_list', array('taxons' => $json));
 }
@@ -541,8 +522,6 @@ function inat_place($id) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_proj = drupal_json_decode($result->data);
 
@@ -552,8 +531,6 @@ function inat_place($id) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_obs = drupal_json_decode($result->data);
   
@@ -570,11 +547,8 @@ function inat_places($page) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  dsm($json);
   
   return theme('inat_place_list', array('places' => $json, 'current_page' => $page));
 }
@@ -586,8 +560,6 @@ function inat_user($id) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_proj = drupal_json_decode($result->data);
 
@@ -598,8 +570,6 @@ function inat_user($id) {
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
-  dsm('debug info:');
-  dsm($url);
   $result = drupal_http_request($url, $options);
   $json_obs = drupal_json_decode($result->data);
   
