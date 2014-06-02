@@ -660,13 +660,13 @@ function inat_obs_obs_add_submit($form, &$form_state) {
       '&observation[longitude]='.$form_state['values']['inat_obs_add_longitude'];
 
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
-  $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'));
+  $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
   $req = drupal_http_request($url, $opt);
   $json = drupal_json_decode($req->data);
 dsm($url);
 dsm($opt);
 dsm($json);
-  if(array_key_exists('errors',$json)) {
+  if($json != NULL && array_key_exists('errors',$json)) {
     drupal_set_message(t('Unexpected error has been produced, iNaturalist message: ') . $json['errors'][0], 'error');
   } else {
     drupal_set_message(t('iNaturalist observation has been corectly created: ') . $json['id'], 'status');
