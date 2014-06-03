@@ -8,7 +8,6 @@
  * the structure is like the retoruned by
  * inaturalist api
  */
-//dsm($observation);
 global $base_url;
 ?>
 

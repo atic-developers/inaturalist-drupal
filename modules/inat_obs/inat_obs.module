@@ -663,9 +663,6 @@ function inat_obs_obs_add_submit($form, &$form_state) {
   $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
   $req = drupal_http_request($url, $opt);
   $json = drupal_json_decode($req->data);
-dsm($url);
-dsm($opt);
-dsm($json);
   if($json != NULL && array_key_exists('errors',$json)) {
     drupal_set_message(t('Unexpected error has been produced, iNaturalist message: ') . $json['errors'][0], 'error');
   } else {

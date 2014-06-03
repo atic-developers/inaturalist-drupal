@@ -8,7 +8,6 @@
  * the structure is like the retoruned by
  * inaturalist api
  */
-//dsm($observation);
 global $base_url;
 $prev_url = $base_url . '/inat/places/';
 $next_url = $prev_url;

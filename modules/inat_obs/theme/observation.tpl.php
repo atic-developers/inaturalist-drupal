@@ -8,7 +8,6 @@
  * the structure is like is retoruned by
  * inaturalist api
  */
-dsm($observation);
 global $base_url;
 ?>
    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />

@@ -8,7 +8,6 @@
  * the structure is like the retoruned by
  * inaturalist api
  */
-//dsm($observation);
 global $base_url;
 ?>
 <div class="inat_project row" id="prj_<?php print($projects['id']); ?>">

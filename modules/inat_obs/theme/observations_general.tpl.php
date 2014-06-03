@@ -12,7 +12,6 @@ global $base_url;
 /**
  * Add mapping bases
  */
-//dsm($observations);
 foreach( $observations as $id => $obs) {
   print($obs);
 }
