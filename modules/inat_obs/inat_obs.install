@@ -1,0 +1,287 @@
+<?php
+/**
+ * Implements hook_uninstall().
+ */
+
+function inat_obs_install() {
+ 
+  node_types_rebuild();
+//  $types = node_type_get_types();
+//  $content_type = $types['inat_obs'];
+    // First we add the body field. Node API helpfully gives us
+    // node_add_body_field().
+    // We'll set the body label now, although we could also set
+    // it along with our other instance properties later.
+//   $body_instance = node_add_body_field($content_type, t('Example Description'));
+
+    // Add our example_node_list view mode to the body instance
+    // display by instructing the body to display as a summary.
+/*
+  $body_instance['display']['example_node_list'] = array(
+      'label' => 'hidden',
+      'type' => 'text_summary_or_trimmed',
+    );
+*/
+    // Save our changes to the body field instance.
+//    field_update_instance($body_instance);
+
+    // Create all the fields we are adding to our content type.
+    foreach (_inat_obs_installed_fields() as $field) {
+      field_create_field($field);
+    }
+
+    // Create all the instances for our fields.
+    foreach (_inat_obs_installed_instances() as $instance) {
+      $instance['entity_type'] = 'node';
+      $instance['bundle'] = 'inat_observation';
+      print_r($instance);
+      field_create_instance($instance);
+    }
+
+}
+
+function _inat_obs_installed_fields() {
+  return array(
+    'inat_obs_add_species_guess' => array(
+      'field_name' => 'inat_obs_add_species_guess',
+      'cardinality' => 3,
+      'type'        => 'text',
+      'settings'    => array(
+        'max_length' => 60,
+      ),
+    ),
+    'inat_obs_add_taxon_id' => array(
+      'field_name'  => 'inat_obs_add_taxon_id',
+      'cardinality' => 1,
+      'type'        => 'text',
+    ),
+    'inat_obs_add_id_please' => array(
+      'field_name' => 'inat_obs_add_id_please',
+      'type'       => 'list_text',
+      'cardinality' => 1,
+      'options' => array(0 => t('No'), 1 => t('Yes')),
+    ),
+    'inat_obs_add_observed_on_string' => array(
+      'field_name'  => 'inat_obs_add_observed_on_string',
+      'cardinality' => 1,
+      'type'        => 'text',
+    ),
+    'inat_obs_add_time_zone' => array(
+      'field_name'  => 'inat_obs_add_time_zone',
+      'cardinality' => 1,
+      'type'        => 'text',
+      'default_value' => drupal_get_user_timezone(),
+    ),
+    'inat_obs_add_place_guess' => array(
+      'field_name'  => 'inat_obs_add_place_guess',
+      'cardinality' => 1,
+      'type'        => 'text',
+    ),
+    'inat_obs_add_map' => array(
+      'field_name'  => 'inat_obs_add_map',
+      'cardinality' => 1,
+      'type'        => 'geofield',
+    ),
+    'inat_obs_add_description' => array(
+      'field_name'  => 'inat_obs_add_description',
+      'cardinality' => 1,
+      'type'        => 'text',
+    ),
+    'inat_obs_add_latitude' => array(
+      'field_name'  => 'inat_obs_add_latitude',
+      'cardinality' => 1,
+      'type'        => 'text',
+    ),
+    'inat_obs_add_longitude' => array(
+      'field_name'  => 'inat_obs_add_longitude',
+      'cardinality' => 1,
+      'type'        => 'text',
+    ),
+  );
+ 
+}
+
+
+/**
+ * Define the field instances for our content type.
+ *
+ * The instance lets Drupal know which widget to use to allow the user to enter
+ * data and how to react in different view modes.  We are going to display a
+ * page that uses a custom "node_example_list" view mode.  We will set a
+ * cardinality of three allowing our content type to give the user three color
+ * fields.
+ *
+ * This big array is factored into this function for readability.
+ *
+ * @return array
+ *   An associative array specifying the instances we wish to add to our new
+ *   node type.
+ */
+
+function _inat_obs_installed_instances() {
+  return array(
+    'inat_obs_add_species_guess' => array(
+      'field_name' => 'inat_obs_add_species_guess',
+      'label'       => t('What did you see?'),
+      'widget'      => array(
+        'type'    => 'text_textfield',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+    'inat_obs_add_taxon_id' => array(
+      'field_name'  => 'inat_obs_add_taxon_id',
+      'label' => t('Taxon'),
+      'type'        => 'text',
+      'widget'      => array(
+        'type'    => 'text_textfield',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+    'inat_obs_add_id_please' => array(                                                                                                               
+      'field_name'  => 'inat_obs_add_id_please',
+      'label'       => t('ID please?'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'options_select',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+   'inat_obs_add_observed_on_string' => array(
+      'field_name'  => 'inat_obs_add_observed_on_string',
+      'label'       => t('Observed On'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'text_textfield',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+   'inat_obs_add_time_zone' => array(                                                                                                               
+      'field_name'  => 'inat_obs_add_time_zone',
+      'label'       => t('Time zone'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'text_textfield',
+      ),
+      'display' => array( 
+      'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+    'inat_obs_add_description' => array(
+      'field_name'  => 'inat_obs_add_description',
+      'label'       => t('Description'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'text_textfield',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+    'inat_obs_add_place_guess' => array(
+      'field_name'  => 'inat_obs_add_place_guess',
+      'label'       => t('Place'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'text_textfield',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+    'inat_obs_add_longitude' => array(
+      'field_name'  => 'inat_obs_add_longitude',
+      'label'       => t('Longitude'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'text_textfield',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+    'inat_obs_add_latitude' => array(
+      'field_name'  => 'inat_obs_add_latitude',
+      'label'       => t('Latitude'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'text_textfield',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+    'inat_obs_add_map' => array(
+      'field_name'  => 'inat_obs_add_map',
+      'label'       => t('Points'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'leaflet_widget_widget',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+  );
+}                                                                                                                                                          
+
+function inat_obs_uninstall() {
+    $ournewtype = 'inat_observation';
+    $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+    $result = db_query($sql, array(':type' => $ournewtype));
+    $nodeids = array();
+    foreach ($result as $row) {
+        $nodeids[] = $row->nid;
+    }
+    node_delete_multiple($nodeids);
+    delete_custom_fields();
+    node_type_delete($ournewtype);
+    field_purge_batch(500);
+}
+function delete_custom_fields() {
+    foreach (array_keys(_inat_obs_installed_fields()) as $field) {
+        field_delete_field($field);
+    }
+    $instances = field_info_instances('node', 'inat_observation');
+    foreach ($instances as $instance_name => $fieldinstance) {
+        field_delete_instance($fieldinstance);
+    }
+}
+?>
