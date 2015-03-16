@@ -7,8 +7,9 @@ INSTALLATION
 Install this plugin as a normal Drupal 7 plugin:
 1- Download it
 2- copy it to /sites/all/modules
-3- Enable it
-4- Enjoy!
+3- Uncompress de libraries.tar.gz into sites/all/libraries
+4- Enable it
+5- Enjoy!
 
 CONFIGURATION
 =============
