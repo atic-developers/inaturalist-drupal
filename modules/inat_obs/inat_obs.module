@@ -1,4 +1,5 @@
 <?php
+
   /**
    * iNaturalist observations module
    * Copyright 2014 Projecte Ictineo SCCL (www.projecteictineo.com)
@@ -210,9 +211,14 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'variables' => array('observations' => NULL, 'context' => 'page'),
       'template' => 'map',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
-    )
- 
-  );
+    ),
+  'node__inat_transect' => array(
+    'render element' => 'content',
+    'base hook' => 'node',
+    'template' => 'node--inat_transect',
+    'path' => drupal_get_path('module','inat_obs') . '/theme',
+  )
+);
 }
 
 /**
@@ -682,6 +688,8 @@ function inat_obs_obs_add_submit($form, &$form_state) {
 function inat_obs_node_submit($node, $form, &$form_state) {
   
   if($node->type == 'inat_observation') {
+    $transect = node_load($form_state['values']['inat_obs_add_reference'][LANGUAGE_NONE]['0']['target_id']); 
+    $appid = variable_get('inat_login_appid', ''); 
     $verb = 'observations.json';
     $data = '?observation[species_guess]='.$form_state['values']['inat_obs_add_species_guess'][LANGUAGE_NONE]['0']['value'].
         '&observation[taxon_id]='.$form_state['values']['inat_obs_add_taxon_id'][LANGUAGE_NONE]['0']['value'].
@@ -690,32 +698,50 @@ function inat_obs_node_submit($node, $form, &$form_state) {
         '&observation[time_zone]='.$form_state['values']['inat_obs_add_time_zone'][LANGUAGE_NONE]['0']['value'].
         '&observation[description]='.$form_state['values']['inat_obs_add_description'][LANGUAGE_NONE]['0']['value'].
         '&observation[place_guess]='.$form_state['values']['inat_obs_add_place_guess'][LANGUAGE_NONE]['0']['value'].
-        '&observation[latitude]='.$form_state['values']['inat_obs_add_latitude'][LANGUAGE_NONE]['0']['value'].
-        '&observation[longitude]='.$form_state['values']['inat_obs_add_longitude'][LANGUAGE_NONE]['0']['value'];
+        '&observation[latitude]='.$form_state['values']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lat'].
+        '&observation[longitude]='.$form_state['values']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lon'].
+        '&observation[observation_field_values_attributes][0][observation_field_id]='.'2508'.
+        '&observation[observation_field_values_attributes][0][value]='.$appid.'-'.$form_state['values']['inat_obs_add_reference'][LANGUAGE_NONE]['0']['target_id'].
+        '&observation[observation_field_values_attributes][1][observation_field_id]='.'2509'.
+        '&observation[observation_field_values_attributes][1][value]='.$transect->inat_obs_add_map[LANGUAGE_NONE]['0']['geom'];
 
-    $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
+    //$url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
     //$opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
-   // $req = drupal_http_request($url, $opt);
-   // $json = drupal_json_decode($req->data);
+    //$req = drupal_http_request($url, $opt);
+    //$json = drupal_json_decode($req->data);
+    //dsm($json); 
    // if($json != NULL && array_key_exists('errors',$json)) {
    //   drupal_set_message(t('Unexpected error has been produced, iNaturalist message: ') . $json['errors'][0], 'error');
    // } else {
    //   drupal_set_message(t('iNaturalist observation has been corectly created: ') . $json['id'], 'status');
-   //  }
+  //  }
   }
 }
 
 function inat_obs_node_info() {
   return array(
+    'inat_transect' => array(
+      'name' => t('Inat Transects'),
+      // 'base' tells Drupal the base string for hook functions.
+      // This is often the module name; if base is set to 'mymodule',
+      // Drupal would call mymodule_insert() or similar for node
+      // hooks. In our case, the base is 'node_example'.
+      'base' => 'inat_obs',
+      'description' => t('Transects provided by plugin'),
+      'title_label' => t('Inat Transects'),
+      // We'll set the 'locked' attribute to TRUE, so users won't be
+      // able to change the machine name of our content type.
+      'locked' => TRUE,
+    ),
     'inat_observation' => array(
-      'name' => t('Inat Observations'),
+      'name' => t('Inat Observation'),
       // 'base' tells Drupal the base string for hook functions.
       // This is often the module name; if base is set to 'mymodule',
       // Drupal would call mymodule_insert() or similar for node
       // hooks. In our case, the base is 'node_example'.
       'base' => 'inat_obs',
       'description' => t('Specific content type to load Inat Observations'),
-      'has_title' => FALSE,
+      'has_title' => TRUE,
       //'title_label' => t('Inat Observations'),
       // We'll set the 'locked' attribute to TRUE, so users won't be
       // able to change the machine name of our content type.

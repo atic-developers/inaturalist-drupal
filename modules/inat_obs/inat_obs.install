@@ -31,11 +31,17 @@ function inat_obs_install() {
     }
 
     // Create all the instances for our fields.
-    foreach (_inat_obs_installed_instances() as $instance) {
+    foreach (_inat_obs_installed_observation_instances() as $instance) {
       $instance['entity_type'] = 'node';
       $instance['bundle'] = 'inat_observation';
       print_r($instance);
       field_create_instance($instance);
+    }
+    
+    foreach (_inat_obs_installed_transect_instances() as $instance2) {
+      $instance2['entity_type'] = 'node';
+      $instance2['bundle'] = 'inat_transect';
+      field_create_instance($instance2);
     }
 
 }
@@ -59,8 +65,10 @@ function _inat_obs_installed_fields() {
       'field_name' => 'inat_obs_add_id_please',
       'type'       => 'list_text',
       'cardinality' => 1,
-      'options' => array(0 => t('No'), 1 => t('Yes')),
-    ),
+      'settings' => array(
+                      'allowed_values' => array(0 => t('No'), 1 => t('Yes')),
+                    ),
+      ),
     'inat_obs_add_observed_on_string' => array(
       'field_name'  => 'inat_obs_add_observed_on_string',
       'cardinality' => 1,
@@ -85,7 +93,7 @@ function _inat_obs_installed_fields() {
     'inat_obs_add_description' => array(
       'field_name'  => 'inat_obs_add_description',
       'cardinality' => 1,
-      'type'        => 'text',
+      'type'        => 'text_long',
     ),
     'inat_obs_add_latitude' => array(
       'field_name'  => 'inat_obs_add_latitude',
@@ -97,6 +105,17 @@ function _inat_obs_installed_fields() {
       'cardinality' => 1,
       'type'        => 'text',
     ),
+    'inat_obs_add_reference' => array(
+      'field_name'  => 'inat_obs_add_reference',
+      'type'        => 'entityreference', 
+      'settings'    => array(
+        'target_type' => 'node',
+        'handler' => 'base',
+        'handler_settings' => array(
+          'target_bundles' => array('inat_transects')
+       ),
+     ),
+   ),
   );
  
 }
@@ -118,7 +137,7 @@ function _inat_obs_installed_fields() {
  *   node type.
  */
 
-function _inat_obs_installed_instances() {
+function _inat_obs_installed_observation_instances() {
   return array(
     'inat_obs_add_species_guess' => array(
       'field_name' => 'inat_obs_add_species_guess',
@@ -152,7 +171,7 @@ function _inat_obs_installed_instances() {
       'label'       => t('ID please?'),
       'required'    => FALSE,
       'widget' => array(
-        'type'    => 'options_select',
+        'type'    => 'options_buttons',
       ),
       'display' => array(
         'custom' => array(
@@ -194,7 +213,7 @@ function _inat_obs_installed_instances() {
       'label'       => t('Description'),
       'required'    => FALSE,
       'widget' => array(
-        'type'    => 'text_textfield',
+        'type'    => 'text_area',
       ),
       'display' => array(
         'custom' => array(
@@ -245,6 +264,54 @@ function _inat_obs_installed_instances() {
         ),
       ),
     ),
+    'inat_obs_reference' => array(
+      'field_name'  => 'inat_obs_add_reference',
+      'label'       => t('Transect'),
+      'required'    => FALSE,
+      'settings' => array(
+        'target_type' => 'node',
+        'handler_settings' => array('target_bundles' => 'inat_transect'), 
+      ),
+      'widget' => array(),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+        ),
+      ),
+    ),
+     'inat_obs_add_map' => array(
+      'field_name'  => 'inat_obs_add_map',
+      'label'       => t('Points'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'leaflet_widget_widget',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ),
+  );
+}                           
+function _inat_obs_installed_transect_instances(){
+
+  return array(
+    'inat_obs_add_description' => array(
+      'field_name'  => 'inat_obs_add_description',
+      'label'       => t('Description'),
+      'required'    => FALSE,
+      'widget' => array(
+        'type'    => 'text_area',
+      ),
+      'display' => array(
+        'custom' => array(
+          'label' => 'hidden',
+          'type' => 'hidden',
+        ),
+      ),
+    ), 
     'inat_obs_add_map' => array(
       'field_name'  => 'inat_obs_add_map',
       'label'       => t('Points'),
@@ -260,7 +327,8 @@ function _inat_obs_installed_instances() {
       ),
     ),
   );
-}                                                                                                                                                          
+
+}
 
 function inat_obs_uninstall() {
     $ournewtype = 'inat_observation';
