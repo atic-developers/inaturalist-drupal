@@ -41,7 +41,6 @@ function inat_obs_install() {
     foreach (_inat_obs_installed_transect_instances() as $instance2) {
       $instance2['entity_type'] = 'node';
       $instance2['bundle'] = 'inat_transect';
-      print_r($instance2);
       field_create_instance($instance2);
     }
 
@@ -279,9 +278,9 @@ function _inat_obs_installed_observation_instances() {
           'label' => 'hidden',
         ),
       ),
-    ), 
-    'inat_obs_add_map' => array(
-      'field_name'  => 'inat_obs_add_map_one',
+    ),
+     'inat_obs_add_map' => array(
+      'field_name'  => 'inat_obs_add_map',
       'label'       => t('Points'),
       'required'    => FALSE,
       'widget' => array(
