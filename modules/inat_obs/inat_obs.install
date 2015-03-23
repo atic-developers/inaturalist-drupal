@@ -236,35 +236,7 @@ function _inat_obs_installed_observation_instances() {
         ),
       ),
     ),
-    'inat_obs_add_longitude' => array(
-      'field_name'  => 'inat_obs_add_longitude',
-      'label'       => t('Longitude'),
-      'required'    => FALSE,
-      'widget' => array(
-        'type'    => 'text_textfield',
-      ),
-      'display' => array(
-        'custom' => array(
-          'label' => 'hidden',
-          'type' => 'hidden',
-        ),
-      ),
-    ),
-    'inat_obs_add_latitude' => array(
-      'field_name'  => 'inat_obs_add_latitude',
-      'label'       => t('Latitude'),
-      'required'    => FALSE,
-      'widget' => array(
-        'type'    => 'text_textfield',
-      ),
-      'display' => array(
-        'custom' => array(
-          'label' => 'hidden',
-          'type' => 'hidden',
-        ),
-      ),
-    ),
-    'inat_obs_reference' => array(
+   'inat_obs_reference' => array(
       'field_name'  => 'inat_obs_add_reference',
       'label'       => t('Transect'),
       'required'    => FALSE,
@@ -329,7 +301,7 @@ function _inat_obs_installed_transect_instances(){
   );
 
 }
-
+/*
 function inat_obs_uninstall() {
     $ournewtype = 'inat_observation';
     $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
@@ -343,6 +315,8 @@ function inat_obs_uninstall() {
     node_type_delete($ournewtype);
     field_purge_batch(500);
 }
+ */
+
 function delete_custom_fields() {
     foreach (array_keys(_inat_obs_installed_fields()) as $field) {
         field_delete_field($field);
