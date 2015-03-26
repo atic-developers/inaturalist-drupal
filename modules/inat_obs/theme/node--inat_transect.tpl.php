@@ -1,7 +1,7 @@
 
 <?php
 global $base_url; 
- ?>
+?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
   <?php print $user_picture; ?>
@@ -34,6 +34,14 @@ global $base_url;
 </div> 
 
 <?php //showing all observations associated with the transect
+
+foreach ($variables['observations'] as $number => $obs): ?>
+  <div class="observation-<?php print $number; ?>"> <?php print($obs); ?> </div>
+      
+<?php endforeach; 
+
+/*
+
 $query = new EntityFieldQuery();
 $query->entityCondition('entity_type', 'node')
   ->entityCondition('bundle', 'inat_observation')
@@ -51,5 +59,6 @@ if (isset($result['node'])) {
    $render = node_view($norender, $view_mode = 'teaser');
    $rendered= drupal_render($render);
    print ($rendered);
-}
+ }
+ */
 ?>

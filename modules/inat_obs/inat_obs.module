@@ -379,21 +379,26 @@ function inat_obs_preprocess_inat_taxa_list (&$var){
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/taxa_list.css');
 }
 function inat_obs_preprocess_node (&$variables){
-  if ('inat_transect' ==$variables['type']) {
-    $verb = 'observations/project/'.$id.'.json';
-    $query = array('per_page' => '40', 'order_by' => 'observed_on');
+ 
+  if ($variables['type'] == 'inat_transect') {
+    $verb = 'observations.json';
+    $query = array('field:transect_id' => $variables['nid'],'per_page' => '40', 'order_by' => 'observed_on');
     $options = array('query' => $query, 'https' => FALSE);
     $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
     $options = array('method' => 'GET');
     $result = drupal_http_request($url, $options);
-    $json_obs = drupal_json_decode($result->data); 
-    dsm($json_obs);
-    
+    $json_obs = drupal_json_decode($result->data);
+    foreach($json_obs as $id => $obs) {
+    $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
+    }
     _preprocess_transect($variables); 
-  } 
+  }
 }
 function _preprocess_transect($variables) {
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect.css');
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
+  drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
+  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
 }
 //view transectes... no funca
 function inat_obs_preprocess_views_view(&$variables){

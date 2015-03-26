@@ -9,7 +9,10 @@
  * inaturalist api
  */
 global $base_url;
+  drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));                                       
+  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
 ?>
+
 
 <div class="inat_observation row" id="obs_<?php print($observation['id']); ?>">
   <div class="photo">
