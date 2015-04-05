@@ -1,5 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the inat_sitebuilding feature.
  */
+
+include_once 'inat_sitebuilding.features.inc';
