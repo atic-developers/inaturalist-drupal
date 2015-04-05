@@ -7,6 +7,7 @@ package = iNaturalist
 version = 0.1
 core = 7.x
 files[] = 
+dependencies[] = inat_sitebuilding
 dependencies[] = inat_base
 dependencies[] = leaflet_widget
 dependencies[] = entityreference
