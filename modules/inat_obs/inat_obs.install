@@ -328,7 +328,7 @@ function _inat_obs_installed_fields() {
         'target_type' => 'node',
         'handler' => 'base',
         'handler_settings' => array(
-          'target_bundles' => array('inat_transects')
+          'target_bundles' => array('inat_transect')
        ),
      ),
    ),
