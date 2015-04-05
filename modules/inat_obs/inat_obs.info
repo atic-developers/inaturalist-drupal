@@ -13,6 +13,7 @@ dependencies[] = leaflet_widget
 dependencies[] = entityreference
 dependencies[] = views
 dependencies[] = views_ui
+dependencies[] = date
 
 
 ; Information added by drupal.org packaging script on 2011-12-05

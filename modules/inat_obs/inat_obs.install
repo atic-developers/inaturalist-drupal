@@ -69,7 +69,7 @@ function _inat_obs_installed_fields() {
                       'allowed_values' => array(0 => t('No'), 1 => t('Yes')),
                     ),
       ),
-    'field_observer_on' = array(
+    'field_observer_on' => array(
       'active' => 1,
       'cardinality' => 1,
       'deleted' => 0,
@@ -97,7 +97,7 @@ function _inat_obs_installed_fields() {
       'translatable' => 0,
       'type' => 'datetime',
     ), 
-    'field_zona_horaria' = array(
+    'field_zona_horaria' => array(
       'active' => 1,
       'cardinality' => 1,
       'deleted' => 0,
@@ -448,7 +448,7 @@ function _inat_obs_installed_transect_instances(){
   );
 
 }
-/*
+
 function inat_obs_uninstall() {
     $ournewtype = 'inat_observation';
     $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
@@ -462,8 +462,8 @@ function inat_obs_uninstall() {
     node_type_delete($ournewtype);
     field_purge_batch(500);
 }
- */
-/*
+ 
+
 function delete_custom_fields() {
     foreach (array_keys(_inat_obs_installed_fields()) as $field) {
         field_delete_field($field);
@@ -473,5 +473,5 @@ function delete_custom_fields() {
         field_delete_instance($fieldinstance);
     }
 }
-*/
+
 ?>
