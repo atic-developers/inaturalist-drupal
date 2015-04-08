@@ -1,4 +1,3 @@
-
 .inat_taxa.row {
     background-color: rgb(246, 246, 242);
     border: 1px solid rgb(230, 230, 230);
@@ -32,5 +31,21 @@
    padding-left:10px;
   }
 }
+.page-inat-taxa {
+  .inat-observation.row {
 
+  }
+}
+.pager-wrapper{
+  text-align: center;
+  #prev-link {
+    float: left;
+  }
+  #next-link {
+    float: right;
+  }
+  a {
+    font-style: normal;
+  }
+}
 

@@ -395,7 +395,13 @@ function _preprocess_transect($variables) {
   drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
   drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
 }
-
+function inat_obs_preprocess_page($vars) {
+    //dsm($vars); //output: nothings that reference the views!
+    if($_GET['q'] == 'transects')
+    {
+       drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect_list.css');
+    }
+}
 //function inat_obs_preprocess_page(&$variables){
   //dsm($variables);
   //drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect_list.css');
@@ -742,6 +748,7 @@ function inat_obs_node_submit($node, $form, &$form_state) {
     if($node->field_imatges != ''){
       $file = file_load($node->field_imatges[LANGUAGE_NONE]['0']['fid']);   
       $ext_url = file_create_url($file->uri);       
+      $lineas = base64_encode(file_get_contents($file->uri)); 
     }
     $appid = variable_get('inat_login_appid', ''); 
     $verb = 'observations.json';
@@ -754,7 +761,7 @@ function inat_obs_node_submit($node, $form, &$form_state) {
         '&observation[place_guess]='.$form_state['values']['inat_obs_add_place_guess'][LANGUAGE_NONE]['0']['value'].
         '&observation[latitude]='.$form_state['values']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lat'].
         '&observation[longitude]='.$form_state['values']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lon'].
-        '&[local_photos][0]='.$ext_url.
+        '&local_photos[0]='.$lineas.
         '&observation[observation_field_values_attributes][0][observation_field_id]='.'2508'.
         '&observation[observation_field_values_attributes][0][value]='.$appid.'-'.$form_state['values']['inat_obs_add_reference'][LANGUAGE_NONE]['0']['target_id'].
         '&observation[observation_field_values_attributes][1][observation_field_id]='.'2509'.
@@ -789,18 +796,18 @@ function inat_obs_node_submit($node, $form, &$form_state) {
          drupal_set_message(t('iNaturalist observation not added to a project '), 'status');
        }
       }
-   /* 
+    
       if($node->field_imatges != ''){
         $file = file_load($node->field_imatges[LANGUAGE_NONE]['0']['fid']);   
         dsm($file);
-        $ext_url = file_create_url($file->uri);       
+        dsm($lineas);
         $verb = 'observation_photos.json';
-        $data = '?observation_photo[observation_id]='.$json['id'].'&file='.$ext_url;
+        $data = '?local_photos['.$json['id'].'][]='.$ext_url;
         $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
         $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'multipart/form-data', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
         $req = drupal_http_request($url, $opt);
         dsm($req);
-      }*/ 
+      } 
     }
    
      

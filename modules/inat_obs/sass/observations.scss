@@ -1,73 +1,66 @@
-.block-inat-obs   {
-
-  .inat_observation  {
-       height: auto;
-
-     & > div {
-
-      padding-left:0px;
-
-     }
-     .photo {
-
-      padding-left:0px;
-     }
-     } 
-
-
-}
-
-
-.inat_observation  {
-    background-color: rgba(246, 246, 246, 0.8);
-    margin-top: 0px; 
-    border: 1px solid rgb(221, 221, 221);
-    margin-bottom: 15px;
-    padding: 10px;
-    display:block;
-    min-height: 160px;
-    clear: both;
-    .photo {
-      float: left;
-      width: 150px;
-      height: 100%;
-      max-height: 150px;
-      overflow: hidden;
-      margin: 0 8px 2px -20px;
-      padding-left: 0px;
-      font-size: 10px;     
-      .figure {
-        margin-left: 3px;
-        margin-right: 9px;
-        width:100%;   
-        }
-
-     
-      img {
-        width: 100%;
-      }
-    }    
-    h2 {
-      margin-top: 0px;
-    } 
-    .description {
-      text-decoration: italics;
-    }
+.block-inat-obs {
+  .inat_observation {
+    height: auto;
     & > div {
-      padding-left: 158px;
-      .label {
-        font-style: italic;
-      }
+      padding-left:0px;
     }
+    .photo {
+      padding-left:0px;
+    }
+  } 
+}
+.inat_observation  {
+  background-color: rgba(246, 246, 246, 0.8);
+  margin-top: 0px; 
+  border: 1px solid rgb(221, 221, 221);
+  margin-bottom: 15px;
+  padding: 10px;
+  display:block;
+  min-height: 190px;
+  clear: both;
+  .photo {
+    float: left;
+    width: 150px;
+    height: 100%;
+    max-height: 170px;
+    overflow: hidden;
+    margin: 0 8px 2px 0px;
+    padding-left: 0px;
+    font-size: 10px;     
+    .figure {
+      margin-left: 3px;
+      margin-right: 9px;
+      width:100%;   
+    }
+    img {
+      width: 100%;
+    }
+  }    
+  h2 {
+    margin-top: 0px;
+  } 
+  .description {
+    text-decoration: italics;
+  }
+  & > div {
+    padding-left: 158px;
+    .label {
+      font-style: italic;
+    }
+  }
 }
 .pager-wrapper {
-
   text-align:center;
+  #prev-link {
+    float: left;
+  }
+  #next-link {
+    float: right;
+  }
 
 }
-
 .inat_observation .no_photo img {
-    margin-left: 20px;
-    margin-top: 15px;
-    width: 85%;
+  margin-left: 20px;
+  margin-top: 15px;
+  width: 85%;
 }

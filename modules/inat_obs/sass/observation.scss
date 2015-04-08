@@ -10,8 +10,6 @@ figure.photo {
     font-size: 70%;
   }
 }
-
-
 .inat_observation {
   #map {
     width: 250px;
@@ -21,7 +19,6 @@ figure.photo {
     clear: both;
   }
 }
-
 .inat_observation_single {  
   background-color: rgba(246, 246, 246, 0.8);
   margin-top: 0px;  
@@ -31,6 +28,8 @@ figure.photo {
   display:block;
   h2 {
     clear: both;
+    font-size: 18px;
+    margin-top: 5px;
   } 
  .photo_single {
    display: inline-block;
@@ -41,22 +40,18 @@ figure.photo {
      display: block;
    }
  }
- .localitzation {
-  
-  border-right: 1px solid rgb(221, 221, 221);
-  display: inline-block;
-  width: 327px;
-  padding: 10px;
-  border-left: 1px solid;
-  #map {
-    width: 250px;
-    height: 281px; 
-    
-  }
-   .label {
+  .localitzation {
+    border-right: none 0px;// 1px solid rgb(221, 221, 221);
+    display: inline-block;
+    width: 327px;
+    padding: 10px;
+    border-left: 1px solid;
+    #map {
+      width: auto;
+      height: 281px; 
+    }
+    .label {
       font-style: italic;
-   }
- }
+    }
+  }
 }
-
- 
