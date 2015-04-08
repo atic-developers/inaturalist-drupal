@@ -1,0 +1,42 @@
+.node-inat-transect.node-full {
+  clear:both;
+  //margin-bottom:18px;
+  display:inline-block;
+  height:100%;
+  min-height:100px;
+  width:100%;
+  //border:1px solid #ddd;
+  padding:10px 0px 0 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-top: 0px none;
+  .submitted {
+    display:none;
+  }
+  h1.page-title {
+    font-size: 24px;
+    line-height: 125%;
+    color:#e65000;
+    border:1px solid #ddd; 
+    border-bottom:0px none; 
+    margin-bottom:0px;
+    padding:10px;
+  }
+  .field-name-inat-obs-add-description {
+    width:35%;
+    margin-right:36px;
+    float:left;
+  }
+  .field-name-inat-obs-add-map { 
+    width: 60%;
+    float:left;
+  }
+  div.field:only-of-type {
+    width: 100%;
+  }
+}
+.node-type-inat-transect {
+  .inat_observation.row {
+    margin-top: -19px;
+  }
+}
