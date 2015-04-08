@@ -4,6 +4,7 @@ package = Features
 dependencies[] = date
 dependencies[] = features
 dependencies[] = geofield
+dependencies[] = geofield_map
 dependencies[] = image
 dependencies[] = inat_obs
 dependencies[] = leaflet_widget
