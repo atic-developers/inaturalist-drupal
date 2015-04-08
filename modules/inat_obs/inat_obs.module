@@ -133,6 +133,26 @@ function inat_obs_menu() {
     //'menu_name' => 'menu-inaturalist',
     //'type' => MENU_NORMAL_ITEM,
   );
+  $items['inat/delete/observation/%'] = array(
+    'title' => t('Delete observation'),
+    //'description' => t('iNaturalist Observations'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('inat_obs_obs_delete'),
+    'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
+    'menu_name' => 'menu-inaturalist',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['inat/update/observation/%'] = array(
+    'title' => t('Add observation'),
+    //'description' => t('iNaturalist Observations'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('inat_obs_obs_update'),
+    'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
+    'menu_name' => 'menu-inaturalist',
+    'type' => MENU_NORMAL_ITEM,
+  );
   $items['inat/add/observation'] = array(
     'title' => t('Add observation'),
     //'description' => t('iNaturalist Observations'),
@@ -377,7 +397,7 @@ function inat_obs_preprocess_inat_taxa_list (&$var){
 function inat_obs_preprocess_node (&$variables){
   if ($variables['type'] == 'inat_transect') {
     $verb = 'observations.json';
-    $query = array('field:transect_id' => $variables['nid'],'per_page' => '40', 'order_by' => 'observed_on');
+    $query = array('field:transect_id' => variable_get('inat_login_appid', '').'-'.$variables['nid'],'per_page' => '40', 'order_by' => 'observed_on');
     $options = array('query' => $query, 'https' => FALSE);
     $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
     $options = array('method' => 'GET');
@@ -643,7 +663,35 @@ function inat_user($id) {
   return  theme('inat_user', array('user' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
 }
 
-function inat_obs_obs_add() { 
+function inat_obs_obs_delete() { 
+
+  $form['inat_obs_delete_sure'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Are you sure?'),
+    '#required' => FALSE,
+  );
+   $form['#validate'] = array('inat_obs_obs_delete_validate');
+   $form['#submit'] = array('inat_obs_obs_delete_submit');
+
+   return system_settings_form($form);
+}  
+
+function inat_obs_obs_delete_validate($form, &$form_state) {
+}
+function inat_obs_obs_delete_submit($form, &$form_state) {
+  $observation_id = arg(3);
+  dsm($observation_id);
+  
+  $verb = 'observations/'.$observation_id.'.json';
+  $data = '';
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
+  $opt = array('method' => 'DELETE', 'data' => $data, 'headers' => array('Content-Type' => 'multipart/form-data', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
+  $req = drupal_http_request($url, $opt);
+  dsm($req);
+
+}
+
+function inat_obs_obs_update() { 
   $form['inat_obs_add_species_guess'] = array(
     '#type' => 'textfield',
     '#title' => t('What did you see?'),
@@ -708,15 +756,18 @@ function inat_obs_obs_add() {
     //'#title' => t(''),
     //'#required' => FALSE,
   //);
-   $form['#validate'] = array('inat_obs_obs_add_validate');
-   $form['#submit'] = array('inat_obs_obs_add_submit');
+   $form['#validate'] = array('inat_obs_obs_update_validate');
+   $form['#submit'] = array('inat_obs_obs_update_submit');
       
    return system_settings_form($form);
 }
-function inat_obs_obs_add_validate($form, &$form_state) {
+function inat_obs_obs_update_validate($form, &$form_state) {
 }
-function inat_obs_obs_add_submit($form, &$form_state) {
-  $verb = 'observations.json';
+function inat_obs_obs_update_submit($form, &$form_state) {
+  $observation_id = arg(3);
+  dsm($observation_id);
+  /*
+  $verb = 'observations/'.$observation_id.'.json';
   $data = '?observation[species_guess]='.$form_state['values']['inat_obs_add_species_guess'].
       '&observation[taxon_id]='.$form_state['values']['inat_obs_add_taxon_id'].
       '&observation[id_please]='.$form_state['values']['inat_obs_add_id_please'].
@@ -728,7 +779,7 @@ function inat_obs_obs_add_submit($form, &$form_state) {
       '&observation[longitude]='.$form_state['values']['inat_obs_add_longitude'];
 
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
-  $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
+  $opt = array('method' => 'PUT', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
   $req = drupal_http_request($url, $opt);
   $json = drupal_json_decode($req->data);
   if($json != NULL && array_key_exists('errors',$json)) {
@@ -737,7 +788,7 @@ function inat_obs_obs_add_submit($form, &$form_state) {
     drupal_set_message(t('iNaturalist observation has been corectly created: ') . $json['id'], 'status');
     drupal_goto('inat/observations');
   }
- 
+   */
 }
 
 function inat_obs_node_submit($node, $form, &$form_state) {
@@ -761,7 +812,7 @@ function inat_obs_node_submit($node, $form, &$form_state) {
         '&observation[place_guess]='.$form_state['values']['inat_obs_add_place_guess'][LANGUAGE_NONE]['0']['value'].
         '&observation[latitude]='.$form_state['values']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lat'].
         '&observation[longitude]='.$form_state['values']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lon'].
-        '&local_photos[0]='.$lineas.
+        '&local_photos[0]='.$file->url.
         '&observation[observation_field_values_attributes][0][observation_field_id]='.'2508'.
         '&observation[observation_field_values_attributes][0][value]='.$appid.'-'.$form_state['values']['inat_obs_add_reference'][LANGUAGE_NONE]['0']['target_id'].
         '&observation[observation_field_values_attributes][1][observation_field_id]='.'2509'.
