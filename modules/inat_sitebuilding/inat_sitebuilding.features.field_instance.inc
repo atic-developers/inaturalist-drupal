@@ -303,6 +303,136 @@ function inat_sitebuilding_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-inat_transect-inat_obs_add_map'
+  $field_instances['node-inat_transect-inat_obs_add_map'] = array(
+    'bundle' => 'inat_transect',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'custom' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'leaflet',
+        'settings' => array(
+          'height' => 400,
+          'icon' => array(
+            'html' => '',
+            'htmlClass' => '',
+            'iconAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'iconImageStyle' => '',
+            'iconSize' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'iconType' => 'marker',
+            'iconUrl' => '',
+            'popupAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'shadowAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'shadowUrl' => '',
+          ),
+          'leaflet_map' => 'OSM Mapnik',
+          'popup' => array(
+            'show' => 1,
+            'text' => '',
+          ),
+          'vector_display' => array(
+            'clickable' => 0,
+            'color' => '',
+            'dashArray' => '',
+            'fill' => 0,
+            'fillColor' => '',
+            'fillOpacity' => '',
+            'opacity' => '',
+            'stroke' => 0,
+            'stroke_override' => 0,
+            'weight' => '',
+          ),
+          'zoom' => array(
+            'initialZoom' => -1,
+            'maxZoom' => -1,
+            'minZoom' => 1,
+          ),
+        ),
+        'type' => 'geofield_leaflet',
+        'weight' => 1,
+      ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'module' => 'geofield_map',
+        'settings' => array(
+          'geofield_map_baselayers_hybrid' => 0,
+          'geofield_map_baselayers_map' => 0,
+          'geofield_map_baselayers_physical' => 0,
+          'geofield_map_baselayers_satellite' => 0,
+          'geofield_map_center' => array(
+            'geocode' => 'Find my location',
+            'lat' => '',
+            'lon' => '',
+          ),
+          'geofield_map_controltype' => 'default',
+          'geofield_map_draggable' => 0,
+          'geofield_map_height' => '30px',
+          'geofield_map_maptype' => 'map',
+          'geofield_map_max_zoom' => 0,
+          'geofield_map_min_zoom' => 0,
+          'geofield_map_mtc' => 'standard',
+          'geofield_map_overview' => 0,
+          'geofield_map_overview_opened' => 0,
+          'geofield_map_pancontrol' => 0,
+          'geofield_map_scale' => 0,
+          'geofield_map_scrollwheel' => 0,
+          'geofield_map_streetview_show' => 0,
+          'geofield_map_width' => '15%',
+          'geofield_map_zoom' => 8,
+        ),
+        'type' => 'geofield_map_map',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'inat_obs_add_map',
+    'label' => 'Points',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'leaflet_widget',
+      'settings' => array(
+        'geocoder' => array(
+          'enabled' => FALSE,
+          'handler' => NULL,
+        ),
+        'map' => array(
+          'auto_center' => 1,
+          'base_url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          'center' => array(
+            'lat' => 42.66,
+            'lng' => -2.64,
+          ),
+          'zoom' => 6,
+        ),
+      ),
+      'type' => 'leaflet_widget_widget',
+      'weight' => -3,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('ID please?');
