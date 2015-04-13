@@ -275,7 +275,7 @@ function inat_login_usrinfo_content($delta) {
     $query = array();
     $options = array('query' => $query, 'https' => FALSE);
     $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
-    $options = array('method' => 'POST', 'headers' => array("Authorization" => "Bearer ".$_SESSION['inat_access_token']));
+    $options = array('method' => 'GET', 'headers' => array("Authorization" => "Bearer ".$_SESSION['inat_access_token']));
     $result = drupal_http_request($url, $options);
     $json = drupal_json_decode($result->data);
     return theme('inat_user_login', array('login' => $json));
