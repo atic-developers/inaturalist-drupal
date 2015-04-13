@@ -424,7 +424,20 @@ function inat_obs_preprocess_node (&$variables){
     foreach($json_obs as $id => $obs) {
       $variables['observa_maps'][$aux]['lat'] = $obs['latitude'];
       $variables['observa_maps'][$aux]['lon'] = $obs['longitude'];
-      $variables['observa_maps'][$aux]['pop'] = '<a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</a>';
+      if(count($obs['photos']) >= 1) {
+        $popup = '<div class="photo"><img src="'.$obs['photos'][0]['small_url'].'" alt="Photo" /> </div> <h2><a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</h2></a>';
+        if(array_key_exists('place_guess',$obs)) {
+          $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
+        }
+      } else {
+        $popup = '<div class="photo">No photo </div> <h2><a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</h2></a>';
+        if(array_key_exists('place_guess', $obs)) {
+          $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
+        }
+      }
+
+      $variables['observa_maps'][$aux]['pop'] = $popup;
+      //$variables['observa_maps'][$aux]['pop'] = '<a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</a>';
       dsm($variables['observa_maps'][$aux]['pop']);
       $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
       $aux++;

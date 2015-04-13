@@ -31,12 +31,12 @@ foreach( $observations as $id => $obs) {
   if($obs['latitude'] != ''){
     //print("var popup = L.popup().setLatLng([".$obs['latitude'].",".$obs['longitude']."]).setContent('asdf').openOn(map);\n");
     if(count($obs['photos']) >= 1) {
-      $popup = '<div class="photo"><img src="'.$obs['photos'][0]['small_url'].'" alt="Photo" /> </div> <h2>'.$obs['species_guess'].'</h2>';
+      $popup = '<div class="photo"><img src="'.$obs['photos'][0]['small_url'].'" alt="Photo" /> </div> <h2><a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</h2></a>';
       if(array_key_exists('place_guess',$obs)) {
         $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
       }
     } else {
-      $popup = '<div class="photo">No photo </div> <h2>'.$obs['species_guess'].'</h2>';
+      $popup = '<div class="photo">No photo </div> <h2><a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</h2></a>';
       if(array_key_exists('place_guess', $obs)) {
         $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
       }
