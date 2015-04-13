@@ -688,7 +688,7 @@ function inat_user($id) {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json_proj = drupal_json_decode($result->data);
-
+  dsm($json_proj);
   $login = $json_proj['login'];
   /** Get observations for the project **/
   $verb = 'observations/'.$login.'.json';
