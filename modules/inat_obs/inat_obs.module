@@ -420,14 +420,17 @@ function inat_obs_preprocess_node (&$variables){
     $result = drupal_http_request($url, $options);
     $json_obs = drupal_json_decode($result->data);
     $aux = 0;
+    dsm($json_obs);
     foreach($json_obs as $id => $obs) {
       $variables['observa_maps'][$aux]['lat'] = $obs['latitude'];
       $variables['observa_maps'][$aux]['lon'] = $obs['longitude'];
+      $variables['observa_maps'][$aux]['pop'] = '<a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</a>';
+      dsm($variables['observa_maps'][$aux]['pop']);
       $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
       $aux++;
     }
     drupal_add_js(array('inat_obs' => array('punts' => $variables['observa_maps'])), 'setting');
-    drupal_add_js(drupal_get_path('modules','inat_obs').'/js/transectpunts.js');
+    drupal_add_js(drupal_get_path('module','inat_obs') . '/js/transectpunts.js');
     _preprocess_transect($variables); 
   }
 }

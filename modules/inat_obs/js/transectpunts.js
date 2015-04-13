@@ -1,9 +1,10 @@
-alert('oaoaoao');
-Drupal.behaviors.inat_obs = {                                                                                                                   
-   attach: function (context, settings) {
-     var map = Drupal.leaflet_widget["leaflet-widget_inat-obs-add-map"]; 
-     for each ( var point in Drupal.settings.inat_obs.punts) {
-       console.log(point);  
+Drupal.behaviors.inat_obs = {                                              attach: function (context, settings) {
+     var map = Drupal.settings.leaflet[0].lMap;
+     for ( var x in Drupal.settings.inat_obs.punts) {
+       lat = Drupal.settings.inat_obs.punts[x].lat;
+       lng = Drupal.settings.inat_obs.punts[x].lon;
+       var points = L.marker([lat, lng]).addTo(map);
+       points.bindPopup("<div id=popup>" + Drupal.settings.inat_obs.punts[x].pop + " </div>");
      }
 
    }
