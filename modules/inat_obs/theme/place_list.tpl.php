@@ -18,8 +18,6 @@ if($current_page > 1) {
 }
 $next_url .= $current_page + 1;
 ?>
- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
- <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 <?php
 foreach($places as $id => $place):
 ?>

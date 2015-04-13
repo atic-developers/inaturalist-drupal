@@ -5,7 +5,6 @@
    * Copyright 2014 Projecte Ictineo SCCL (www.projecteictineo.com)
    * aGPLv3
    */
-
 /**
  * Implements hook_menu()
  */
@@ -163,7 +162,15 @@ function inat_obs_menu() {
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
-
+  $items['inat/add/inat_transect/edit/showonmap/%'] = array(
+    'title' => t(''),
+    //'description' => t('iNaturalist Observations'),
+    'page callback' => array('inat_obs_add_showonmap'),
+    'page arguments' => array(5),
+    'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
+    'delivery callback' => 'drupal_json_output', 
+  );
   return $items;
 }
 
@@ -378,14 +385,23 @@ function inat_obs_preprocess_inat_observation(&$var){
   drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
   drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observation.css');
+  drupal_add_css(libraries_get_path('leaflet').'/leaflet.css');
+  drupal_add_js(libraries_get_path('leaflet').'/leaflet.js');
 }
 function inat_obs_preprocess_inat_map(&$var){
- drupal_add_css('http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css','external');
- drupal_add_js("http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js",'external');
+  drupal_add_css(libraries_get_path('leaflet').'/leaflet.css');
+  drupal_add_js(libraries_get_path('leaflet').'/leaflet.js');
 }
 
+function inat_obs_preprocess_inat_place (&$var){
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/places_list.css');
+  drupal_add_css(libraries_get_path('leaflet').'/leaflet.css');
+  drupal_add_js(libraries_get_path('leaflet').'/leaflet.js');
+}  
 function inat_obs_preprocess_inat_place_list (&$var){
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/places_list.css');
+  drupal_add_css(libraries_get_path('leaflet').'/leaflet.css');
+  drupal_add_js(libraries_get_path('leaflet').'/leaflet.js');
 }
 
 function inat_obs_preprocess_inat_taxa (&$var){
@@ -403,9 +419,15 @@ function inat_obs_preprocess_node (&$variables){
     $options = array('method' => 'GET');
     $result = drupal_http_request($url, $options);
     $json_obs = drupal_json_decode($result->data);
+    $aux = 0;
     foreach($json_obs as $id => $obs) {
-    $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
+      $variables['observa_maps'][$aux]['lat'] = $obs['latitude'];
+      $variables['observa_maps'][$aux]['lon'] = $obs['longitude'];
+      $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
+      $aux++;
     }
+    drupal_add_js(array('inat_obs' => array('punts' => $variables['observa_maps'])), 'setting');
+    drupal_add_js(drupal_get_path('modules','inat_obs').'/js/transectpunts.js');
     _preprocess_transect($variables); 
   }
 }
@@ -414,6 +436,7 @@ function _preprocess_transect($variables) {
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
   drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
   drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
+  
 }
 function inat_obs_preprocess_page($vars) {
     //dsm($vars); //output: nothings that reference the views!
@@ -560,8 +583,8 @@ function inat_page_observation($id) {
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
+  dsm($result);
   $json = drupal_json_decode($result->data);
-
   return theme('inat_observation', array('observation' => $json));
 }
 
@@ -666,13 +689,16 @@ function inat_user($id) {
 function inat_obs_obs_delete() { 
 
   $form['inat_obs_delete_sure'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Are you sure?'),
-    '#required' => FALSE,
+    '#markup' => '<div id=markup_delete> Are you sure? </div>',
   );
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+     '#type' => 'submit',
+     '#value' => t('Delete'),
+   );
    $form['#validate'] = array('inat_obs_obs_delete_validate');
    $form['#submit'] = array('inat_obs_obs_delete_submit');
-
+dsm($form);
    return system_settings_form($form);
 }  
 
@@ -681,7 +707,6 @@ function inat_obs_obs_delete_validate($form, &$form_state) {
 function inat_obs_obs_delete_submit($form, &$form_state) {
   $observation_id = arg(3);
   dsm($observation_id);
-  
   $verb = 'observations/'.$observation_id.'.json';
   $data = '';
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
@@ -691,73 +716,28 @@ function inat_obs_obs_delete_submit($form, &$form_state) {
 
 }
 
+function inat_obs_add_showonmap($id) {
+  $transect = node_load($id);
+  return array('transect' => $transect->inat_obs_add_map[LANGUAGE_NONE]['0']['geom']);
+}
+function inat_obs_ajax_callback($id){
+
+  $transect = node_load($id);
+  dsm($id);
+  print($transect->inat_obs_add_map[LANGUAGE_NONE]['0']['geom']);
+
+}
 function inat_obs_obs_update() { 
-  $form['inat_obs_add_species_guess'] = array(
-    '#type' => 'textfield',
-    '#title' => t('What did you see?'),
-    '#required' => FALSE,
-  );
-  $form['inat_obs_add_taxon_id'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Taxon'),
-    '#required' => FALSE,
-  );
-  $form['inat_obs_add_id_please'] = array(
-    '#type' => 'radios',
-    '#options' => array(0 => t('No'), 1 => t('Yes')),
-    '#title' => t('ID Please?'),
-    '#required' => FALSE,
-  );
-  $form['inat_obs_add_observed_on_string'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Observed on'),
-    '#description' => t('YYYY-MM-DD, p.e. 2014-04-28'),
-    '#required' => FALSE,
-  );
-  $form['inat_obs_add_time_zone'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Time zone'),
-    '#required' => FALSE,
-    '#default_value' => drupal_get_user_timezone(),
-  );
-  $form['inat_obs_add_description'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Description'),
-    '#required' => FALSE,
-  );
-  $form['inat_obs_add_place_guess'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Place'),
-    '#required' => FALSE,
-  );
-  $form['inat_obs_add_map'] = array(
-    '#type' => 'geofield',
-    '#title' => t('Mapa'),
-    '#required' => FALSE,
-    '#description' => t('of the observation. Presumed datum is WGS84.'),
-    '#widget' => array( 
-      'type' => 'leaflet_widget_widget' 
-      )
-  );
-  $form['inat_obs_add_latitude'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Latitude'),
-    '#required' => FALSE,
-    '#description' => t('Latitude of the observation. Presumed datum is WGS84.'),
-  );
-  $form['inat_obs_add_longitude'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Longitude'),
-    '#required' => FALSE,
-    '#description' => t('Longitide of the observation. Presumed datum is WGS84.'),
-  );
-  //$form['inat_obs_add_'] = array(
-    //'#type' => 'textfield',
-    //'#title' => t(''),
-    //'#required' => FALSE,
-  //);
+   module_load_include('inc', 'node', 'node.pages');
+   $node_form = new stdClass;
+   $node_form->type = 'inat_observation';
+   $node_form->language = LANGUAGE_NONE;
+   $form = drupal_get_form("inat_observation_node_form", $node_form);
+   unset($form['field_observer_on']);
+   unset($form['inat_obs_add_id_please']);
    $form['#validate'] = array('inat_obs_obs_update_validate');
    $form['#submit'] = array('inat_obs_obs_update_submit');
+   dsm($form);
       
    return system_settings_form($form);
 }
@@ -765,37 +745,46 @@ function inat_obs_obs_update_validate($form, &$form_state) {
 }
 function inat_obs_obs_update_submit($form, &$form_state) {
   $observation_id = arg(3);
-  dsm($observation_id);
-  /*
+  dsm($form_state);
+dsm($form);
+  $transect = node_load($form_state['input']['inat_obs_add_reference'][LANGUAGE_NONE]['0']['target_id']); 
   $verb = 'observations/'.$observation_id.'.json';
-  $data = '?observation[species_guess]='.$form_state['values']['inat_obs_add_species_guess'].
-      '&observation[taxon_id]='.$form_state['values']['inat_obs_add_taxon_id'].
-      '&observation[id_please]='.$form_state['values']['inat_obs_add_id_please'].
-      '&observation[observed_on_string]='.$form_state['values']['inat_obs_add_observed_on_string'].
-      '&observation[time_zone]='.$form_state['values']['inat_obs_add_time_zone'].
-      '&observation[description]='.$form_state['values']['inat_obs_add_description'].
-      '&observation[place_guess]='.$form_state['values']['inat_obs_add_place_guess'].
-      '&observation[latitude]='.$form_state['values']['inat_obs_add_latitude'].
-      '&observation[longitude]='.$form_state['values']['inat_obs_add_longitude'];
+  $data = '?observation[species_guess]='.$form_state['input']['inat_obs_add_species_guess'][LANGUAGE_NONE]['0']['value'].
+      '&observation[taxon_id]='.$form_state['input']['inat_obs_add_taxon_id'][LANGUAGE_NONE]['0']['value'].
+      '&observation[time_zone]='.$form_state['input']['field_zona_horaria'][LANGUAGE_NONE].
+      '&observation[description]='.$form_state['input']['inat_obs_add_description'][LANGUAGE_NONE]['0']['value'].
+      '&observation[place_guess]='.$form_state['input']['inat_obs_add_place_guess'][LANGUAGE_NONE]['0']['value'].
+     // '&observation[latitude]='.$form_state['input']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lat'][LANGUAGE_NONE]['0']['value'].
+     // '&observation[longitude]='.$form_state['input']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lon'][LANGUAGE_NONE]['0']['value'].
+      '&local_photos[0]='.$file->url.
+      '&observation[observation_field_values_attributes][0][observation_field_id]='.'2508'.
+      '&observation[observation_field_values_attributes][0][value]='.$appid.'-'.$form_state['input']['inat_obs_add_reference'][LANGUAGE_NONE]['0']['target_id'].
+      '&observation[observation_field_values_attributes][1][observation_field_id]='.'2509'.
+      '&observation[observation_field_values_attributes][1][value]='.$transect->inat_obs_add_map[LANGUAGE_NONE]['0']['geom'];
 
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
   $opt = array('method' => 'PUT', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
   $req = drupal_http_request($url, $opt);
   $json = drupal_json_decode($req->data);
+  dsm($req);
   if($json != NULL && array_key_exists('errors',$json)) {
     drupal_set_message(t('Unexpected error has been produced, iNaturalist message: ') . $json['errors'][0], 'error');
   } else {
-    drupal_set_message(t('iNaturalist observation has been corectly created: ') . $json['id'], 'status');
+    drupal_set_message(t('iNaturalist observation has been corectly Updated: ') . $json['id'], 'status');
     drupal_goto('inat/observations');
   }
-   */
+   
 }
+function inat_obs_form_inat_observation_node_form_alter(&$form, $form_state) {
 
+  dsm('olaaaa');  
+  drupal_add_js(drupal_get_path('module','inat_obs') . '/js/showonmap.js', array('scope' => 'footer'));
+
+}
 function inat_obs_node_submit($node, $form, &$form_state) {
   
   if($node->type == 'inat_observation') {
     $transect = node_load($form_state['values']['inat_obs_add_reference'][LANGUAGE_NONE]['0']['target_id']); 
-    dsm($form_state);
     if($node->field_imatges != ''){
       $file = file_load($node->field_imatges[LANGUAGE_NONE]['0']['fid']);   
       $ext_url = file_create_url($file->uri);       

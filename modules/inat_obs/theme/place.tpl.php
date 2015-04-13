@@ -10,8 +10,6 @@
  */
 global $base_url;
 ?>
- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
- <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 <div class="inat_project row" id="prj_<?php print($place['id']); ?>">
   <div class="photo">
     <div id="map-<?php print($place['id']); ?>" style="width: 400px; height: 400px;"></div>
