@@ -49,7 +49,6 @@ function inat_login_menu() {
   );
   return $items;
 }
-
 /**
  * Implements hook_block_info()
  */
@@ -278,6 +277,7 @@ function inat_login_usrinfo_content($delta) {
     $options = array('method' => 'GET', 'headers' => array("Authorization" => "Bearer ".$_SESSION['inat_access_token']));
     $result = drupal_http_request($url, $options);
     $json = drupal_json_decode($result->data);
+    variable_set('user_login_moment',$json['login']);
     return theme('inat_user_login', array('login' => $json));
   } else {
     return "iNat session not started o timed out";

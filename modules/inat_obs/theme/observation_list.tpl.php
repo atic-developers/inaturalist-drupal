@@ -11,6 +11,7 @@
 global $base_url;
   drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));                                       
   drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
+dsm($observation);
 ?>
 
 
@@ -36,6 +37,11 @@ global $base_url;
    <?php endif; ?>
     
   </div> <!-- /photo -->
+  <div id=delete>
+    <?php if( variable_get('user_login_moment','') == $observation['user_login'] ): ?>
+    <div id=enlace><?php print('<a href="'.$base_url.'/inat/delete/observation/'.$observation['id'].'"> Delete Observation </a>');?> </div>
+    <?php endif; ?>
+ </div>
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
   

@@ -114,8 +114,8 @@ function inat_obs_menu() {
   $items['inat/observations/%'] = array(
     'title' => t('Observations'),
     'description' => t('iNaturalist Observations'),
-    'page callback' => 'inat_page_observations',
-    'page arguments' => array(2),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('inat_page_observations',2),
     //'access arguments' => array('access inaturalist content'),
     'access callback' => TRUE,
     'menu_name' => 'menu-inaturalist',
@@ -146,7 +146,7 @@ function inat_obs_menu() {
     'title' => t('Add observation'),
     //'description' => t('iNaturalist Observations'),
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('inat_obs_obs_update'),
+    'page arguments' => array('inat_obs_obs_update',3),
     'access arguments' => array('access inaturalist content'),
     'access callback' => TRUE,
     'menu_name' => 'menu-inaturalist',
@@ -420,7 +420,6 @@ function inat_obs_preprocess_node (&$variables){
     $result = drupal_http_request($url, $options);
     $json_obs = drupal_json_decode($result->data);
     $aux = 0;
-    dsm($json_obs);
     foreach($json_obs as $id => $obs) {
       $variables['observa_maps'][$aux]['lat'] = $obs['latitude'];
       $variables['observa_maps'][$aux]['lon'] = $obs['longitude'];
@@ -437,8 +436,6 @@ function inat_obs_preprocess_node (&$variables){
       }
 
       $variables['observa_maps'][$aux]['pop'] = $popup;
-      //$variables['observa_maps'][$aux]['pop'] = '<a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</a>';
-      dsm($variables['observa_maps'][$aux]['pop']);
       $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
       $aux++;
     }
@@ -688,7 +685,6 @@ function inat_user($id) {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json_proj = drupal_json_decode($result->data);
-  dsm($json_proj);
   $login = $json_proj['login'];
   /** Get observations for the project **/
   $verb = 'observations/'.$login.'.json';
@@ -744,6 +740,18 @@ function inat_obs_ajax_callback($id){
 
 }
 function inat_obs_obs_update() { 
+   $id = arg(3);
+   dsm($id);
+   $verb = 'observations/'.$id.'.json';
+   $query = array();
+   $options = array('query' => $query, 'https' => FALSE);
+   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+   $options = array('method' => 'GET');
+   $result = drupal_http_request($url, $options);
+   dsm($result);
+   $json = drupal_json_decode($result->data);
+   dsm($json);
+
    module_load_include('inc', 'node', 'node.pages');
    $node_form = new stdClass;
    $node_form->type = 'inat_observation';
@@ -753,6 +761,19 @@ function inat_obs_obs_update() {
    unset($form['inat_obs_add_id_please']);
    $form['#validate'] = array('inat_obs_obs_update_validate');
    $form['#submit'] = array('inat_obs_obs_update_submit');
+   $form['inat_obs_add_species_guess']['und']['0']['value']['#value'] = $json['species_guess'];
+   $form['inat_obs_add_description']['und']['0']['value']['#value'] = $json['description'];
+   $form['inat_obs_add_taxon_id ']['und']['0']['value']['#value'] = $json['taxon_id'];
+   $form['inat_obs_add_place_guess']['und']['0']['value']['#value'] = $json['place_guess'];
+   //preparamos el campo reference del json
+   $cadena_de_texto = $json['observation_field_values']['0']['value'];
+   $cadena_buscada   = '-';
+   $posicion_coincidencia = strpos($cadena_de_texto, $cadena_buscada);
+   $reference = substr($cadena_de_texto, $posicion_coincidencia+1);
+   // AIXO S'HA DE CAMBIAR PER UNA ENTITY QUERY
+   $transect = node_load($reference);
+   dsm($transect);   
+   $form['inat_obs_add_reference']['und']['0']['target_id']['#value'] = $transect->title;
    dsm($form);
       
    return system_settings_form($form);
@@ -793,7 +814,6 @@ dsm($form);
 }
 function inat_obs_form_inat_observation_node_form_alter(&$form, $form_state) {
 
-  dsm('olaaaa');  
   drupal_add_js(drupal_get_path('module','inat_obs') . '/js/showonmap.js', array('scope' => 'footer'));
 
 }

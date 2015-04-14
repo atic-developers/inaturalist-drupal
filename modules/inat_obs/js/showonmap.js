@@ -1,6 +1,6 @@
  Drupal.behaviors.inat_obs = {
     attach: function (context, settings) {
-      jQuery('#edit-inat-obs-add-reference-und-0-target-id').change(function (){ 
+     jQuery('#edit-inat-obs-add-reference-und-0-target-id').change(function (){ 
       var id = parseInt(jQuery(this).val().split('(').pop().replace(')',''));
 
       jQuery.ajax({
