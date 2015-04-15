@@ -1,0 +1,39 @@
+body.page-inat-user {
+  h1.page-title {
+    display: none;
+  }
+  .content {
+    .inat_project.row {
+      .photo {
+        float: left;
+        margin-right: 30px;
+        img {
+          width: 200px;
+          height: 200px;
+          border-radius: 100px;
+        }
+      }
+      h2 {
+        padding-top: 40px;
+        margin-bottom: 24px;
+      }
+      .observation_count,
+      .ident_count {
+        label,
+        h2 {
+          display: inline-block;
+          font-size: 14px;
+        }
+        h2 {
+          color: green;
+        }
+      }
+      .journal_count {
+        margin-top: 80px;
+      }
+      .description {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

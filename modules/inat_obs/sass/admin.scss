@@ -1,0 +1,65 @@
+/*Atic customizes administration theme*/
+body.logged-in {
+  a {
+    color: #FB5A02;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .page-admin-dashboard #main-content #dashboard {
+    h2 {
+    font-size: 16px;
+    font-weight: 600;
+    }
+    .content ul.menu li {
+      list-style: none;
+      display: inline;
+      background-color: #0a6700;
+      padding: 5px 10px;
+      margin-right: 10px;
+      a {
+        color: white;
+        &:hover {
+          color: #FB5A02;
+        }
+      }
+    }
+  }
+
+  fieldset legend,
+  .form-item label,
+  .exposed-filters .form-item label {
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+
+  #inat-observation-node-form #edit-field-imatges,
+  #inat-transect-node-form #inat-obs-add-description-add-more-wrapper,
+  #inat-observation-node-form #inat-obs-add-description-add-more-wrapper,
+  #inat-observation-node-form #edit-field-observer-on {
+    width: 80%;
+  }
+  #inat-observation-node-form #edit-inat-obs-add-id-please-und .form-item {
+    display: inline-block;
+    margin-right:12px;
+    input {
+      vertical-align: middle;
+    }
+    label {
+      font-size: 12px;
+    }
+  }
+  #inat-observation-node-form > div > div {
+    float: left;
+    width: 45%;
+  }
+  #inat-transect-node-form #edit-inat-obs-add-map, 
+  #inat-observation-node-form #edit-inat-obs-add-map {
+    width: 100%;
+  }
+  #inat-observation-node-form > div div.vertical-tabs, 
+  #inat-observation-node-form > div div.vertical-tabs {
+    width: 100%;
+  }
+}
