@@ -9,9 +9,9 @@
  * inaturalist api
  */
 global $base_url;
-  drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));                                       
-  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
-dsm($observation);
+  //drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
+ // drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
+////dsm($observation);
 ?>
 
 
