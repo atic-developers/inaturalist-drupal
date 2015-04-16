@@ -18,6 +18,9 @@
   display:block;
   min-height: 190px;
   clear: both;
+  &:hover {
+    background-color: rgba(234, 246, 246, 0.8);
+  }
   .photo {
     float: left;
     width: 150px;

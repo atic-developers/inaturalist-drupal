@@ -88,12 +88,12 @@ function inat_login_block_view($delta = '') {
         $data = 'client_id='.$client_id.'&client_secret='.$client_secret.'&code='.$code.'&redirect_uri='.$redirect_uri.'&grant_type=authorization_code';
         $url = url('https://www.inaturalist.org/oauth/token', array('https' => 'TRUE'));  
         $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'));
-        $req = drupal_json_decode(drupal_http_request($url, $opt)->data); 
-
+        $req = drupal_json_decode(drupal_http_request($url, $opt)->data);
         if(!array_key_exists('access_token', $req)) {
           $block['content'] = '<a href="'.variable_get('inat_base_url', 'http://www.inaturalist.org').'/oauth/authorize?client_id='.variable_get('inat_login_client_id','').'&redirect_uri='.variable_get('inat_login_redirect_uri','').'&response_type=code">'. t('Autorize this app'). '</a>';
         } else {
           $_SESSION['inat_access_token'] = $req['access_token'];
+          inat_login_check_project($delta);             
         }
  
       } elseif(!isset($_SESSION) || !array_key_exists('inat_access_token', $_SESSION) || $_SESSION['inat_access_token'] == NULL) { 
@@ -108,7 +108,41 @@ function inat_login_block_view($delta = '') {
   }
   return $block;
 }
+function inat_login_check_project($delta) {
+  if(isset($_SESSION) && array_key_exists('inat_access_token', $_SESSION)) {
+    $verb = 'users/edit.json';
+    $query = array();
+    $options = array('query' => $query, 'https' => FALSE);
+    $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+    $options = array('method' => 'GET', 'headers' => array("Authorization" => "Bearer ".$_SESSION['inat_access_token']));
+    $result = drupal_http_request($url, $options);
+    $json = drupal_json_decode($result->data);
+    variable_set('user_login_moment',$json['login']);
+    $verb = 'projects/user/'.$json['login'].'.json';
+    $query = array();
+    $options = array('query' => $query, 'https' => FALSE);
+    $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+    $options = array('method' => 'GET', 'headers' => array("Authorization" => "Bearer ".$_SESSION['inat_access_token']));
+    $result = drupal_http_request($url, $options);
+    $json2 = drupal_json_decode($result->data);
+    dsm($json2);
+    $project = variable_get('inat_base_project', '');
+    $aux = 0;
+    $project_name = '';
+    foreach ($json2 as $key => $inatpjr) {
+      if ($inatpjr['project_id'] == $project){
+        $aux = $aux +1;
+        $project_name = $inatpjr['project']['title'];
+      }
+    }
+    if ($aux == 1) {
+      // Aqui missatge de tot ok! i anem a observacions
+    }else {
+      drupal_goto('inat/addto/project');
+    }
+  }
 
+}
 
 /**
  * Helper functions [no hooks]
@@ -204,6 +238,7 @@ function inat_login_user_add_submit($form, &$form_state) {
   } else {
     drupal_set_message(t('iNaturalist user has been corectly created: ') . $json['login'], 'status');
     drupal_set_message(t('In order to login and authorize this app visit: ').variable_get('inat_base_url', 'http://www.inaturalist.org').'/oauth/authorize?client_id='.variable_get('inat_login_client_id','').'&redirect_uri='.variable_get('inat_login_redirect_uri','').'&response_type=code', 'status');
+
     drupal_goto('inat/observations');
   }
 
@@ -277,6 +312,7 @@ function inat_login_usrinfo_content($delta) {
     $options = array('method' => 'GET', 'headers' => array("Authorization" => "Bearer ".$_SESSION['inat_access_token']));
     $result = drupal_http_request($url, $options);
     $json = drupal_json_decode($result->data);
+    $_SESSION['user_id'] = $json['id'];
     variable_set('user_login_moment',$json['login']);
     return theme('inat_user_login', array('login' => $json));
   } else {

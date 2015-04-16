@@ -45,7 +45,17 @@ function inat_obs_menu() {
       //'type' => MENU_NORMAL_ITEM,
     );
   }
-
+    $items['inat/addto/project'] = array(
+        'title' => t('Add to the project'),
+      'description' => t('Add to project'),
+      'page callback' => 'inat_user_to_project',
+      'page arguments' => array('inat_user_to_project'),
+      //'access arguments' => array('access inaturalist content'),
+      'access callback' => TRUE,
+      'menu_name' => 'menu-inaturalist',
+      'type' => MENU_NORMAL_ITEM,
+    );
+  
   $items['inat/taxa/%/%'] = array(
     'title' => t('Species'),
     //'description' => t('iNaturalist Species'),
@@ -99,16 +109,15 @@ function inat_obs_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   $items['inat/places'] = $items['inat/places/%'];
- 
   $items['inat/user/%'] = array(
     'title' => t('Users'),
-    //'description' => t('iNaturalist Species'),
+   // 'description' => t('iNaturalist Species'),
     'page callback' => 'inat_user',
     'page arguments' => array(2),
     'access arguments' => array('access inaturalist content'),
     'access callback' => TRUE,
-    //'menu_name' => 'menu-inaturalist',
-    //'type' => MENU_NORMAL_ITEM,
+  //  'menu_name' => 'menu-inaturalist',
+  //  'type' => MENU_NORMAL_ITEM,
   );
  
   $items['inat/observations/%'] = array(
@@ -366,24 +375,20 @@ function inat_obs_preprocess_inat_observations_general(&$var) {
     $var['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
   }
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
-
-
 }
-
 function inat_obs_preprocess_inat_projects_general(&$var){
   foreach($var['projects'] as $id => $obs) {
     $var['projects'][$id] = theme('inat_projects_list', array('projects' => $obs));
   }
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/projects.css');
-
 }
 function inat_obs_preprocess_inat_observation_list(&$var) {
-  drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
-  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
+  drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
+  drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
 }
 function inat_obs_preprocess_inat_observation(&$var){
-  drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
-  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
+  drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
+  drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observation.css');
   drupal_add_css(libraries_get_path('leaflet').'/leaflet.css');
   drupal_add_js(libraries_get_path('leaflet').'/leaflet.js');
@@ -392,7 +397,6 @@ function inat_obs_preprocess_inat_map(&$var){
   drupal_add_css(libraries_get_path('leaflet').'/leaflet.css');
   drupal_add_js(libraries_get_path('leaflet').'/leaflet.js');
 }
-
 function inat_obs_preprocess_inat_place (&$var){
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/places_list.css');
   drupal_add_css(libraries_get_path('leaflet').'/leaflet.css');
@@ -403,7 +407,6 @@ function inat_obs_preprocess_inat_place_list (&$var){
   drupal_add_css(libraries_get_path('leaflet').'/leaflet.css');
   drupal_add_js(libraries_get_path('leaflet').'/leaflet.js');
 }
-
 function inat_obs_preprocess_inat_taxa (&$var){
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/taxa.css');
 }
@@ -434,7 +437,6 @@ function inat_obs_preprocess_node (&$variables){
           $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
         }
       }
-
       $variables['observa_maps'][$aux]['pop'] = $popup;
       $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
       $aux++;
@@ -447,42 +449,24 @@ function inat_obs_preprocess_node (&$variables){
 function _preprocess_transect($variables) {
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect.css');
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/observations.css');
-  drupal_add_js('http://malsup.github.com/jquery.cycle2.js',array('type' => 'external', 'scope' => 'footer'));
-  drupal_add_js('http://malsup.github.io/jquery.cycle2.tile.js',array('type' => 'external', 'scope' => 'footer'));
-  
+  drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
+  drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
 }
 function inat_obs_preprocess_page($vars) {
     //dsm($vars); //output: nothings that reference the views!
-    if($_GET['q'] == 'transects')
-    {
-       drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect_list.css');
-    }
+  if($_GET['q'] == 'transects') {
+     drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect_list.css');
+  }
+  if(strstr($_SERVER['REQUEST_URI'], "inat/user")) {//css for inat profile pages
+     drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/inat_user.css');
+  }
 }
-//function inat_obs_preprocess_page(&$variables){
-  //dsm($variables);
-  //drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect_list.css');
-  //}
-//}
-
-//function inat_obs_views_pre_render(&$view) {
-  //dpm($view);
-  //if ($view->name == 'transects') {
-    //drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect_list.css');
-  //}  
-//}
-
-//function inat_obs_theme_registry_alter(&$theme_registry) {
-  //dsm($theme_registry);
-  //$theme_registry['views_view__transects']['preprocess functions'][] = 'inat_obs_preprocess_func';
-//}
-// now go on and play with your new preprocess function
-//function inat_obs_preprocess_func(&$vars) {
-    //drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/transect_list.css');
-//}
-
-
-
-
+function inat_obs_init() {//css for admin pages
+  if (path_is_admin(current_path())) {
+    $path = drupal_get_path('module', 'inat_obs');
+    drupal_add_css($path . '/css/admin.css');
+  }
+}
 
 
 /**
@@ -542,6 +526,27 @@ function inat_page_projects($featured = TRUE, $page = NULL) {
   return  theme('inat_projects_general', array('projects' => $json));
  
 }
+
+function inat_user_to_project() {
+    $projectid = variable_get('inat_base_project','');
+    if ($projectid != '') {
+      $verb ='projects/'.$projectid.'/join.json';
+      $url = url(variable_get('inat_base_url','http:www.inaturalist.org').'/'.$verb, array('https' => 'TRUE'));  
+      $opt = array('method' => 'POST', 'data' => '', 'headers' => array('Content-Type' => 'multipart/x-www-form-urlencoded ', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
+      $req = drupal_http_request($url, $opt); 
+      $json = drupal_json_decode($req->data);
+      if ($req->status_message == 'OK') { 
+        drupal_set_message(t('Now, you have been added to the projecte'), 'status');
+        variable_set('user-'.$json['user_id'],$json['project_id']); 
+      } else {
+        drupal_set_message(t('Ops, some happends, contact with de developers: ') . $req->status_message, 'error');
+      }
+      return drupal_goto('inat/observation');
+      
+    }
+    return drupal_goto('inat/observations');
+}
+
 
 function inat_projects($id) {
   /** Get the project information **/

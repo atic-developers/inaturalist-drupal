@@ -7,6 +7,9 @@
     padding: 10px;
     vertical-align: top;
     width: 640px;
+    &:hover {
+      background-color: rgba(234, 246, 246, 0.8);
+    }
     .views-field.views-field-title {
       font-size: 24px;
       padding-left: 10px;
