@@ -110,6 +110,7 @@ function inat_login_block_view($delta = '') {
 }
 function inat_login_check_project($delta) {
   if(isset($_SESSION) && array_key_exists('inat_access_token', $_SESSION)) {
+    // Informació de l'usuari
     $verb = 'users/edit.json';
     $query = array();
     $options = array('query' => $query, 'https' => FALSE);
@@ -118,6 +119,7 @@ function inat_login_check_project($delta) {
     $result = drupal_http_request($url, $options);
     $json = drupal_json_decode($result->data);
     variable_set('user_login_moment',$json['login']);
+    // Projecte del usuari, 
     $verb = 'projects/user/'.$json['login'].'.json';
     $query = array();
     $options = array('query' => $query, 'https' => FALSE);
@@ -125,10 +127,8 @@ function inat_login_check_project($delta) {
     $options = array('method' => 'GET', 'headers' => array("Authorization" => "Bearer ".$_SESSION['inat_access_token']));
     $result = drupal_http_request($url, $options);
     $json2 = drupal_json_decode($result->data);
-    dsm($json2);
     $project = variable_get('inat_base_project', '');
     $aux = 0;
-    $project_name = '';
     foreach ($json2 as $key => $inatpjr) {
       if ($inatpjr['project_id'] == $project){
         $aux = $aux +1;
@@ -248,7 +248,7 @@ function inat_login_user_logout() {
   unset($_SESSION['inat_code']);
   unset($_SESSION['inat_access_token']);
   drupal_set_message(t('You have correct loggued out form iNat plugin'), 'status');
-  drupal_goto('inat/observations');
+  drupal_goto('inat/transects');
 }
 
 /**

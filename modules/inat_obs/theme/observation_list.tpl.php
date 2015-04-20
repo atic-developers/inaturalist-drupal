@@ -13,7 +13,7 @@ global $base_url;
   drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
   //drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
  // drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
-////dsm($observation);
+dsm($observation);
 ?>
 
 
@@ -42,6 +42,7 @@ global $base_url;
   <div id=delete>
     <?php if( variable_get('user_login_moment','') == $observation['user_login'] ): ?>
     <div id=enlace><?php print('<a href="'.$base_url.'/inat/delete/observation/'.$observation['id'].'"> Delete Observation </a>');?> </div>
+    <div id=enlace><?php print('<a href="'.$base_url.'/inat/delete/observation/'.$observation['id'].'"> Join to project </a>');?> </div>
     <?php endif; ?>
  </div>
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>

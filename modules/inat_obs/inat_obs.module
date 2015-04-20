@@ -52,8 +52,8 @@ function inat_obs_menu() {
       'page arguments' => array('inat_user_to_project'),
       //'access arguments' => array('access inaturalist content'),
       'access callback' => TRUE,
-      'menu_name' => 'menu-inaturalist',
-      'type' => MENU_NORMAL_ITEM,
+//      'menu_name' => 'menu-inaturalist',
+//      'type' => MENU_NORMAL_ITEM,
     );
   
   $items['inat/taxa/%/%'] = array(
@@ -829,7 +829,8 @@ function inat_obs_node_submit($node, $form, &$form_state) {
     if($node->field_imatges != ''){
       $file = file_load($node->field_imatges[LANGUAGE_NONE]['0']['fid']);   
       $ext_url = file_create_url($file->uri);       
-      $lineas = base64_encode(file_get_contents($file->uri)); 
+      $boundary = 'AaB03x';
+      $lineas = multipart_encode($boundary,$ext_url); 
     }
     $appid = variable_get('inat_login_appid', ''); 
     $verb = 'observations.json';
@@ -842,14 +843,13 @@ function inat_obs_node_submit($node, $form, &$form_state) {
         '&observation[place_guess]='.$form_state['values']['inat_obs_add_place_guess'][LANGUAGE_NONE]['0']['value'].
         '&observation[latitude]='.$form_state['values']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lat'].
         '&observation[longitude]='.$form_state['values']['inat_obs_add_map'][LANGUAGE_NONE]['0']['lon'].
-        '&local_photos[0]='.$file->url.
         '&observation[observation_field_values_attributes][0][observation_field_id]='.'2508'.
         '&observation[observation_field_values_attributes][0][value]='.$appid.'-'.$form_state['values']['inat_obs_add_reference'][LANGUAGE_NONE]['0']['target_id'].
         '&observation[observation_field_values_attributes][1][observation_field_id]='.'2509'.
         '&observation[observation_field_values_attributes][1][value]='.$transect->inat_obs_add_map[LANGUAGE_NONE]['0']['geom'];
 
     $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
-    $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'multipart/form-data ', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
+    $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'multipart/form-data', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
     $req = drupal_http_request($url, $opt);
     $jsondecode = get_string_between($req->data,"{","}");
     dsm($req);
@@ -878,22 +878,39 @@ function inat_obs_node_submit($node, $form, &$form_state) {
          drupal_set_message(t('iNaturalist observation not added to a project: ').$jsonproject['errors']['0'], 'status');
        }
       }
-   /* 
+   
       if($node->field_imatges != ''){
-        $file = file_load($node->field_imatges[LANGUAGE_NONE]['0']['fid']);   
         $verb = 'observation_photos.json';
-        $data = '?local_photos['.$json['id'].'][]='.$ext_url;
+        $data = '?local_photos[observation_id]='.$json['id'].'&file='.$lineas;
         $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
-        $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'multipart/form-data', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
+        $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'multipart/form-data; boundary='.$boundary, 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
         $req = drupal_http_request($url, $opt);
         dsm($req);
-      } */
+      } 
     }
-   
-     
-  
-  
+    drupal_goto('inat/observations');
   }
+}
+function multipart_encode($boundary, $params){
+    $output = "";
+    $output .= "--$boundary\r\n";
+    $output .= multipart_enc_file($params);
+    $output .="--$boundary--";
+    return $output;
+}
+
+function multipart_enc_file($path){
+    if (substr($path, 0, 1) == "@") {
+        $path = substr($path, 1);
+    }
+    dsm($path);
+    $filename = basename($path);
+    $mimetype = "application/octet-stream";
+    $data = "Content-Disposition: form-data; name=\"file\"; filename=\"$filename\"\r\n";
+    $data .= "Content-Transfer-Encoding: binary\r\n";
+    $data .= "Content-Type: $mimetype\r\n\r\n";
+    $data .= file_get_contents($path) . "\r\n";
+    return $data;
 }
 function get_string_between($string, $start, $end){
     $string = " ".$string;
