@@ -248,7 +248,7 @@ function inat_login_user_logout() {
   unset($_SESSION['inat_code']);
   unset($_SESSION['inat_access_token']);
   drupal_set_message(t('You have correct loggued out form iNat plugin'), 'status');
-  drupal_goto('inat/transects');
+  drupal_goto('transects');
 }
 
 /**

@@ -11,9 +11,6 @@
 global $base_url;
   drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
   drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
-  //drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
- // drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
-dsm($observation);
 ?>
 
 
