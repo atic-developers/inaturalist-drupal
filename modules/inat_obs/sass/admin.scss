@@ -50,6 +50,16 @@ body.logged-in {
       font-size: 12px;
     }
   }
+  #inat-observation-node-form {
+    div {
+      .form-item-title {
+        display:none;
+      }
+      .vertical-tabs {
+        display:none;
+      }
+    }
+  }
   #inat-observation-node-form > div > div {
     float: left;
     width: 45%;

@@ -11,9 +11,17 @@
 global $base_url;
 ?>
 <div class="inat_project row" id="prj_<?php print($user['id']); ?>">
+<?php if ($user['medium_user_icon_url'] == 'NULL' || $user['medium_user_icon_url'] == '' ) { ?>
   <div class="photo">
-      <img src="<?php print($user['medium_user_icon_url']); ?>"/>
+      <img src="http://www.inaturalist.org/attachment_defaults/users/icons/defaults/medium.png"/>  
   </div> <!-- /photo -->
+
+<?php }
+ else { ?>
+  <div class="photo">
+      <img src="<?php print($user['medium_user_icon_url']); ?>"/>  
+  </div> <!-- /photo -->
+<?php } ?>
   <h2><a href="<?php print($base_url . '/inat/user/' . $user['id']); ?>"><?php print($user['name']); ?></a></h2>
   <div class="observation_count"> <div class=label> Observation Count: </div>  <h2> <?php print($user['observations_count']); ?> </h2></div>
   <div class="ident_count"><div class=label> Identification Count:  </div><h2><?php print($user['identifications_count']); ?> </h2></div>

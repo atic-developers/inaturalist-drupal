@@ -9,7 +9,6 @@
  * inaturalist api
  */
 global $base_url;
-dsm($observation);
 ?>
 
 <div class="inat_observation_single" id="obs_<?php print($observation['id']); ?>">

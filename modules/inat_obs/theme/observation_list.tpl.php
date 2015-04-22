@@ -10,7 +10,7 @@
  */
 global $base_url;
   drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
-  drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
+drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
 ?>
 
 
@@ -37,17 +37,19 @@ global $base_url;
     
   </div> <!-- /photo -->
   <div id=delete>
-    <?php if( variable_get('user_login_moment','') == $observation['user_login'] ): ?>
-    <div id=enlace><?php print('<a href="'.$base_url.'/inat/delete/observation/'.$observation['id'].'"> Delete Observation </a>');?> </div>
-    <div id=enlace><?php print('<a href="'.$base_url.'/inat/delete/observation/'.$observation['id'].'"> Join to project </a>');?> </div>
-    <?php endif; ?>
+    <?php  if(isset($_SESSION['user_login'])): ?>  
+      <?php if( $_SESSION['user_login'] == $observation['user_login'] ): ?>
+      <div id=enlace><?php print('<a href="'.$base_url.'/inat/delete/observation/'.$observation['id'].'"> Delete Observation </a>');?> </div>
+      <div id=enlace><?php print('<a href="'.$base_url.'/inat/update/observation/'.$observation['id'].'"> Update Observation </a>');?> </div>
+      <?php endif; ?>
+   <?php endif; ?>
  </div>
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
   <div class="description"><?php print($observation['description']); ?></div>
   
  
   <?php if(isset($observation['user']['login'])): ?>
-     <div class="observer"><span class="label"><?php print(t('Observer: ') ."</span>". $observation['user']['login']); ?></div> 
+     <div class="observer"><a href='<?php print($base_url.'/inat/user/'.$observation['user_id'])?>'> <span class="label"><?php print(t('Observer: ') ."</span>". $observation['user']['login']); ?></a> </div> 
   <?php endif; ?>
 
     <div class="date"><span class="label"><?php if(isset($observation['observed_on'])){ 
