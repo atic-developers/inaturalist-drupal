@@ -238,6 +238,11 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'template' => 'observation_list',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
+    'inat_comments' => array(
+      'variables' => array('comments' => NULL),
+      'template' => 'comments',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
     'inat_observation' => array(
       'variables' => array('observation' => NULL),
       'template' => 'observation',
@@ -602,7 +607,56 @@ function inat_page_observation($id) {
   $result = drupal_http_request($url, $options);
   //dsm($result);
   $json = drupal_json_decode($result->data);
-  return theme('inat_observation', array('observation' => $json));
+  dsm($json);
+  $render_obs = theme('inat_observation', array('observation' => $json));
+  if($json['identifications'] != '') {
+    $render_obs .= "<div class='ident-wraper'> <div class='title-wrap'>".t("Identification Summary")."</div>";
+    foreach ($json['identifications'] as $key => $value) {
+      $render_obs .= theme('inat_comments', array('comments' => $value)); 
+    }
+    $render_obs .= "</div>";
+  } 
+  if($json['comments'] != '') {
+    $render_obs .= "<div class='comment-wraper'><div class='title-wrap'>".t("Comments")."</div>";
+    foreach ($json['comments'] as $key => $value) {
+      $render_obs .= theme('inat_comments', array('comments' => $value)); 
+    }
+    $render_obs .= "</div>";
+  }
+  $render_obs .= render(drupal_build_form('inat_comments_form', inat_comments_form()));
+  return $render_obs;
+}
+function inat_comments_form () {
+ $form['description'] = array(
+    '#type' => 'item',
+    '#title' => t('Publish your comments to the community'),
+    '#description' => t('Share and comment with us!'),
+  );
+  $form['name'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Comments'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['name']['first'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Message'),
+    '#required' => TRUE,
+    '#default_value' => "",
+    '#description' => "Write your message here",
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+  return $form;
+}
+function inat_comments_form_submit ($form, $form_state) {
+   $verb = 'comments.json';
+   $data = '?comment[parent_type]=Observation&comment[parent_id]='.arg(2).'&comment[body]='.$form_state['values']['first'];
+   $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
+   $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
+   $req = drupal_http_request($url, $opt);      
 }
 
 function inat_taxa($id, $page) {
