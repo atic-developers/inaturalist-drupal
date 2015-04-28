@@ -21,16 +21,23 @@ $data = strstr($comments['updated_at'], 'T', true).' - '.$hour;
   </div>
   <div class= 'ident-column'> 
    <?php if(isset($comments['taxon'])): ?>
-  <div class='taxo'> Taxon Identification </div> 
-  <div class='info'> 
+    <div class='taxo'> Taxon Identification </div> 
+    <div class='info'> 
        <div class='name-c'> <?php print($comments['taxon']['name'])?> </div>
        <div class='name-c'> Common name:  <?php print($comments['taxon']['common_name']['name'])?> </div>
-   </div>
-   <div class='image'> 
-     <a href='<?php print($base_url)?>/inat/taxa/<?php print($comments['taxon']['id'])?>'>
-       <img class='usericon' alt='' src='<?php print($comments['taxon']['image_url'])?>'></img>
-     </a>
-   </div>
+     </div>
+     <div class='image'> 
+       <a href='<?php print($base_url)?>/inat/taxa/<?php print($comments['taxon']['id'])?>'>
+         <img class='usericon' alt='' src='<?php print($comments['taxon']['image_url'])?>'></img>
+       </a>
+     </div>
+   <?php endif; ?>
+  </div>
+  <div class='actions'>
+   <?php  if(isset($_SESSION['user_login'])): ?>
+       <?php if( $_SESSION['user_login'] == $comments['user']['login'] ): ?>  
+  <div class='delete_button'> <a href='<?php print($base_url)?>/inat/observation/<?php print($comments['parent_id'])?>/comment/<?php print($comments['id'])?>'> <?php print(t('Delete comment')) ?> </a> </div>
+       <?php endif; ?>
    <?php endif; ?>
   </div>
 

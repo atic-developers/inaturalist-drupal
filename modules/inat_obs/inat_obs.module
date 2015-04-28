@@ -180,6 +180,14 @@ function inat_obs_menu() {
     'access callback' => TRUE,
     'delivery callback' => 'drupal_json_output', 
   );
+  $items['inat/observation/%/comment/%'] = array(
+    'title' => t(''),
+    //'description' => t('iNaturalist Observations'),
+    'page callback' => 'inat_obs_comment_delete',
+    'page arguments' => array(2,4),
+    'access arguments' => array('access inaturalist content'),
+    'access callback' => TRUE,
+  );
   return $items;
 }
 
@@ -605,18 +613,17 @@ function inat_page_observation($id) {
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
-  //dsm($result);
   $json = drupal_json_decode($result->data);
-  dsm($json);
+  //dsm($json);
   $render_obs = theme('inat_observation', array('observation' => $json));
-  if($json['identifications'] != '') {
+  if(!empty($json['identifications'])) {
     $render_obs .= "<div class='ident-wraper'> <div class='title-wrap'>".t("Identification Summary")."</div>";
     foreach ($json['identifications'] as $key => $value) {
       $render_obs .= theme('inat_comments', array('comments' => $value)); 
     }
     $render_obs .= "</div>";
   } 
-  if($json['comments'] != '') {
+  if(!empty($json['comments'])) {
     $render_obs .= "<div class='comment-wraper'><div class='title-wrap'>".t("Comments")."</div>";
     foreach ($json['comments'] as $key => $value) {
       $render_obs .= theme('inat_comments', array('comments' => $value)); 
@@ -626,6 +633,15 @@ function inat_page_observation($id) {
   $render_obs .= render(drupal_build_form('inat_comments_form', inat_comments_form()));
   return $render_obs;
 }
+function inat_obs_comment_delete ($parent_id, $comment_id) {
+  $verb = 'comments/'.$comment_id.'.json';
+  $data = '';
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org').'/'.$verb.$data, array('https' => 'TRUE'));
+  $opt = array('method' => 'DELETE', 'data' => $data, 'headers' => array('Content-Type' => 'multipart/form-data', 'Authorization' => "Bearer ".$_SESSION['inat_access_token']));
+  $req = drupal_http_request($url, $opt);
+  drupal_goto('inat/observation/'.$parent_id);
+}
+
 function inat_comments_form () {
  $form['description'] = array(
     '#type' => 'item',
