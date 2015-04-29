@@ -42,7 +42,7 @@ function inat_login_menu() {
     'title' => t('Logout'),
     'description' => t('Logout from iNat plugin'),
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('inat_login_user_logout'),
+    'page arguments' => array('inat_login_inat_user_logout'),
     'access arguments' => array('access inaturalist content'),
     'access callback' => TRUE,
     'menu_name' => 'menu-inaturalist',
@@ -245,7 +245,7 @@ function inat_login_user_add_submit($form, &$form_state) {
 
 }
 
-function inat_login_user_logout() {
+function inat_login_inat_user_logout() {
   unset($_SESSION['inat_code']);
   unset($_SESSION['inat_access_token']);
   unset($_SESSION['user_login']);
@@ -330,7 +330,7 @@ function inat_login_theme($existing, $type, $theme, $path) {
   return array(
     'inat_user_login' => array(
       'variables' => array('login' => NULL),
-      'template' => 'user_login',
+      'template' => 'inat_user_login',
       'path' => drupal_get_path('module', 'inat_login') . '/theme',
     )
  
