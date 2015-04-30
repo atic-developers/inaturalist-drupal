@@ -630,7 +630,9 @@ function inat_page_observation($id) {
     }
     $render_obs .= "</div>";
   }
-  $render_obs .= render(drupal_build_form('inat_comments_form', inat_comments_form()));
+  if(isset($_SESSION['inat_access_token']) && $_SESSION['inat_access_token'] != NULL ) {
+    $render_obs .= render(drupal_build_form('inat_comments_form', inat_comments_form()));
+  }  
   return $render_obs;
 }
 function inat_obs_comment_delete ($parent_id, $comment_id) {
