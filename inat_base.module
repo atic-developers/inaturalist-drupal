@@ -59,8 +59,8 @@ function inat_base_page_config() {
   );
   $form['inat_base_project'] = array(
     '#type' => 'textfield',
-    '#title' => t('Reduce plugin behavior to this project'),
-    '#description' => t('The project id to reduce the plugin behavior'),
+    '#title' => t('Set the project, until start using the plugin'),
+    '#description' => t('The project must be set before starting'),
     '#required' => FALSE,
     '#default_value' => variable_get('inat_base_project', ''),
   );
@@ -71,7 +71,25 @@ function inat_base_page_config() {
     '#required' => FALSE,
     '#default_value' => variable_get('inat_base_user', ''),
   );
-
+  $form['#submit'] = array('inat_basic_page_submit_config'); 
 
   return system_settings_form($form);
 }
+function inat_basic_page_submit_config(){
+
+  $projectid = variable_get('inat_base_project');
+  if (isset($projectid)){
+    /** Get the project information **/
+  $verb = 'projects/'.variable_get('inat_base_project').'.json';
+  $query = array();
+  $options = array('query' => $query, 'https' => FALSE);                        
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  $result = drupal_http_request($url, $options);
+  $json_proj = drupal_json_decode($result->data);
+  variable_set('inat_project_list_id',$json_proj['project_list']['id']);   
+  variable_set('inat_project_fields',$json_proj['project_observation_fields']);   
+  variable_set('inat_project_info',$json_proj);   
+  }
+}
+

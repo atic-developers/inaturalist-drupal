@@ -770,7 +770,7 @@ function inat_places($page) {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  
+  dsm($json); 
   return theme('inat_place_list', array('places' => $json, 'current_page' => $page));
 }
   
