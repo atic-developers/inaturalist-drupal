@@ -201,6 +201,11 @@ function inat_obs_theme($existing, $type, $theme, $path) {
       'template' => 'projects_general',
       'path' => drupal_get_path('module', 'inat_obs') . '/theme',
     ),
+    'inat_tabs' => array(
+      'variables' => array('tabs' => NULL),
+      'template' => 'tabs',
+      'path' => drupal_get_path('module', 'inat_obs') . '/theme',
+    ),
     'inat_taxa' => array(
       'variables' => array('taxa' => NULL),
       'template' => 'taxa',
@@ -432,29 +437,37 @@ function inat_obs_preprocess_node (&$variables){
     $query = array('field:transect_id' => variable_get('inat_login_appid', '').'-'.$variables['nid'],'per_page' => '40', 'order_by' => 'observed_on');
     $options = array('query' => $query, 'https' => FALSE);
     $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+    dsm($url);
+    dsm($options);
     $options = array('method' => 'GET');
     $result = drupal_http_request($url, $options);
     $json_obs = drupal_json_decode($result->data);
-    $aux = 0;
-    foreach($json_obs as $id => $obs) {
-      $variables['observa_maps'][$aux]['lat'] = $obs['latitude'];
-      $variables['observa_maps'][$aux]['lon'] = $obs['longitude'];
-      if(count($obs['photos']) >= 1) {
-        $popup = '<div class="photo"><img src="'.$obs['photos'][0]['small_url'].'" alt="Photo" /> </div> <h2><a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</h2></a>';
-        if(array_key_exists('place_guess',$obs)) {
-          $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
+    
+    if (isset($json_obs['error'])) {
+       drupal_set_message(t('Something has happened: '.$json_obs['error']), 'error');
+    }   
+    else {
+      $aux = 0;
+      foreach($json_obs as $id => $obs) {
+        $variables['observa_maps'][$aux]['lat'] = $obs['latitude'];
+        $variables['observa_maps'][$aux]['lon'] = $obs['longitude'];
+        if(count($obs['photos']) >= 1) {
+          $popup = '<div class="photo"><img src="'.$obs['photos'][0]['small_url'].'" alt="Photo" /> </div> <h2><a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</h2></a>';
+          if(array_key_exists('place_guess',$obs)) {
+            $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
+          }
+        } else {
+          $popup = '<div class="photo">No photo </div> <h2><a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</h2></a>';
+          if(array_key_exists('place_guess', $obs)) {
+            $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
+          }
         }
-      } else {
-        $popup = '<div class="photo">No photo </div> <h2><a href="'.$GLOBALS['base_url'].'/inat/observation/'.$obs['id'].'">'.$obs['species_guess'].'</h2></a>';
-        if(array_key_exists('place_guess', $obs)) {
-          $popup .= '<div class="place">'.$obs['place_guess'].'</div>';
-        }
+        $variables['observa_maps'][$aux]['pop'] = $popup;
+        $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
+        $aux++;
       }
-      $variables['observa_maps'][$aux]['pop'] = $popup;
-      $variables['observations'][$id] = theme('inat_observation_list', array('observation' => $obs));
-      $aux++;
+      drupal_add_js(array('inat_obs' => array('punts' => $variables['observa_maps'])), 'setting');
     }
-    drupal_add_js(array('inat_obs' => array('punts' => $variables['observa_maps'])), 'setting');
     drupal_add_js(drupal_get_path('module','inat_obs') . '/js/transectpunts.js');
     _preprocess_transect($variables); 
   }
@@ -698,10 +711,16 @@ function inat_taxa($id, $page) {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json_obs = drupal_json_decode($result->data);
-  
+  dsm($json_obs); 
   return  theme('inat_taxa', array('taxa' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs, 'current_page' => $page, 'base_path' => 'taxa/'.$id));;
 }
+function inat_tabs(){
 
+ 
+ drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/tabs.css');
+ return theme ('inat_tabs');
+
+}
 function inat_taxons() {
   $verb = 'taxa.json';
   $query = array();
@@ -710,8 +729,11 @@ function inat_taxons() {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  
-  return theme('inat_taxa_list', array('taxons' => $json));
+  dsm($json);
+  //$final = theme('inat_taxa_list', array('taxons' => $json)); 
+  $final = theme('inat_tabs', array('taxons' => $json)); 
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/tabs.css');
+  return $final;
 }
  
 function inat_place($id) {
