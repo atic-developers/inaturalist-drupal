@@ -20,6 +20,7 @@ function inat_obs_menu() {
     //'type' => MENU_NORMAL_ITEM,
   //);
   $project = variable_get('inat_base_project', '');
+  
   if($project == '') {
     $items['inat/projects/%/%'] = array(
       'title' => t('Projects'),
@@ -44,6 +45,9 @@ function inat_obs_menu() {
       //'menu_name' => 'menu-inaturalist',
       //'type' => MENU_NORMAL_ITEM,
     );
+  } else {
+    $project_info = variable_get('inat_project_info');
+    dsm($project_info);
   }
     $items['inat/addto/project'] = array(
         'title' => t('Add to the project'),
@@ -68,7 +72,7 @@ function inat_obs_menu() {
   );
   $items['inat/taxa/%'] = $items['inat/taxa/%/%'];
   $items['inat/taxons/%'] = array(
-    'title' => t('Species'),
+    'title' => t('Species in'.$project_info['name']),
     'description' => t('iNaturalist Species'),
     'page callback' => 'inat_taxons',
     'page arguments' => array(2),
@@ -722,6 +726,7 @@ function inat_tabs(){
 
 }
 function inat_taxons() {
+  // Generic taxons of kingdoms of life
   $verb = 'taxa.json';
   $query = array();
   $options = array('query' => $query, 'https' => FALSE);
@@ -729,11 +734,17 @@ function inat_taxons() {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  dsm($json);
-  //$final = theme('inat_taxa_list', array('taxons' => $json)); 
-  $final = theme('inat_tabs', array('taxons' => $json)); 
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/tabs.css');
-  return $final;
+  // Now we get the taxons of the project
+  $verb = 'lists/'.variable_get('inat_project_list_id').'.json';
+  $query = array();
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  $result = drupal_http_request($url, $options);
+  $json = drupal_json_decode($result->data);
+  $final2 = theme('inat_tabs', array('taxons' => $json['listed_taxa'])); 
+  return $final2;
 }
  
 function inat_place($id) {
@@ -745,17 +756,31 @@ function inat_place($id) {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json_proj = drupal_json_decode($result->data);
+  dsm($json_proj);
+  /* Get lists of taxos */
 
-  /** Get observations for the project **/
+  $verb = 'lists/'.$json_proj['check_list_id'].'.json';
+  $query = array();
+  $options = array('query' => $query, 'https' => FALSE);
+  $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
+  $options = array('method' => 'GET');
+  $result = drupal_http_request($url, $options);
+  $json_proj2 = drupal_json_decode($result->data);
+  dsm($json_proj2);
+  
+
+
+  /** Get observations for te place boundarys **/
   $verb = 'observations.json';
-  $query = array('per_page' => '40', 'order_by' => 'observed_on', 'place_guess' => $id);
+  $query = array('per_page' => '40', 'order_by' => 'observed_on', 'swlat' => $json_proj['swlat'],'swlng' => $json_proj['swlng'],'nelat' => $json_proj['nelat'], 'nelng' => $json_proj['nelng']);
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json_obs = drupal_json_decode($result->data);
-  
-  return  theme('inat_place', array('place' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs));;
+  dsm($result);
+  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/tabs.css');
+  return  theme('inat_map', array('observations' => $json_obs)) . theme('inat_observations_general', array('observations' => $json_obs)) . theme('inat_tabs',array('taxons' => $json_proj2['listed_taxa']));;
 }
 
 function inat_places($page) {
@@ -763,14 +788,16 @@ function inat_places($page) {
   if($page == '') {
     $page = 1;
   }
+  $project = variable_get('inat_project_info');
   $verb = 'places.json';
-  $query = array('page' => $page);
+  $query = array('page' => $page,'longitude' => $project['longitude'], 'latitude' => $project['latitude'], 'ancestor_id' => '6774');
   $options = array('query' => $query, 'https' => FALSE);
   $url = url(variable_get('inat_base_url','http://www.inaturalist.org') . '/' . $verb, $options);
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
-  dsm($json); 
+  dsm($result); 
+  dsm($json);
   return theme('inat_place_list', array('places' => $json, 'current_page' => $page));
 }
   

@@ -15,9 +15,10 @@
   border: 1px solid rgb(221, 221, 221);
   margin-bottom: 15px;
   padding: 10px;
-  display:block;
+  display:inline;
+  float:left;
+  width:50%;
   min-height: 190px;
-  clear: both;
   &:hover {
     background-color: rgba(234, 246, 246, 0.8);
   }

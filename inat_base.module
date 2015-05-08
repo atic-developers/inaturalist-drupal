@@ -90,6 +90,7 @@ function inat_basic_page_submit_config(){
   variable_set('inat_project_list_id',$json_proj['project_list']['id']);   
   variable_set('inat_project_fields',$json_proj['project_observation_fields']);   
   variable_set('inat_project_info',$json_proj);   
+  dsm(variable_get('inat_project_info'));
   }
 }
 
