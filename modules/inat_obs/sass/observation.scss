@@ -26,32 +26,101 @@ figure.photo {
   margin-bottom: 15px;
   padding-left: 5px;
   display:block;
+  //height: 500px;
   h2 {
     clear: both;
     font-size: 18px;
     margin-top: 5px;
   } 
- .photo_single {
-   display: inline-block;
-   margin: 15px;
-   vertical-align: top;
-   width: 300px;
-   figurecaption {    
-     display: block;
-   }
- }
-  .localitzation {
-    border-right: none 0px;// 1px solid rgb(221, 221, 221);
+  .photo_single {
     display: inline-block;
-    width: 327px;
+    margin: 15px;
+    vertical-align: top;
+    width: 45%;//300px;
+    float: left;
+    border-right: 1px solid rgb(221, 221, 221);
+    figurecaption {    
+      display: block;
+    }
+  }
+  .obs_info {
+    float: left;
+    width: 45%;
+    margin: 15px;
+  }
+  .localitzation {
+    //border-right: none 0px;// 1px solid rgb(221, 221, 221);
+    //display: inline-block;
+    width:100%;// 327px;
     padding: 10px;
-    border-left: 1px solid;
+    padding-left: 18%;
+    padding-right: 18%;
+    //border-left: 1px solid;
     #map {
       width: auto;
-      height: 281px; 
+      height: 200px;//281px; 
     }
     .label {
       font-style: italic;
     }
   }
 }
+.comment-wraper,
+.ident-wraper {
+  clear: both;
+  border-top: 1px solid rgb(221, 221, 221);
+  .title-wrap {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  .comment {
+    width: 100%;
+    border-bottom: 1px solid rgb(221, 221, 221);
+    &:last-of-type {
+      border: none 0px;
+    }
+    .user-column {
+      float: left;
+      width: 25%;
+    }
+    .ident-column,
+    .body-column {
+      float: left;
+      width: 70%;
+      margin-left: 15px;
+      margin-top: 10px;
+      .comment-body {
+        margin-bottom: 8px;
+      }
+      .taxo {
+        float: left; 
+        width: 60%;
+        font-size: 14px;
+        margin-top: 5px;
+        margin-left: 20px;
+        //border-top: 1px solid rgb(221, 221, 221);
+      }
+      .info {
+        float: left;
+        width: 60%;
+        margin-top: 10px;
+        margin-left: 20px;
+      }
+      .image {
+        float: left;
+        width: 30%;
+        margin-left: 20px;
+      }
+    }
+    .ident-column {
+      border-top: 1px solid rgb(221, 221, 221);
+    }
+  }
+}
+.comment-wraper .comment {
+  .ident-column {
+    border: none 0px;
+  }
+}
+  

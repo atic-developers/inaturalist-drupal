@@ -13,7 +13,7 @@ global $base_url;
 <div class="inat_project row" id="prj_<?php print($user['id']); ?>">
 <?php if ($user['medium_user_icon_url'] == 'NULL' || $user['medium_user_icon_url'] == '' ) { ?>
   <div class="photo">
-      <img src="http://www.inaturalist.org/attachment_defaults/users/icons/defaults/medium.png"/>  
+  <img src="<?php print(variable_get('inat_base_url','http://www.inaturalist.org'))?>/attachment_defaults/users/icons/defaults/medium.png"/>  
   </div> <!-- /photo -->
 
 <?php }

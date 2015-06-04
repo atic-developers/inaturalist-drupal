@@ -435,6 +435,8 @@ function inat_obs_preprocess_inat_taxa (&$var){
 function inat_obs_preprocess_inat_taxa_list (&$var){
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/taxa_list.css');
 }
+function inat_obs_preprocess_inat_tabs (&$var){
+}
 function inat_obs_preprocess_node (&$variables){
   if ($variables['type'] == 'inat_transect') {
     $verb = 'observations.json';
@@ -719,11 +721,8 @@ function inat_taxa($id, $page) {
   return  theme('inat_taxa', array('taxa' => $json_proj)) . theme('inat_observations_general', array('observations' => $json_obs, 'current_page' => $page, 'base_path' => 'taxa/'.$id));;
 }
 function inat_tabs(){
-
- 
  drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/tabs.css');
  return theme ('inat_tabs');
-
 }
 function inat_taxons() {
   // Generic taxons of kingdoms of life
@@ -743,6 +742,9 @@ function inat_taxons() {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data);
+  drupal_add_js(libraries_get_path('colorbox').'/jquery.colorbox.js');
+  drupal_add_js(libraries_get_path('colorbox').'/jquery.colorbox-min.js');
+  drupal_add_js(drupal_get_path('module','inat_obs') . '/js/colorbox.js');
   $final2 = theme('inat_tabs', array('taxons' => $json['listed_taxa'])); 
   return $final2;
 }
@@ -780,6 +782,9 @@ function inat_place($id) {
   $json_obs = drupal_json_decode($result->data);
   dsm($result);
   drupal_add_css(drupal_get_path('module', 'inat_obs') . '/css/tabs.css');
+  drupal_add_js(libraries_get_path('colorbox').'/jquery.colorbox.js');
+  drupal_add_js(libraries_get_path('colorbox').'/jquery.colorbox-min.js');
+  drupal_add_js(drupal_get_path('module','inat_obs') . '/js/colorbox.js');
   return  theme('inat_map', array('observations' => $json_obs)) . theme('inat_observations_general', array('observations' => $json_obs)) . theme('inat_tabs',array('taxons' => $json_proj2['listed_taxa']));;
 }
 

@@ -12,6 +12,25 @@ global $base_url;
 ?>
 
 <div class="inat_observation_single" id="obs_<?php print($observation['id']); ?>">
+<div class="localitzation">
+   <div id="map" style=""></div>
+<?php 
+  if(!empty($observation['latitude']) && !empty($observation['longitude'])):?> 
+     <script type="text/javascript">
+       var map = L.map('map').setView([51.505, -0.09], 13);
+       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+         maxZoom: 18,
+         zoom: 10
+         }).addTo(map);
+       var bounds = new Array();
+       <?php print("var popup = L.marker().setLatLng([".$observation['latitude'].",".$observation['longitude']."]).addTo(map); ");
+       print("bounds.push(new Array([".$observation['latitude'].",".$observation['longitude']."]));"); ?>
+       map.panTo(new L.LatLng(<?php print $observation['latitude'] . ", " . $observation['longitude']; ?>));
+     </script>
+<?php
+   endif; 
+?>   
+</div><!-- end localization-->
   <figure class="photo_single">
     <?php if (array_key_exists('photos_count', $observation) && $observation['photos_count'] == 0): ?>
       <span class="no_photo"><?php print(t('No photo')); ?></span>
@@ -30,27 +49,9 @@ global $base_url;
       </div>
     <?php else: ?>
       <?php print('<span class="no_photo"> <img src="'.$base_url.'/sites/all/modules/inat/modules/inat_obs/img/default.png"></img></span>'); ?>
-
     <?php endif; ?>
   </figure> <!-- /photo -->
- <div class="localitzation">
-   <div id="map" style=""></div>
-<?php 
-  if(!empty($observation['latitude']) && !empty($observation['longitude'])):?> 
-     <script type="text/javascript">
-       var map = L.map('map').setView([51.505, -0.09], 13);
-       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-         maxZoom: 18,
-         zoom: 10
-         }).addTo(map);
-       var bounds = new Array();
-       <?php print("var popup = L.marker().setLatLng([".$observation['latitude'].",".$observation['longitude']."]).addTo(map); ");
-       print("bounds.push(new Array([".$observation['latitude'].",".$observation['longitude']."]));"); ?>
-       map.panTo(new L.LatLng(<?php print $observation['latitude'] . ", " . $observation['longitude']; ?>));
-     </script>
-<?php
-   endif; 
-?>   
+ <div class ="obs_info">
   <h2><a href="<?php print($base_url . '/inat/observation/' . $observation['id']); ?>"><?php print($observation['species_guess']); ?></a></h2>
    
   <div class="description"><?php print($observation['description']); ?></div>
@@ -83,6 +84,6 @@ global $base_url;
 <?php if(isset($observation['taxon_id'])): ?> 
   <div class="taxon"><span class=label> <?php print(t('Taxon: ')); ?></span>  <a href="<?php print $base_url . '/inat/taxa/' . $observation['taxon_id'] ;?>"><?php print($observation['species_guess']); ?></a></div>
 <?php endif; ?>
-</div>
+</div><!--end obs_info-->
 
 </div>
