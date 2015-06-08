@@ -2,11 +2,13 @@
 global $base_url;
 $aux = 1;
 $aux2 = 'checked="checked"';
-print('<section class="tabs">');
+//print('<section class="pests">');
+print ('<div class="pest">' .'<input type="radio" id="pest-2" name="tab-group-1" checked>' .'<label for="pest-2">'.t("Species") .'</label>');
+print('<div class="cont_tab">');
 foreach($taxons as $id => $taxa){
   print('<div class="tax">');
    if(isset($taxa['taxon']['photo_url'])) {
-   print('<span id="title"><a href="'.$base_url.'/taxa/'.$taxa['taxon']['id'].'"><h5>'.$taxa['taxon']['name'].'</h5> </a></span>');
+   print('<span id="title"><a href="'.$base_url.'inat/taxa/'.$taxa['taxon']['id'].'"><h5>'.$taxa['taxon']['name'].'</h5> </a></span>');
    print ('<input id="tab-'.$aux.'" type="radio" name="radio-set" class="tab-selector-'.$aux.'" '.$aux2.' />');
    print ('<label for="tab-'.$aux.'" class="tab-label-'.$aux.'"><img src="'.$taxa['taxon']['photo_url'].'"> </img> </label>');
    }else {
@@ -44,4 +46,5 @@ foreach($taxons as $id => $taxa){
     }
 }
 print('</div>');
-print('</section>');
+print('</div>');
+//print('</section>');

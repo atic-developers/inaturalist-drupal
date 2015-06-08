@@ -21,10 +21,11 @@ figure.photo {
 }
 .inat_observation_single {  
   background-color: rgba(246, 246, 246, 0.8);
+  //
   margin-top: 0px;  
-  border: 1px solid rgb(221, 221, 221);
+  //border: 1px solid rgb(221, 221, 221);
   margin-bottom: 15px;
-  padding-left: 5px;
+  //padding-left: 5px;
   display:block;
   //height: 500px;
   h2 {
@@ -52,9 +53,7 @@ figure.photo {
     //border-right: none 0px;// 1px solid rgb(221, 221, 221);
     //display: inline-block;
     width:100%;// 327px;
-    padding: 10px;
-    padding-left: 18%;
-    padding-right: 18%;
+    padding: 0px;
     //border-left: 1px solid;
     #map {
       width: auto;
@@ -118,9 +117,18 @@ figure.photo {
     }
   }
 }
-.comment-wraper .comment {
-  .ident-column {
-    border: none 0px;
+.comment-wraper {
+  margin-top: 15px;
+  .comment {
+    .ident-column {
+      border: none 0px;
+    }
   }
+}
+.comment-wraper,
+.ident-wraper {
+  box-shadow: 3px 3px 10px 3px grey;  
+  padding: 15px;
+  border-radius: 5px;
 }
   

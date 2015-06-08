@@ -30,26 +30,6 @@ function inat_sitebuilding_menu_default_menu_links() {
     'weight' => 0,
     'customized' => 0,
   );
-  // Exported menu link: menu-inaturalist_especies:inat/taxons
-  $menu_links['menu-inaturalist_especies:inat/taxons'] = array(
-    'menu_name' => 'menu-inaturalist',
-    'link_path' => 'inat/taxons',
-    'router_path' => 'inat/taxons',
-    'link_title' => 'Especies',
-    'options' => array(
-      'attributes' => array(
-        'title' => 'Especies de iNaturalist',
-      ),
-      'identifier' => 'menu-inaturalist_especies:inat/taxons',
-    ),
-    'module' => 'system',
-    'hidden' => 0,
-    'external' => 0,
-    'has_children' => 1,
-    'expanded' => 0,
-    'weight' => 0,
-    'customized' => 0,
-  );
   // Exported menu link: menu-inaturalist_lugares:inat/places
   $menu_links['menu-inaturalist_lugares:inat/places'] = array(
     'menu_name' => 'menu-inaturalist',
@@ -113,7 +93,6 @@ function inat_sitebuilding_menu_default_menu_links() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Añadir usuario');
-  t('Especies');
   t('Lugares');
   t('Observaciones');
   t('Transects');

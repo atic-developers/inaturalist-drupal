@@ -93,6 +93,10 @@ function inat_sitebuilding_views_default_views() {
   $handler->display->display_options['fields']['inat_obs_add_description']['field'] = 'inat_obs_add_description';
   $handler->display->display_options['fields']['inat_obs_add_description']['label'] = '';
   $handler->display->display_options['fields']['inat_obs_add_description']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['inat_obs_add_description']['type'] = 'text_trimmed';
+  $handler->display->display_options['fields']['inat_obs_add_description']['settings'] = array(
+    'trim_length' => '300',
+  );
   /* Campo: Contenido: Portada */
   $handler->display->display_options['fields']['field_portada']['id'] = 'field_portada';
   $handler->display->display_options['fields']['field_portada']['table'] = 'field_data_field_portada';
@@ -130,6 +134,7 @@ function inat_sitebuilding_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['path'] = 'transects';
 
   /* Display: Entity Reference View Widget */

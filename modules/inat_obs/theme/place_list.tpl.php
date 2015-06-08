@@ -40,7 +40,7 @@ foreach($places as $id => $place):
 
 </div>
 <?php endforeach; ?>
-<div class="pager-wrapper">
-  <span id="prev-link" class="pager link"><a href="<?php print $prev_url; ?>"><?php print t('Prev'); ?></a></span>
-  <span id="next-link" class="pager link"><a href="<?php print $next_url; ?>"><?php print t('Next'); ?></a></span>
-</div>
+<!--<div class="pager-wrapper">
+  <span id="prev-link" class="pager link"><a href="<?php //print $prev_url; ?>"><?php //print t('Prev'); ?></a></span>
+  <span id="next-link" class="pager link"><a href="<?php //print $next_url; ?>"><?php //print t('Next'); ?></a></span>
+</div>-->
