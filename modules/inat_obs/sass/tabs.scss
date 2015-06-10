@@ -3,7 +3,7 @@
   margin: 40px auto;
   width: 750px;
 }
-.pests {
+//.pests {
   .tax {
     float: left;
     min-height: 120px;
@@ -19,7 +19,7 @@
       }
     }
   }
-}
+//}
 
 .tabs input {
   position: relative;
@@ -353,9 +353,9 @@ figure.effect-lexi:hover p {
 }
 //TABS
      
-.pests {
+/*.pests {
   position: relative;   
-  min-height: 435px; /* This part sucks */
+  min-height: 435px; 
   clear: both;
   margin: 25px 0;
   overflow-y: scroll;
@@ -382,13 +382,20 @@ figure.effect-lexi:hover p {
     bottom: 0;
     padding: 20px;
     border: 1px solid #ccc; 
+    z-index: 1;
   }
-  & > [type=radio]:checked ~ label {
+  & > .pest > input[type=radio]:checked + label {
     background: white;
     border-bottom: 1px solid white;
     z-index: 2;
   }
-  & > [type=radio]:checked ~ label ~ .content {
+  & > .pest > input[type=radio]:checked + .cont_tab {
     z-index: 1;
   }
-}
+  &:last-of-type {
+    //margin-top: -460px;
+    .pest {
+      margin-left: 110px;
+    }
+  }
+}*/
