@@ -12,6 +12,11 @@ global $base_url;
 /**
  * Add mapping bases
  */
+
+print('<section class="tabW">');
+print ('<input type="radio" id="tabW-1" name="tab-group-1" checked="">' .'<label for="tabW-1">'.t("Observations") .'</label>');
+print('<div class="cont_tab">');
+
 foreach( $observations as $id => $obs) {
   print($obs);
 }
@@ -26,6 +31,8 @@ $next_url .= $current_page + 1;
 
 ?>
 <div class="clearfix"> </div>
+</div>
+</section>
 <!--<div class="pager-wrapper">
   <span id="prev-link" class="pager link"><a href="<?php //print $prev_url; ?>"><?php //print t('Prev'); ?></a></span>
   <span id="next-link" class="pager link"><a href="<?php //print $next_url; ?>"><?php //print t('Next'); ?></a></span>

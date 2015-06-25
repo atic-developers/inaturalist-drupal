@@ -10,17 +10,8 @@
  */
 function inat_obs_menu() {
   $items = array();
-
-  //$items['inat/observations'] = array(
-    //'title' => t(''),
-    //'description' => t(''),
-    //'page callback' => '',
-    //'access arguments' => '',
-    //'menu_name' => 'inaturalist'
-    //'type' => MENU_NORMAL_ITEM,
-  //);
   $project = variable_get('inat_base_project', '');
-  
+  //This funtionallity it's not finished, it's a must set de Project before starting use the plugin 
   if($project == '') {
     $items['inat/projects/%/%'] = array(
       'title' => t('Projects'),
@@ -49,6 +40,7 @@ function inat_obs_menu() {
     $project_info = variable_get('inat_project_info');
     dsm($project_info);
   }
+  //Call to a function to add the uploaded observation to the project too.
     $items['inat/addto/project'] = array(
         'title' => t('Add to the project'),
       'description' => t('Add to project'),
@@ -59,7 +51,7 @@ function inat_obs_menu() {
 //      'menu_name' => 'menu-inaturalist',
 //      'type' => MENU_NORMAL_ITEM,
     );
-  
+  // Taxones search, show de taxons of the project, and any taxons we found trought this.
   $items['inat/taxa/%/%'] = array(
     'title' => t('Species'),
     //'description' => t('iNaturalist Species'),
@@ -92,6 +84,8 @@ function inat_obs_menu() {
     //'menu_name' => 'menu-inaturalist',
     //'type' => MENU_NORMAL_ITEM,
   //);
+  //
+  //If project has latitude & longitudes, it shows de places that contains this data. If the project has an Place ID. This shows directly de Place referenced.
   $items['inat/place/%'] = array(
     'title' => t('Places'),
     //'description' => t('iNaturalist Species'),
@@ -113,6 +107,7 @@ function inat_obs_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   $items['inat/places'] = $items['inat/places/%'];
+  //It show de user profile with the observations that user has uploaded at INAT
   $items['inat/user/%'] = array(
     'title' => t('Users'),
    // 'description' => t('iNaturalist Species'),
@@ -123,7 +118,7 @@ function inat_obs_menu() {
   //  'menu_name' => 'menu-inaturalist',
   //  'type' => MENU_NORMAL_ITEM,
   );
- 
+  // It's show de observations related to the project, when de project it's set in the pluguin configuration
   $items['inat/observations/%'] = array(
     'title' => t('Observations'),
     'description' => t('iNaturalist Observations'),
@@ -145,6 +140,7 @@ function inat_obs_menu() {
     //'menu_name' => 'menu-inaturalist',
     //'type' => MENU_NORMAL_ITEM,
   );
+  // Simple page to delete an observation. This possibility it's able if the user is the owner of the observation
   $items['inat/delete/observation/%'] = array(
     'title' => t('Delete observation'),
     //'description' => t('iNaturalist Observations'),
@@ -155,6 +151,7 @@ function inat_obs_menu() {
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
+  // Update the observation. This possiblity it's able if the user is the owner of the observation
   $items['inat/update/observation/%'] = array(
     'title' => t('Add observation'),
     //'description' => t('iNaturalist Observations'),
@@ -165,6 +162,7 @@ function inat_obs_menu() {
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
+  // Form ready to upload an observation
   $items['inat/add/observation'] = array(
     'title' => t('Add observation'),
     //'description' => t('iNaturalist Observations'),
@@ -175,6 +173,7 @@ function inat_obs_menu() {
     'menu_name' => 'menu-inaturalist',
     'type' => MENU_NORMAL_ITEM,
   );
+  // Auxiliar AJAX funtion to get transect information to print it in a map
   $items['inat/add/inat_transect/edit/showonmap/%'] = array(
     'title' => t(''),
     //'description' => t('iNaturalist Observations'),
@@ -784,7 +783,7 @@ function inat_place($id) {
   drupal_add_js(libraries_get_path('colorbox').'/jquery.colorbox-min.js');
   drupal_add_js(drupal_get_path('module','inat_obs') . '/js/colorbox.js');
   $wrapper = '';
-  return  theme('inat_map', array('observations' => $json_obs)) .'<div class="pests">'. theme('inat_observations_general', array('observations' => $json_obs)) . theme('inat_taxones',array('taxons' => $json_proj2['listed_taxa'])).'</div>';
+  return  theme('inat_map', array('observations' => $json_obs)) .'<div class="tabsWr">'. theme('inat_observations_general', array('observations' => $json_obs)) . theme('inat_taxones',array('taxons' => $json_proj2['listed_taxa'])).'</div>';
 }
 
 function inat_places($page) {

@@ -3,7 +3,7 @@ global $base_url;
 $aux = 1;
 $aux2 = 'checked="checked"';
 print('<section class="tabs">');
-//print ('<div class="pest">' .'<input type="radio" id="pest-2" name="tab-group-1">' .'<label for="pest-2">'.t("Species") .'</label>');
+//print ('<div class="tabW">' .'<input type="radio" id="tabW-2" name="tab-group-1">' .'<label for="tabW-2">'.t("Species") .'</label>');
 //print('<div class="cont_tab">');
 foreach($taxons as $id => $taxa){
   print('<div class="tax">');
@@ -25,7 +25,7 @@ $aux = 1;
 foreach($taxons as $id => $taxa){
   print(' <div class="content content-'.$aux.'">');
     print('<span id="title"><a href="'.$base_url.'/taxa/'.$taxa['taxon']['id'].'"><h2>'.$taxa['taxon']['name'].'    </h2> </a>'.t('Observation number: ').'<div id="num">'  .$taxa['taxon']['listed_taxa_count'].'</div></span>');
-    print('<span id="sum"><div id="hola2">'.$taxa['taxon']['wikipedia_summary'].'</div></span>');
+    print('<span id="sum"><div class="description">'.$taxa['taxon']['wikipedia_summary'].'</div></span>');
     print ('<div class="grid">');
     if ($taxa['taxon']['taxon_photos'] == 'NULL' || $taxa['taxon']['taxon_photos'] == ''){
     }

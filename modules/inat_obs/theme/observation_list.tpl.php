@@ -12,8 +12,6 @@ global $base_url;
   drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.js');
 drupal_add_js(libraries_get_path('cycle2').'/jquery.cycle2.tile.js');
 ?>
-
-
 <div class="inat_observation row" id="obs_<?php print($observation['id']); ?>">
   <div class="photo">
     <?php if (array_key_exists('photos_count',$observation) && $observation['photos_count'] == 0): ?>  

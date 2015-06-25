@@ -85,3 +85,9 @@ div.inat_observation.row  {
   margin-top: 15px;
   width: 85%;
 }
+.page-inat-observations .tabW {
+  & > input,
+  & > label {
+    display: none;
+  }
+}

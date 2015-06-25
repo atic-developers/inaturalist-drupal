@@ -3,7 +3,7 @@
   margin: 40px auto;
   width: 750px;
 }
-//.pests {
+//.tabsWr {
   .tax {
     float: left;
     min-height: 120px;
@@ -339,7 +339,7 @@ figure.effect-lexi:hover p {
             display: inline;
           }
         }
-        #sum #hola2 {
+        #sum .description {
           padding: 5px 15px;
         }
       }
@@ -353,13 +353,13 @@ figure.effect-lexi:hover p {
 }
 //TABS
      
-/*.pests {
+/*.tabsWr {
   position: relative;   
   min-height: 435px; 
   clear: both;
   margin: 25px 0;
   overflow-y: scroll;
-  .pest {
+  .tabW {
     float: left;
     & > label {
       background: #eee; 
@@ -370,7 +370,7 @@ figure.effect-lexi:hover p {
       left: 1px; 
     }
   }
-  & > .pest [type=radio] {
+  & > .tabW [type=radio] {
     display: none;   
   }
   .cont_tab {
@@ -384,17 +384,17 @@ figure.effect-lexi:hover p {
     border: 1px solid #ccc; 
     z-index: 1;
   }
-  & > .pest > input[type=radio]:checked + label {
+  & > .tabW > input[type=radio]:checked + label {
     background: white;
     border-bottom: 1px solid white;
     z-index: 2;
   }
-  & > .pest > input[type=radio]:checked + .cont_tab {
+  & > .tabW > input[type=radio]:checked + .cont_tab {
     z-index: 1;
   }
   &:last-of-type {
     //margin-top: -460px;
-    .pest {
+    .tabW {
       margin-left: 110px;
     }
   }
