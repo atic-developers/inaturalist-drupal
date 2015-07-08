@@ -599,6 +599,7 @@ function inat_projects($id) {
 }
 
 function inat_page_observations($page) {
+  dsm('hollaaa');
   if($page == NULL) {
     $page = 1;
   }
@@ -619,6 +620,7 @@ function inat_page_observations($page) {
   $options = array('method' => 'GET');
   $result = drupal_http_request($url, $options);
   $json = drupal_json_decode($result->data); 
+  dsm($json);
   //return var_export($json);
   return theme('inat_map', array('observations' => $json)) . theme('inat_observations_general', array('observations' => $json, 'current_page' => $page));
 }

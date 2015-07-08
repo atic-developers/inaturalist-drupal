@@ -137,8 +137,9 @@ function inat_login_check_project($delta) {
       }
     }
     if ($aux == 1) {
-      // Aqui missatge de tot ok! i anem a observacions
+      // User is already joined to the project, now user can publish observations correctly
     }else {
+      // We call the function to join user to the project
       drupal_goto('inat/addto/project');
     }
   }
